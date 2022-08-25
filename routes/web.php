@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-//Start --- This route is to navigate to general main page 
+//Start --- This route is to navigate to general main page
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
