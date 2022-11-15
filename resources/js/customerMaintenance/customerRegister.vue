@@ -14,6 +14,10 @@
                 <label class="fw-bold" >Password</label>
                 <input type="password" class="form-control form-control-lg" />
             </div>
+            <div class="form-group mt-2">
+                <label class="fw-bold" >Confirm Password</label>
+                <input type="password" class="form-control form-control-lg" />
+            </div>
             <button type="submit" class="btn btn-dark btn-lg btn-block mt-3">Sign Up</button>
             <p class="forgot-password text-right">
                 Already registered 

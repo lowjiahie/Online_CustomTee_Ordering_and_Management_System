@@ -6339,7 +6339,7 @@ var render = function render() {
     staticClass: "vue-tempalte"
   }, [_c("form", {
     staticClass: "vertical-center inner-block"
-  }, [_c("h3", [_vm._v("Sign Up")]), _vm._v(" "), _vm._m(0), _vm._v(" "), _vm._m(1), _vm._v(" "), _vm._m(2), _vm._v(" "), _c("button", {
+  }, [_c("h3", [_vm._v("Sign Up")]), _vm._v(" "), _vm._m(0), _vm._v(" "), _vm._m(1), _vm._v(" "), _vm._m(2), _vm._v(" "), _vm._m(3), _vm._v(" "), _c("button", {
     staticClass: "btn btn-dark btn-lg btn-block mt-3",
     attrs: {
       type: "submit"
@@ -6392,6 +6392,20 @@ var staticRenderFns = [function () {
   }, [_c("label", {
     staticClass: "fw-bold"
   }, [_vm._v("Password")]), _vm._v(" "), _c("input", {
+    staticClass: "form-control form-control-lg",
+    attrs: {
+      type: "password"
+    }
+  })]);
+}, function () {
+  var _vm = this,
+      _c = _vm._self._c;
+
+  return _c("div", {
+    staticClass: "form-group mt-2"
+  }, [_c("label", {
+    staticClass: "fw-bold"
+  }, [_vm._v("Confirm Password")]), _vm._v(" "), _c("input", {
     staticClass: "form-control form-control-lg",
     attrs: {
       type: "password"
@@ -7221,14 +7235,14 @@ var staticRenderFns = [function () {
     attrs: {
       href: "#"
     }
-  }, [_vm._v("View Design with Price")])]), _vm._v(" "), _c("li", {
+  }, [_vm._v("View Customer Selling Design")])]), _vm._v(" "), _c("li", {
     staticClass: "nav-item"
   }, [_c("a", {
     staticClass: "nav-link fw-bold text-dark fs-5",
     attrs: {
       href: "#"
     }
-  }, [_vm._v("View Free Design")])])]);
+  }, [_vm._v("View Customer Sharing Design")])])]);
 }, function () {
   var _vm = this,
       _c = _vm._self._c;
@@ -7239,7 +7253,7 @@ var staticRenderFns = [function () {
     staticClass: "title-head"
   }, [_c("p", {
     staticClass: "h2"
-  }, [_vm._v("All Free Design")])])]);
+  }, [_vm._v("All Customer Sharing Design")])])]);
 }, function () {
   var _vm = this,
       _c = _vm._self._c;
@@ -7263,7 +7277,7 @@ var staticRenderFns = [function () {
     staticClass: "fw-bold"
   }, [_vm._v("New York Window View")]), _vm._v(" "), _c("em", {
     staticClass: "text-muted"
-  }, [_vm._v("design by jiahie")]), _vm._v(" "), _c("div", {
+  }, [_vm._v("design by Moon")]), _vm._v(" "), _c("div", {
     staticClass: "d-flex mb-4"
   }, [_c("div", {
     staticClass: "col pt-4"
@@ -7381,14 +7395,14 @@ var staticRenderFns = [function () {
     attrs: {
       href: "#"
     }
-  }, [_vm._v("View Design with Price")])]), _vm._v(" "), _c("li", {
+  }, [_vm._v("View Customer Selling Design")])]), _vm._v(" "), _c("li", {
     staticClass: "nav-item"
   }, [_c("a", {
     staticClass: "nav-link text-muted fs-5",
     attrs: {
       href: "#"
     }
-  }, [_vm._v("View Free Design")])])]);
+  }, [_vm._v("View Customer Sharing Design")])])]);
 }, function () {
   var _vm = this,
       _c = _vm._self._c;
@@ -7399,7 +7413,7 @@ var staticRenderFns = [function () {
     staticClass: "title-head"
   }, [_c("p", {
     staticClass: "h2"
-  }, [_vm._v("All Design With Price")])])]);
+  }, [_vm._v("All Customer Selling Design")])])]);
 }, function () {
   var _vm = this,
       _c = _vm._self._c;
@@ -7423,7 +7437,7 @@ var staticRenderFns = [function () {
     staticClass: "fw-bold"
   }, [_vm._v("Bird Fly")]), _vm._v(" "), _c("em", {
     staticClass: "text-muted"
-  }, [_vm._v("design by jiahie")]), _vm._v(" "), _c("div", {
+  }, [_vm._v("design by Alex")]), _vm._v(" "), _c("div", {
     staticClass: "d-flex mb-4"
   }, [_c("div", {
     staticClass: "col pt-4"

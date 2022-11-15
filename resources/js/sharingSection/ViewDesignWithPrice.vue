@@ -3,16 +3,16 @@
   <div>
     <ul class="nav justify-content-center">
       <li class="nav-item">
-        <a class="nav-link fw-bold text-dark fs-5" href="#">View Design with Price</a>
+        <a class="nav-link fw-bold text-dark fs-5" href="#">View Customer Selling Design</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-muted fs-5" href="#">View Free Design</a>
+        <a class="nav-link text-muted fs-5" href="#">View Customer Sharing Design</a>
       </li>
     </ul>
     <hr />
     <div class="container p-2 mb-2">
       <div class="title-head">
-        <p class="h2">All Design With Price</p>
+        <p class="h2">All Customer Selling Design</p>
       </div>
     </div>
     <div class="pt-2 pb-5">
@@ -25,7 +25,7 @@
               </a>
               <div class="card-body">
                 <h5 class="fw-bold">Bird Fly</h5>
-                <em class="text-muted">design by jiahie</em>
+                <em class="text-muted">design by Alex</em>
                 <div class="d-flex mb-4">
                   <div class="col pt-4">
                     <span class="h4 text-dark fw-bold">RM 20.00</span>
