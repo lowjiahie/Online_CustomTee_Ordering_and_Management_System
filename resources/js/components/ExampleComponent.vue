@@ -10,7 +10,7 @@
     <button class="btn btn-primary text-white" @click="redo()">redo</button>
     <input type="color" v-model="color" @change="updateColor" />
   </div>
-</template>
+</template> 
 
 <script>
 import { fabric } from "fabric";
