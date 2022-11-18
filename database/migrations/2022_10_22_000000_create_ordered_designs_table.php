@@ -16,6 +16,8 @@ class CreateOrderedDesignsTable extends Migration
         Schema::create('ordered_designs', function (Blueprint $table) {
             $table->string('o_design_id');
             $table->string('name');
+            $table->string('front_design_img')->nullable();
+            $table->string('back_design_img')->nullable();
             $table->json('front_design_json')->nullable();
             $table->json('back_design_json')->nullable();
             $table->timestamps();

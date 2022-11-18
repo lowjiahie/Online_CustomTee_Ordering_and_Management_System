@@ -1,11 +1,11 @@
 import VueRouter from "vue-router";
 import ExampleComponent from "./components/ExampleComponent"
-import CustomTeeDesignToolComponent from "./customTeeDesignTool/CustomTeeDesignTool"
-import ViewDesignWithPriceComponent from "./sharingSection/ViewDesignWithPrice"
-import ViewDesignWithFreeComponent from "./sharingSection/ViewDesignWithFree"
-import customerLoginComponent from "./customerMaintenance/customerLogin"
-import customerRegisterComponent from "./customerMaintenance/customerRegister"
-import customerPwdRecoveryComponent from "./customerMaintenance/customerPwdRecovery"
+import CustomTeeDesignToolComponent from "./components/customTeeDesignTool/CustomTeeDesignTool"
+import ViewDesignWithPriceComponent from "./components/sharingSection/ViewDesignWithPrice"
+import ViewDesignWithFreeComponent from "./components/sharingSection/ViewDesignWithFree"
+import customerLoginComponent from "./components/customerMaintenance/customerLogin"
+import customerRegisterComponent from "./components/customerMaintenance/customerRegister"
+import customerPwdRecoveryComponent from "./components/customerMaintenance/customerPwdRecovery"
 
 const routes = [
     {

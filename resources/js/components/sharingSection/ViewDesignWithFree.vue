@@ -3,48 +3,44 @@
   <div>
     <ul class="nav justify-content-center">
       <li class="nav-item">
-        <a class="nav-link fw-bold text-dark fs-5" href="#">View Customer Selling Design</a>
+        <a class="nav-link text-muted fs-5" href="#">View Customer Selling Design</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-muted fs-5" href="#">View Customer Sharing Design</a>
+        <a class="nav-link fw-bold text-dark fs-5" href="#">View Customer Sharing Design</a>
       </li>
     </ul>
     <hr />
-    <div class="container p-2 mb-2">
+    <div class="container p-2 mb-3">
       <div class="title-head">
-        <p class="h2">All Customer Selling Design</p>
+        <p class="h2">All Customer Sharing Design</p>
       </div>
     </div>
     <div class="pt-2 pb-5">
       <div class="container p-2">
         <div class="row mb-md-2">
+
           <div v-for="index in 3" :key="index" class="col-md-6 col-lg-4">
             <div class="card shadow p-3 mb-2 bg-body border-0 rounded">
               <a href="#" class="position-relative">
-                <img src="../../../public/image/1.jpg" class="card-img-top" alt="image" />
+                <img src="../../../../public/image/2.jpg" class="card-img-top" alt="image" />
               </a>
               <div class="card-body">
-                <h5 class="fw-bold">Bird Fly</h5>
-                <em class="text-muted">design by Alex</em>
+                <h5 class="fw-bold">New York Window View</h5>
+                <em class="text-muted">design by Moon</em>
                 <div class="d-flex mb-4">
                   <div class="col pt-4">
-                    <span class="h4 text-dark fw-bold">RM 20.00</span>
+                    <span class="h4 text-dark fw-bold">Free</span>
                   </div>
                   <div class="col text-center">
                     <button class="btn btn-outline-dark">View Details</button>
                   </div>
                 </div>
                 <div class="d-flex justify-content-end">
-                  <div class="d-inline p-1">
-                    <button type="button" class="btn btn-secondary">Add to Cart</button>
-                  </div>
-                  <div class="d-inline p-1">
-                    <button type="button" class="btn btn-dark">Buy Now</button>
-                  </div>
-                </div>
-                <div class="d-flex justify-content-end">
-                  <div class="d-inline p-1">
+                  <div class="d-inline p-2">
                     <button type="button" class="btn btn-danger">Report Design</button>
+                  </div>
+                  <div class="d-inline p-2">
+                    <button type="button" class="btn btn-dark">Save to Inventory</button>
                   </div>
                 </div>
               </div>
@@ -83,9 +79,7 @@
 <script>
 export default {
   data() {
-    return {
-      displayReportBtn:true,
-    };
+    return {};
   },
   mounted() {},
   methods: {},

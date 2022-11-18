@@ -21,6 +21,8 @@ class CreatePublishedDesignsTable extends Migration
             $table->string('status');
             $table->string('reason_banned_denied')->nullable();
             $table->string('type');
+            $table->string('front_design_img')->nullable();
+            $table->string('back_design_img')->nullable();
             $table->json('front_design_json')->nullable();
             $table->json('back_design_json')->nullable();
 

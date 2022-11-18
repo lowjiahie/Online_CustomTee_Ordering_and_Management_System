@@ -15,7 +15,7 @@ class CreatePlainTeeTypeColorsTable extends Migration
     {
         Schema::create('plain_tee_type_colors', function (Blueprint $table) {
             $table->string('pt_type_color_id');
-            $table->binary('plain_tee_img')->nullable();
+            $table->string('plain_tee_img')->nullable();
 
             $table->string('color_id')->index();
             $table->foreign('color_id')->references('color_id')

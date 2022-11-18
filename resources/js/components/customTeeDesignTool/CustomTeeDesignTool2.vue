@@ -78,7 +78,7 @@
         Initially, the image will have the background tshirt that has transparency
         So we can simply update the color with CSS or JavaScript dinamically
           -->
-          <img id="tshirt-backgroundpicture" src="../../../public/image/crew_front.png" />
+          <img id="tshirt-backgroundpicture" src="../../../../public/image/crew_front.png" />
 
           <!-- 
         The container where Fabric.js will work. Notice that in the the style of #canvas
