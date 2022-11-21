@@ -10,7 +10,10 @@ Route::get('/', function () {
 
 //Start - Admin routing (backend)
 Route::prefix('/admin')->group(function() {
-    Route::view('/','admin.dashboard')->name('admin.dashboard');
+    Route::view('/login','admin.login')->name('admin.login');
+    Route::view('/passwordRecovery','admin.passwordRecovery')->name('admin.passwordRecovery');
+    Route::view('/dashboard','admin.dashboard')->name('admin.dashboard');
+    Route::view('/order','admin.order')->name('admin.order');
 });
 //End
 

@@ -296,7 +296,7 @@
                     <span>Dashboard</span></a>
             </li>
 
-            <!-- Nav Item - User Management -->
+            <!-- Nav Item - Staff Login and Maintenance Module -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne"
                     aria-expanded="true" aria-controls="collapseOne">
@@ -313,12 +313,12 @@
                 </div>
             </li>
 
-            <!-- Nav Item - Food and Beverage -->
+            <!-- Nav Item - Custom-Tee Managing and Monitoring Module -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-utensils"></i>
-                    <span>F&B Management</span>
+                    <i class="fas fa-comment-alt"></i>
+                    <span>Custom-Tee</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="foodTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
@@ -329,12 +329,12 @@
                 </div>
             </li>
 
-            <!-- Nav Item - Order Management -->
+            <!-- Nav Item - Staff Order Management Module -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
                     aria-expanded="true" aria-controls="collapseThree">
                     <i class="fas fa-receipt"></i>
-                    <span>Order Management</span>
+                    <span>Order</span>
                 </a>
                 <div id="collapseThree" class="collapse" aria-labelledby="orderThree"
                     data-parent="#accordionSidebar">
@@ -347,14 +347,14 @@
                 </div>
             </li>
 
-            <!-- Nav Item - Forum Management -->
+            <!-- Nav Item - Plain-T Stock Management and Printing Method Module - Plain-T Management -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSix"
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour"
                     aria-expanded="true" aria-controls="collapseSix">
-                    <i class="fas fa-comments"></i>
-                    <span>Forum Management</span>
+                    <i class="fas fa-tshirt"></i>
+                    <span>Plain-T</span>
                 </a>
-                <div id="collapseSix" class="collapse" aria-labelledby="forumSix" data-parent="#accordionSidebar">
+                <div id="collapseFour" class="collapse" aria-labelledby="forumSix" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Forum Functions :</h6>
                         <a class="collapse-item" href="#">My Post</a>
@@ -362,14 +362,30 @@
                 </div>
             </li>
 
-            <!-- Nav Item - Table Management -->
+            <!-- Nav Item - Plain-T Stock Management and Printing Method Module - Printing Method Management -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour"
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFive"
                     aria-expanded="true" aria-controls="collapseFour">
-                    <i class="fas fa-border-all"></i>
-                    <span>Booking Management</span>
+                    <i class="fas fa-box"></i>
+                    <span>Printing Method</span>
                 </a>
-                <div id="collapseFour" class="collapse" aria-labelledby="tableFour" data-parent="#accordionSidebar">
+                <div id="collapseFive" class="collapse" aria-labelledby="tableFour" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Booking Functions :</h6>
+                        <a class="collapse-item" href="">Booking Status Update</a>
+                        <a class="collapse-item" href="">View All Booking Status</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Competition Module -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSix"
+                    aria-expanded="true" aria-controls="collapseFour">
+                    <i class="fas fa-award"></i>
+                    <span>Competition</span>
+                </a>
+                <div id="collapseSix" class="collapse" aria-labelledby="tableFour" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Booking Functions :</h6>
                         <a class="collapse-item" href="">Booking Status Update</a>
@@ -530,7 +546,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">LOW JIA HIE</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">PANG JUN SHENG</span>
                                 <svg t="1646250226251" class="icon" viewBox="0 0 1024 1024" version="1.1"
                                     xmlns="http://www.w3.org/2000/svg" p-id="6301" width="32" height="32">
                                     <path
