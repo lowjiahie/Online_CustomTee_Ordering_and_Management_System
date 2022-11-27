@@ -18,6 +18,10 @@ class CreateStaffTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('gender');
+            $table->date('date_of_birth');
+            $table->string('phone_no');
+            $table->string('role');
             $table->timestamps();
             $table->primary('staff_id');
         });
