@@ -69,9 +69,10 @@
                 <div class="title m-b-md">
                     Online Custom-Tee Ordering and Management System
                 </div>
+                
 
                 <div class="links">
-                    <a href="" >Online Custom-Tee Ordering System</a>
+                    <a href="/customer/home" >Online Custom-Tee Ordering System</a>
                     <a href="" >Online Custom-Tee Management System</a>
                 </div>
             </div>
