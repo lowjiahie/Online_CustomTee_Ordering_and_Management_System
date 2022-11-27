@@ -35,7 +35,7 @@
     <div style="width: 100%; height: 40%; margin-left: auto; margin-right: auto; padding: 10px 10px 10px 10px;">
         <br><br><br><br><br><br><br>
         <legend>Recent Added Order</legend>
-        <table style="border: 3px solid grey; width:90%;">
+        <table style="border: 3px solid grey; width:100%;">
             <tr>
                 <th>ID</th>
                 <th>Customer Name</th>
