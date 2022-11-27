@@ -9,12 +9,18 @@
     <button class="btn btn-primary text-white" @click="undo()">undo</button>
     <button class="btn btn-primary text-white" @click="redo()">redo</button>
     <input type="color" v-model="color" @change="updateColor" />
+    <!-- <img id="img1" src alt="ntg" /> -->
+    <router-link :to="{name: 'design-tool', params:{customTee:customTee} }">
+        <h5 class="card-title">123</h5>
+    </router-link>
   </div>
 </template> 
 
 <script>
 import { fabric } from "fabric";
 import "fabric-history";
+import mergeImages from "merge-images";
+
 let canvas = null;
 let canvas2 = null;
 let c3 = null;
@@ -25,6 +31,11 @@ export default {
       json2: null,
       color: "",
       opacity: "",
+      customTee:{
+        id:"1",
+        test:"",
+        test2:"2",
+      }
     };
   },
   mounted() {
@@ -185,6 +196,43 @@ export default {
       }
     });
     canvas.renderAll();
+
+    const dataURL = canvas.toDataURL({
+      format: "png",
+      left: 0,
+      top: 0,
+      width: 500,
+      height: 500,
+    });
+
+    let imgT = new Image();
+    imgT.src = require("../../../public/image/crew_front.png");
+    imgT.decode().then(() => {
+      let imgTWidth = imgT.width;
+      let imgTHeight = imgT.height;
+
+      console.log(imgTWidth);
+      console.log(imgTHeight);
+
+      const objImg = mergeImages(
+        [
+          require("../../../public/image/crew_front.png"),
+          {
+            src: dataURL,
+            x: 150,
+            y:150,
+          },
+        ],
+        {
+          quality: 0.92,
+        }
+      ).then((b64) => {
+        document.querySelector("img").src = b64;
+        console.log(b64);
+      });
+    });
+
+    // console.log(dataURL)
     c3 = new fabric.Canvas("c3");
   },
   methods: {
@@ -207,7 +255,7 @@ export default {
       var jsonObj2 = JSON.parse(this.json2);
       fabric.util.enlivenObjects(jsonObj2.objects, function (enlivenedObjects) {
         enlivenedObjects.forEach(function (obj, index) {
-          console.log(obj)
+          console.log(obj);
           c3.add(obj);
         });
         c3.renderAll();
