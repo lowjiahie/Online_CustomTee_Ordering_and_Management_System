@@ -2,19 +2,35 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Haruncpi\LaravelIdGenerator\IdGenerator;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PrintingMethod extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'p_method_id','name','price','minimum_order', 'status'
+        'p_method_id', 'name', 'price', 'minimum_order', 'status'
     ];
 
+    public $timestamps = true;
+
+    public $incrementing = false;
+
+    protected $primaryKey = 'p_method_id';
+
     //One Printing Method has many OrderedCustomTees
-    public function orderCustomTees(){
+    public function orderCustomTees()
+    {
         return $this->hasMany(OrderedCustomTee::class);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function ($model) {
+            $model->uuid = IdGenerator::generate(['table' => $this->table, 'field' => 'p_method_id', 'length' => 7, 'prefix' => 'PM']);
+        });
     }
 }

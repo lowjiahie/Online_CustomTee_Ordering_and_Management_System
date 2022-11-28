@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\Contracts\HasApiTokens;
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Customer extends Model
@@ -17,6 +18,7 @@ class Customer extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'cus_id',
         'name',
         'email',
         'password',
@@ -38,6 +40,13 @@ class Customer extends Model
         'password',
         'remember_token',
     ];
+
+
+    public $timestamps = true;
+
+    public $incrementing = false;
+
+    protected $primaryKey = 'cus_id';
 
 
     /**
@@ -90,5 +99,13 @@ class Customer extends Model
     public function orderedCustomTees()
     {
         return $this->hasMany(OrderedCustomTee::class);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function ($model) {
+            $model->uuid = IdGenerator::generate(['table' => $this->table, 'field' => 'cus_id', 'length' => 7, 'prefix' => 'CS']);
+        });
     }
 }
