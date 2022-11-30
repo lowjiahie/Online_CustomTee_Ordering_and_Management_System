@@ -2,7 +2,6 @@
 
 @section('content')
 <div>
-    <h1>Update Profile</h1>
 
     <div style="border: 3px solid grey; border-radius:25px; width: 55%; height: 40%; margin-left: auto; margin-right: auto; margin-top: 10%; padding: 10px 10px 10px 10px;">
         <form action="{{ route('admin.updateProfileSubmit') }}" method="POST">

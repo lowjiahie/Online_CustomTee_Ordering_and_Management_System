@@ -19,6 +19,17 @@
     <!-- Custom styles for this template-->
     <link href="{{ asset('sbadmin2/css/sb-admin-2.min.css') }}" rel="stylesheet">
 
+    <style>
+        table{
+            border: 3px solid grey;
+        }
+
+        tr, td, th{
+            border: 1px solid grey;
+        }
+
+    </style>
+
     <!-- Default Bootstrap 5 styles-->
     <!--<link href="{{ asset('css/app.css') }}" rel="stylesheet">-->
 </head>
@@ -296,22 +307,6 @@
                     <span>Dashboard</span></a>
             </li>
 
-            <!-- Nav Item - Staff Login and Maintenance Module -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne"
-                    aria-expanded="true" aria-controls="collapseOne">
-                    <i class="fas fa-users"></i>
-                    <span>User Management</span>
-                </a>
-                <div id="collapseOne" class="collapse" aria-labelledby="userOne" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">User Functions :</h6>
-                        <a class="collapse-item" href="{{ route('admin.update') }}">Update Profile</a>
-                        <a class="collapse-item" href="{{ route('admin.change') }}">Change Password</a>
-                    </div>
-                </div>
-            </li>
-
             <!-- Nav Item - Custom-Tee Managing and Monitoring Module -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
@@ -444,6 +439,14 @@
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
+                                </a>
+                                <a class="dropdown-item" href="{{ route('admin.update') }}">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Update Profile
+                                </a>
+                                <a class="dropdown-item" href="{{ route('admin.change') }}">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Change Password
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{{ route('admin.logout') }}">

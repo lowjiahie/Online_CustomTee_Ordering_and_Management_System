@@ -36,9 +36,13 @@ Route::prefix('/admin')->group(function() {
     // Printing Method
     Route::get('/printingMethodList', 'App\Http\Controllers\PrintingMethodController@printingMethodList')->name('admin.printingMethodList');
     Route::view('/printingMethod','admin.printingMethod')->name('admin.printingMethod');
-    Route::post('/printingMethod/submit','App\Http\Controllers\PrintingMethod@printingMethod')->name('admin.printingMethodSubmit');
+    //Route::post('/printingMethod/submit','App\Http\Controllers\PrintingMethodController@printingMethod')->name('admin.printingMethodSubmit');
 
-    //Route::get('/printingMethod/sorting/{sortingDecision}/{sort}','App\Http\Controllers\PrintingMethodController@sorting')->name('admin.printingMethodSorting');
+    Route::get('/printingMethodDetailInfo/{printingMethodID}', 'App\Http\Controllers\PrintingMethodController@printingMethodDetail')->name('admin.printingMethodDetail');
+    Route::view('/printingMethodDetail', 'admin.printingMethodDetail')->name('admin.printingMethodDetail');
+
+    // Competition
+
 });
 //End
 

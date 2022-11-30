@@ -17,7 +17,7 @@ class Staff extends Model
     public $timestamps = true;
 
     public $incrementing = false;
-    
+
     protected $primaryKey = 'staff_id';
 
     //One staff can create many competitions
