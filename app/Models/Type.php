@@ -28,7 +28,7 @@ class Type extends Model
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->uuid = IdGenerator::generate(['table' => $this->table, 'field' => 'type_id', 'length' => 7, 'prefix' => 'TY']);
+            $model->type_id = IdGenerator::generate(['table' => 'types', 'field' => 'type_id', 'length' => 7, 'prefix' => 'TY']);
         });
     }
 }

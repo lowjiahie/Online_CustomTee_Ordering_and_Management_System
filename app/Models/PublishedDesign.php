@@ -49,7 +49,7 @@ class PublishedDesign extends Model
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->uuid = IdGenerator::generate(['table' => $this->table, 'field' => 'p_design_id', 'length' => 7, 'prefix' => 'PD']);
+            $model->p_design_id = IdGenerator::generate(['table' => 'published_designs', 'field' => 'p_design_id', 'length' => 7, 'prefix' => 'PD']);
         });
     }
 }

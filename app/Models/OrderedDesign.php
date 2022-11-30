@@ -32,7 +32,7 @@ class OrderedDesign extends Model
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->uuid = IdGenerator::generate(['table' => $this->table, 'field' => 'o_design_id', 'length' => 7, 'prefix' => 'OD']);
+            $model->o_design_id = IdGenerator::generate(['table' => 'ordered_designs', 'field' => 'o_design_id', 'length' => 7, 'prefix' => 'OD']);
         });
     }
 }

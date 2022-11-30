@@ -37,7 +37,7 @@ class Competition extends Model
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->uuid = IdGenerator::generate(['table' => $this->table, 'field' => 'competition_id', 'length' => 7, 'prefix' => 'CN']);
+            $model->competition_id = IdGenerator::generate(['table' => "competitions", 'field' => 'competition_id', 'length' => 7, 'prefix' => 'CN']);
         });
     }
 }

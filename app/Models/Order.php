@@ -43,7 +43,7 @@ class Order extends Model
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->uuid = IdGenerator::generate(['table' => $this->table, 'field' => 'order_id', 'length' => 7, 'prefix' => 'OR']);
+            $model->order_id = IdGenerator::generate(['table' => 'orders', 'field' => 'order_id', 'length' => 7, 'prefix' => 'OR']);
         });
     }
 }

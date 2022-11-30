@@ -48,7 +48,7 @@ class PlainTeeTypeColor extends Model
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->uuid = IdGenerator::generate(['table' => $this->table, 'field' => 'pt_type_color_id', 'length' => 7, 'prefix' => 'TC']);
+            $model->pt_type_color_id = IdGenerator::generate(['table' => 'plain_tee_type_colors', 'field' => 'pt_type_color_id', 'length' => 7, 'prefix' => 'TC']);
         });
     }
 }

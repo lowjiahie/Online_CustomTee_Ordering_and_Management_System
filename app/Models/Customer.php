@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\Contracts\HasApiTokens;
+use Laravel\Sanctum\HasApiTokens;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -105,7 +105,7 @@ class Customer extends Model
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->uuid = IdGenerator::generate(['table' => $this->table, 'field' => 'cus_id', 'length' => 7, 'prefix' => 'CS']);
+            $model->cus_id = IdGenerator::generate(['table' => 'customers', 'field' => 'cus_id', 'length' => 7, 'prefix' => 'CS']);
         });
     }
 }

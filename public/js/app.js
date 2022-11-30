@@ -5804,41 +5804,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../routes */ "./resources/js/routes.js");
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  data: function data() {
-    return {
-      customTee: []
-    };
-  },
-  created: function created() {
-    this.customTee = this.$route.params.customTee;
-    console.log(this.customTee);
-  },
-  methods: {}
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/customTeeDesignTool/CustomTeeDesignTool2.vue?vue&type=script&lang=js&":
-/*!***********************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/customTeeDesignTool/CustomTeeDesignTool2.vue?vue&type=script&lang=js& ***!
-  \***********************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
 /* harmony import */ var fabric__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! fabric */ "./node_modules/fabric/dist/fabric.js");
 /* harmony import */ var fabric__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(fabric__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var fabric_history__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! fabric-history */ "./node_modules/fabric-history/src/index.min.js");
 /* harmony import */ var fabric_history__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(fabric_history__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var merge_images__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! merge-images */ "./node_modules/merge-images/dist/index.es2015.js");
+/* harmony import */ var fontfaceobserver__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! fontfaceobserver */ "./node_modules/fontfaceobserver/fontfaceobserver.standalone.js");
+/* harmony import */ var fontfaceobserver__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(fontfaceobserver__WEBPACK_IMPORTED_MODULE_3__);
  // import { saveAs } from "file-saver";
 // import domtoimage from "dom-to-image";
+
 
 
 
@@ -5869,6 +5844,18 @@ var maincanvas = null;
       disableBtn: true,
       imgFileExt: "",
       selectedFileImg: null,
+      showEditShape: false,
+      showEditText: false,
+      fillHexCode: "",
+      strokeHexCode: "",
+      strokeDefaultColor: "#00FF00",
+      fillDefaultColor: "#FFFFFF",
+      strokeDefaultWidth: 3,
+      angleDefault: 0,
+      scaleDefault: 1,
+      strokeWidth: 3,
+      angle: 0,
+      scale: 1,
       customTee: {
         ptTypeColorID: "",
         cusID: "",
@@ -5892,9 +5879,11 @@ var maincanvas = null;
     maincanvas = canvas1;
     var circle1 = new fabric__WEBPACK_IMPORTED_MODULE_0__.fabric.Circle({
       radius: 50,
-      fill: "white",
-      stroke: "green",
-      strokeWidth: 3,
+      fill: this.fillDefaultColor,
+      stroke: this.strokeDefaultColor,
+      scaleX: this.scaleDefault,
+      angle: this.angleDefault,
+      strokeWidth: this.strokeDefaultWidth,
       top: fabric__WEBPACK_IMPORTED_MODULE_0__.fabric.util.getRandomInt(25, maincanvas.height - 25),
       left: fabric__WEBPACK_IMPORTED_MODULE_0__.fabric.util.getRandomInt(25, maincanvas.width - 25)
     }); // //listening the object and prevent moving out of the canvas
@@ -6009,6 +5998,7 @@ var maincanvas = null;
     //when the second, third and so on is selected then updated event will trigger
 
     maincanvas.on({
+      "selection:cleared": this.onDeselectedObj,
       "selection:updated": this.onSelectedObj,
       "selection:created": this.onSelectedObj
     });
@@ -6016,8 +6006,8 @@ var maincanvas = null;
   methods: {
     toggle: function toggle() {
       this.isActive = !this.isActive;
+      maincanvas.discardActiveObject().renderAll();
       maincanvas = this.isActive ? canvas1 : canvas2;
-      console.log(maincanvas);
       this.frontOrBack = this.isActive ? "Front" : "Back";
     },
     addText: function addText() {
@@ -6043,8 +6033,11 @@ var maincanvas = null;
           //circle
           var circle = new fabric__WEBPACK_IMPORTED_MODULE_0__.fabric.Circle({
             radius: 50,
-            stroke: "green",
-            strokeWidth: 3
+            fill: this.fillDefaultColor,
+            stroke: this.strokeDefaultColor,
+            strokeWidth: this.strokeDefaultWidth,
+            angle: this.angleDefault,
+            scaleX: this.scaleDefault
           });
           maincanvas.add(circle);
           maincanvas.renderAll();
@@ -6055,9 +6048,11 @@ var maincanvas = null;
           var ellipse = new fabric__WEBPACK_IMPORTED_MODULE_0__.fabric.Ellipse({
             rx: 80,
             ry: 40,
-            fill: "",
-            stroke: "green",
-            strokeWidth: 3
+            fill: this.fillDefaultColor,
+            stroke: this.strokeDefaultColor,
+            strokeWidth: this.strokeDefaultWidth,
+            angle: this.angleDefault,
+            scaleX: this.scaleDefault
           });
           maincanvas.add(ellipse);
           maincanvas.renderAll();
@@ -6066,7 +6061,11 @@ var maincanvas = null;
         case "3":
           //line
           var line = new fabric__WEBPACK_IMPORTED_MODULE_0__.fabric.Line([50, 100, 200, 200], {
-            stroke: "green"
+            fill: this.fillDefaultColor,
+            stroke: this.strokeDefaultColor,
+            strokeWidth: this.strokeDefaultWidth,
+            angle: this.angleDefault,
+            scaleX: this.scaleDefault
           });
           maincanvas.add(line);
           maincanvas.renderAll();
@@ -6090,8 +6089,11 @@ var maincanvas = null;
             x: 150,
             y: 50
           }], {
-            stroke: "green",
-            strokeWidth: 3
+            fill: this.fillDefaultColor,
+            stroke: this.strokeDefaultColor,
+            strokeWidth: this.strokeDefaultWidth,
+            angle: this.angleDefault,
+            scaleX: this.scaleDefault
           });
           maincanvas.add(polygon);
           maincanvas.renderAll();
@@ -6102,10 +6104,11 @@ var maincanvas = null;
           var rect = new fabric__WEBPACK_IMPORTED_MODULE_0__.fabric.Rect({
             width: 100,
             height: 100,
-            fill: "blue",
-            opacity: 1,
-            left: 0,
-            top: 0
+            fill: this.fillDefaultColor,
+            stroke: this.strokeDefaultColor,
+            strokeWidth: this.strokeDefaultWidth,
+            angle: this.angleDefault,
+            scaleX: this.scaleDefault
           });
           maincanvas.add(rect);
           maincanvas.renderAll();
@@ -6116,9 +6119,11 @@ var maincanvas = null;
           var triangle = new fabric__WEBPACK_IMPORTED_MODULE_0__.fabric.Triangle({
             width: 150,
             height: 100,
-            fill: "",
-            stroke: "green",
-            strokeWidth: 3
+            fill: this.fillDefaultColor,
+            stroke: this.strokeDefaultColor,
+            strokeWidth: this.strokeDefaultWidth,
+            angle: this.angleDefault,
+            scaleX: this.scaleDefault
           });
           maincanvas.add(triangle);
           maincanvas.renderAll();
@@ -6128,10 +6133,37 @@ var maincanvas = null;
     onSelectedObj: function onSelectedObj() {
       //used to check which obj is selected and take action
       var selectedActiveObj = maincanvas.getActiveObject();
-      console.log(selectedActiveObj.type); // switch (selectedActiveObj.type) {
-      //   case "activeSelection":
-      //     this.isGroup = true;
-      // }
+
+      switch (selectedActiveObj.type) {
+        case "activeSelection":
+          break;
+
+        case "image":
+          break;
+
+        case "path":
+          break;
+
+        case "circle":
+        case "ellipse":
+        case "line":
+        case "polygon":
+        case "rect":
+        case "triangle":
+          this.showEditShape = true;
+          this.fillHexCode = String(maincanvas.getActiveObject().get("fill"));
+          this.strokeHexCode = String(maincanvas.getActiveObject().get("stroke"));
+          this.scale = maincanvas.getActiveObject().get("scaleX");
+          this.strokeWidth = String(maincanvas.getActiveObject().get("strokeWidth"));
+          this.angle = maincanvas.getActiveObject().get("angle");
+          this.$refs.shape.click();
+          break;
+      }
+    },
+    onDeselectedObj: function onDeselectedObj() {
+      console.log("deselected");
+      this.showEditShape = false;
+      this.$refs.text.click();
     },
     saveCanvas: function saveCanvas() {
       var _this = this;
@@ -6170,6 +6202,8 @@ var maincanvas = null;
         _this.imgTest2 = b64[1]; //send post request to save the customTee design
         //in here post the data to backend then return success or failed status
 
+        _this.customTee.ptTypeColorID = "TC00001";
+        _this.customTee.cusID = "CS00001";
         _this.customTee.name = _this.saveName;
         _this.customTee.frontDesignImg = b64[0];
         _this.customTee.backDesignImg = b64[1];
@@ -6287,6 +6321,11 @@ var maincanvas = null;
     },
     confirmUploadImg: function confirmUploadImg() {
       console.log("I am in");
+
+      if (!this.selectedFileImg) {
+        return;
+      }
+
       var url = URL.createObjectURL(this.selectedFileImg);
       var imgFileExts = ["jpg", "jpeg", "png"];
 
@@ -6320,6 +6359,7 @@ var maincanvas = null;
     disablingBtn: function disablingBtn() {
       if (this.hasImage == false) {
         this.disableBtn = true;
+        return;
       }
 
       if (this.imgErrorMsgs.length >= 1) {
@@ -6329,6 +6369,30 @@ var maincanvas = null;
       if (this.imgErrorMsgs.length == 0) {
         this.disableBtn = false;
       }
+    },
+    scaleSizeOnChange: function scaleSizeOnChange(e) {
+      console.log("123");
+      maincanvas.getActiveObject().scale(parseFloat(e.target.value)).setCoords();
+      maincanvas.requestRenderAll();
+    },
+    rotationAngleOnChange: function rotationAngleOnChange(e) {
+      maincanvas.getActiveObject().set("angle", parseInt(e.target.value, 10)).setCoords();
+      maincanvas.requestRenderAll();
+    },
+    fillColorOnChange: function fillColorOnChange() {
+      console.log("fill color");
+      maincanvas.getActiveObject().set("fill", String(this.fillHexCode)).setCoords();
+      maincanvas.requestRenderAll();
+    },
+    strokeColorOnChange: function strokeColorOnChange() {
+      console.log("stroke color");
+      maincanvas.getActiveObject().set("stroke", String(this.strokeHexCode)).setCoords();
+      maincanvas.requestRenderAll();
+    },
+    strokeWidthOnChange: function strokeWidthOnChange(e) {
+      console.log("Stroke width");
+      maincanvas.getActiveObject().set("strokeWidth", parseInt(e.target.value, 10)).setCoords();
+      maincanvas.requestRenderAll();
     }
   },
   computed: {
@@ -6586,50 +6650,10 @@ render._withStripped = true;
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue?vue&type=template&id=3aca1048&":
-/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue?vue&type=template&id=3aca1048& ***!
-  \*********************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* binding */ render),
-/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
-/* harmony export */ });
-var render = function render() {
-  var _vm = this,
-      _c = _vm._self._c;
-
-  return _vm._m(0);
-};
-
-var staticRenderFns = [function () {
-  var _vm = this,
-      _c = _vm._self._c;
-
-  return _c("div", {
-    staticClass: "container-fluid text-center"
-  }, [_c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col col-lg-3 text-bg-primary"
-  }, [_vm._v("1 of 3")]), _vm._v(" "), _c("div", {
-    staticClass: "col text-bg-secondary"
-  }, [_vm._v("\n      Variable width content12312312312\n      xretdxtrctrxcrtxtrxrtxrtxrtxtrxrtxrtxtrrx\n      hfufuyfuyfyfuyfyufuyfuyfyuffffffffffffffff\n      tdtdytdytdtydtdytdytdtydytytd\n      ")]), _vm._v(" "), _c("div", {
-    staticClass: "col col-lg-6 text-bg-warning"
-  }, [_vm._v("3 of 3")])])]);
-}];
-render._withStripped = true;
-
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/customTeeDesignTool/CustomTeeDesignTool2.vue?vue&type=template&id=1e8fa21a&scoped=true&":
-/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/customTeeDesignTool/CustomTeeDesignTool2.vue?vue&type=template&id=1e8fa21a&scoped=true& ***!
-  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue?vue&type=template&id=3aca1048&scoped=true&":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue?vue&type=template&id=3aca1048&scoped=true& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -6704,30 +6728,7 @@ var render = function render() {
     }
   }, [_vm._v("View Front/Back")])]), _vm._v(" "), _c("div", {
     staticClass: "col-12 text-center"
-  }, [_c("p", {}, [_c("u", [_vm._v("Viewing " + _vm._s(_vm.frontOrBack))])])]), _vm._v(" "), _c("div", {
-    staticClass: "col-12 btn border-0 text-center"
-  }, [_c("svg", {
-    staticClass: "icon",
-    attrs: {
-      t: "1661710331664",
-      viewBox: "0 0 1024 1024",
-      version: "1.1",
-      xmlns: "http://www.w3.org/2000/svg",
-      "p-id": "8823",
-      width: "25",
-      height: "25"
-    }
-  }, [_c("path", {
-    attrs: {
-      d: "M416.995556 628.337778a30.151111 30.151111 0 0 0 30.435555 30.435555 30.435556 30.435556 0 0 0 30.72-30.435555v-74.808889a215.04 215.04 0 0 1 213.902222-213.902222h67.982223l-67.982223 67.982222a28.444444 28.444444 0 0 0 0 44.088889 28.444444 28.444444 0 0 0 20.195556 10.24 24.462222 24.462222 0 0 0 20.48-10.24l95.004444-95.004445a65.706667 65.706667 0 0 0 0-95.288889l-85.333333-85.333333a28.444444 28.444444 0 0 0-44.088889 0 28.444444 28.444444 0 0 0 0 44.088889L763.448889 284.444444h-74.808889a276.195556 276.195556 0 0 0-275.057778 275.057778z",
-      "p-id": "8824"
-    }
-  }), _vm._v(" "), _c("path", {
-    attrs: {
-      d: "M848.213333 560.355556a30.435556 30.435556 0 0 0-30.435555 30.72v173.226666a42.382222 42.382222 0 0 1-44.373334 40.675556H250.595556a42.382222 42.382222 0 0 1-44.373334-40.675556V271.644444a42.382222 42.382222 0 0 1 44.373334-40.675555h213.902222a30.72 30.72 0 0 0 0-61.155556H250.595556A105.244444 105.244444 0 0 0 145.066667 271.644444v492.657778a102.968889 102.968889 0 0 0 105.528889 101.831111h522.808888a105.244444 105.244444 0 0 0 105.528889-101.831111v-173.226666a30.72 30.72 0 0 0-30.72-30.72z",
-      "p-id": "8825"
-    }
-  })]), _vm._v("\n          Share/Sell\n        ")])])]), _vm._v(" "), _c("div", {
+  }, [_c("p", {}, [_c("u", [_vm._v("Viewing " + _vm._s(_vm.frontOrBack))])])])])]), _vm._v(" "), _c("div", {
     staticClass: "col-6"
   }, [_c("div", {
     style: {
@@ -6906,6 +6907,7 @@ var render = function render() {
       role: "presentation"
     }
   }, [_c("button", {
+    ref: "text",
     staticClass: "nav-link active",
     attrs: {
       id: "text-tab",
@@ -6938,6 +6940,7 @@ var render = function render() {
       role: "presentation"
     }
   }, [_c("button", {
+    ref: "shape",
     staticClass: "nav-link",
     attrs: {
       id: "shape-tab",
@@ -7046,6 +7049,14 @@ var render = function render() {
       role: "tabpanel",
       "aria-labelledby": "text-tab"
     }
+  }, [_c("div", {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: !_vm.showEditText,
+      expression: "!showEditText"
+    }],
+    staticClass: "add-text-block"
   }, [_c("h4", {
     staticClass: "mt-3 mb-3 fw-bold"
   }, [_vm._v("Enter Your Text Below")]), _vm._v(" "), _c("textarea", {
@@ -7078,11 +7089,29 @@ var render = function render() {
       click: _vm.addText
     }
   }, [_vm._v("Add to design")])]), _vm._v(" "), _c("div", {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: _vm.showEditText,
+      expression: "showEditText"
+    }],
+    staticClass: "edit-text-block"
+  }, [_vm._v("\n            123\n          ")])]), _vm._v(" "), _c("div", {
     staticClass: "tab-pane fade",
     attrs: {
       id: "shape",
       role: "tabpanel",
       "aria-labelledby": "shape-tab"
+    }
+  }, [_c("div", {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: !_vm.showEditShape,
+      expression: "!showEditShape"
+    }],
+    attrs: {
+      id: "add-shape-block"
     }
   }, [_c("p", {
     staticClass: "mt-1 mb-3"
@@ -7143,6 +7172,168 @@ var render = function render() {
       click: _vm.addShape
     }
   }, [_vm._v("Add to design")])]), _vm._v(" "), _c("div", {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: _vm.showEditShape,
+      expression: "showEditShape"
+    }],
+    staticClass: "mt-2",
+    attrs: {
+      id: "edit-shape-block"
+    }
+  }, [_c("p", {
+    staticClass: "fs-5 fw-bold text-dark mb-0"
+  }, [_vm._v("Edit Shape")]), _vm._v(" "), _c("div", {
+    staticClass: "mb-0"
+  }, [_c("label", {
+    staticClass: "form-label text-secondary fw-bold",
+    attrs: {
+      "for": "Shape Color"
+    }
+  }, [_vm._v("Shape Color")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.fillHexCode,
+      expression: "fillHexCode"
+    }],
+    staticClass: "form control",
+    attrs: {
+      type: "color"
+    },
+    domProps: {
+      value: _vm.fillHexCode
+    },
+    on: {
+      input: [function ($event) {
+        if ($event.target.composing) return;
+        _vm.fillHexCode = $event.target.value;
+      }, _vm.fillColorOnChange]
+    }
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "mb-0"
+  }, [_c("label", {
+    staticClass: "form-label text-secondary fw-bold",
+    attrs: {
+      "for": "Stroke Color"
+    }
+  }, [_vm._v("Stroke Color")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.strokeHexCode,
+      expression: "strokeHexCode"
+    }],
+    staticClass: "form control",
+    attrs: {
+      type: "color"
+    },
+    domProps: {
+      value: _vm.strokeHexCode
+    },
+    on: {
+      input: [function ($event) {
+        if ($event.target.composing) return;
+        _vm.strokeHexCode = $event.target.value;
+      }, _vm.strokeColorOnChange]
+    }
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "row mb-2"
+  }, [_c("label", {
+    staticClass: "col-sm-3 col-form-label text-secondary fw-bold",
+    attrs: {
+      "for": "angle"
+    }
+  }, [_vm._v("Angle = " + _vm._s(_vm.angle))]), _vm._v(" "), _c("div", {
+    staticClass: "col-sm-8 pt-1"
+  }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.angle,
+      expression: "angle"
+    }],
+    staticClass: "form-range",
+    attrs: {
+      type: "range",
+      min: "0",
+      max: "360",
+      id: "angle-slider"
+    },
+    domProps: {
+      value: _vm.angle
+    },
+    on: {
+      input: _vm.rotationAngleOnChange,
+      __r: function __r($event) {
+        _vm.angle = $event.target.value;
+      }
+    }
+  })])]), _vm._v(" "), _c("div", {
+    staticClass: "row mb-2"
+  }, [_c("label", {
+    staticClass: "col-sm-3 col-form-label text-secondary fw-bold",
+    attrs: {
+      "for": "scale"
+    }
+  }, [_vm._v("Scale = " + _vm._s(_vm.scale))]), _vm._v(" "), _c("div", {
+    staticClass: "col-sm-8 pt-1"
+  }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.scale,
+      expression: "scale"
+    }],
+    staticClass: "form-range",
+    attrs: {
+      type: "range",
+      min: "0.1",
+      max: "3",
+      step: "0.1",
+      id: "angle-slider"
+    },
+    domProps: {
+      value: _vm.scale
+    },
+    on: {
+      input: _vm.scaleSizeOnChange,
+      __r: function __r($event) {
+        _vm.scale = $event.target.value;
+      }
+    }
+  })])]), _vm._v(" "), _c("div", {
+    staticClass: "row mb-2"
+  }, [_c("label", {
+    staticClass: "col-sm-4 col-form-label text-secondary fw-bold pe-0",
+    attrs: {
+      "for": "scale"
+    }
+  }, [_vm._v("Stroke width")]), _vm._v(" "), _c("div", {
+    staticClass: "col-sm-8 ps-0"
+  }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.strokeWidth,
+      expression: "strokeWidth"
+    }],
+    attrs: {
+      type: "number",
+      min: "0",
+      id: "storke-width"
+    },
+    domProps: {
+      value: _vm.strokeWidth
+    },
+    on: {
+      input: [function ($event) {
+        if ($event.target.composing) return;
+        _vm.strokeWidth = $event.target.value;
+      }, _vm.strokeWidthOnChange]
+    }
+  })])])])]), _vm._v(" "), _c("div", {
     staticClass: "tab-pane fade",
     attrs: {
       id: "design",
@@ -8773,16 +8964,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var _components_ExampleComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/ExampleComponent */ "./resources/js/components/ExampleComponent.vue");
-/* harmony import */ var _components_customTeeDesignTool_CustomTeeDesignTool2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/customTeeDesignTool/CustomTeeDesignTool2 */ "./resources/js/components/customTeeDesignTool/CustomTeeDesignTool2.vue");
-/* harmony import */ var _components_customTeeDesignTool_CustomTeeDesignTool__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/customTeeDesignTool/CustomTeeDesignTool */ "./resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue");
-/* harmony import */ var _components_sharingSection_ViewDesignWithPrice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/sharingSection/ViewDesignWithPrice */ "./resources/js/components/sharingSection/ViewDesignWithPrice.vue");
-/* harmony import */ var _components_sharingSection_ViewDesignWithFree__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/sharingSection/ViewDesignWithFree */ "./resources/js/components/sharingSection/ViewDesignWithFree.vue");
-/* harmony import */ var _components_customerMaintenance_customerLogin__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/customerMaintenance/customerLogin */ "./resources/js/components/customerMaintenance/customerLogin.vue");
-/* harmony import */ var _components_customerMaintenance_customerRegister__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/customerMaintenance/customerRegister */ "./resources/js/components/customerMaintenance/customerRegister.vue");
-/* harmony import */ var _components_customerMaintenance_customerPwdRecovery__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/customerMaintenance/customerPwdRecovery */ "./resources/js/components/customerMaintenance/customerPwdRecovery.vue");
-
+/* harmony import */ var _components_customTeeDesignTool_CustomTeeDesignTool__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/customTeeDesignTool/CustomTeeDesignTool */ "./resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue");
+/* harmony import */ var _components_sharingSection_ViewDesignWithPrice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/sharingSection/ViewDesignWithPrice */ "./resources/js/components/sharingSection/ViewDesignWithPrice.vue");
+/* harmony import */ var _components_sharingSection_ViewDesignWithFree__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/sharingSection/ViewDesignWithFree */ "./resources/js/components/sharingSection/ViewDesignWithFree.vue");
+/* harmony import */ var _components_customerMaintenance_customerLogin__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/customerMaintenance/customerLogin */ "./resources/js/components/customerMaintenance/customerLogin.vue");
+/* harmony import */ var _components_customerMaintenance_customerRegister__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/customerMaintenance/customerRegister */ "./resources/js/components/customerMaintenance/customerRegister.vue");
+/* harmony import */ var _components_customerMaintenance_customerPwdRecovery__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/customerMaintenance/customerPwdRecovery */ "./resources/js/components/customerMaintenance/customerPwdRecovery.vue");
 
 
 
@@ -8797,34 +8986,30 @@ var routes = [{
   name: 'home'
 }, {
   path: "/customer/design-tool",
-  component: _components_customTeeDesignTool_CustomTeeDesignTool__WEBPACK_IMPORTED_MODULE_2__["default"],
+  component: _components_customTeeDesignTool_CustomTeeDesignTool__WEBPACK_IMPORTED_MODULE_1__["default"],
   name: 'design-tool'
 }, {
-  path: "/customer/design-tool2",
-  component: _components_customTeeDesignTool_CustomTeeDesignTool2__WEBPACK_IMPORTED_MODULE_1__["default"],
-  name: 'design-tool2'
-}, {
   path: "/customer/design-price",
-  component: _components_sharingSection_ViewDesignWithPrice__WEBPACK_IMPORTED_MODULE_3__["default"],
+  component: _components_sharingSection_ViewDesignWithPrice__WEBPACK_IMPORTED_MODULE_2__["default"],
   name: 'design-price'
 }, {
   path: "/customer/design-free",
-  component: _components_sharingSection_ViewDesignWithFree__WEBPACK_IMPORTED_MODULE_4__["default"],
+  component: _components_sharingSection_ViewDesignWithFree__WEBPACK_IMPORTED_MODULE_3__["default"],
   name: 'design-free'
 }, {
   path: "/customer/login",
-  component: _components_customerMaintenance_customerLogin__WEBPACK_IMPORTED_MODULE_5__["default"],
+  component: _components_customerMaintenance_customerLogin__WEBPACK_IMPORTED_MODULE_4__["default"],
   name: 'login'
 }, {
   path: "/customer/register",
-  component: _components_customerMaintenance_customerRegister__WEBPACK_IMPORTED_MODULE_6__["default"],
+  component: _components_customerMaintenance_customerRegister__WEBPACK_IMPORTED_MODULE_5__["default"],
   name: 'register'
 }, {
   path: "/customer/pwdRecovery",
-  component: _components_customerMaintenance_customerPwdRecovery__WEBPACK_IMPORTED_MODULE_7__["default"],
+  component: _components_customerMaintenance_customerPwdRecovery__WEBPACK_IMPORTED_MODULE_6__["default"],
   name: 'pwdRecovery'
 }];
-var router = new vue_router__WEBPACK_IMPORTED_MODULE_8__["default"]({
+var router = new vue_router__WEBPACK_IMPORTED_MODULE_7__["default"]({
   routes: routes,
   mode: 'history'
 });
@@ -16025,10 +16210,10 @@ function isnan (val) {
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/customTeeDesignTool/CustomTeeDesignTool2.vue?vue&type=style&index=0&id=1e8fa21a&scoped=true&lang=css&":
-/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/customTeeDesignTool/CustomTeeDesignTool2.vue?vue&type=style&index=0&id=1e8fa21a&scoped=true&lang=css& ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue?vue&type=style&index=0&id=3aca1048&scoped=true&lang=css&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue?vue&type=style&index=0&id=3aca1048&scoped=true&lang=css& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -16042,7 +16227,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.drawing-area[data-v-1e8fa21a] {\r\n  position: absolute;\r\n  top: 60px;\r\n  left: 150px;\r\n  z-index: 10;\r\n  width: 200px;\r\n  height: 400px;\n}\n.canvas-container[data-v-1e8fa21a] {\r\n  width: 200px;\r\n  height: 400px;\r\n  position: relative;\r\n  -webkit-user-select: none;\r\n     -moz-user-select: none;\r\n          user-select: none;\n}\n#tshirt-div[data-v-1e8fa21a] {\r\n  width: 500px;\r\n  height: 570px;\r\n  position: relative;\r\n  background-color: #fff;\n}\n.canvas[data-v-1e8fa21a] {\r\n  position: absolute;\r\n  width: 225px;\r\n  height: 300px;\r\n  border: 1px solid black;\r\n  left: 0px;\r\n  top: 0px;\r\n  -webkit-user-select: none;\r\n     -moz-user-select: none;\r\n          user-select: none;\r\n  cursor: default;\n}\n.div-hover[data-v-1e8fa21a] {\r\n  color: blue;\r\n  opacity: 0.5;\n}\n.tab-pane[data-v-1e8fa21a] {\r\n  height: 350px;\r\n  overflow-y: auto;\r\n  overflow-x: hidden;\r\n  width: 100%;\n}\n.less-w[data-v-1e8fa21a] {\r\n  width: 350px;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.drawing-area[data-v-3aca1048] {\r\n  position: absolute;\r\n  top: 60px;\r\n  left: 150px;\r\n  z-index: 10;\r\n  width: 200px;\r\n  height: 400px;\n}\n.canvas-container[data-v-3aca1048] {\r\n  width: 200px;\r\n  height: 400px;\r\n  position: relative;\r\n  -webkit-user-select: none;\r\n     -moz-user-select: none;\r\n          user-select: none;\n}\n#tshirt-div[data-v-3aca1048] {\r\n  width: 500px;\r\n  height: 570px;\r\n  position: relative;\r\n  background-color: #fff;\n}\n.canvas[data-v-3aca1048] {\r\n  position: absolute;\r\n  width: 225px;\r\n  height: 300px;\r\n  border: 1px solid black;\r\n  left: 0px;\r\n  top: 0px;\r\n  -webkit-user-select: none;\r\n     -moz-user-select: none;\r\n          user-select: none;\r\n  cursor: default;\n}\n.div-hover[data-v-3aca1048] {\r\n  color: blue;\r\n  opacity: 0.5;\n}\n.tab-pane[data-v-3aca1048] {\r\n  height: 350px;\r\n  overflow-y: auto;\r\n  overflow-x: hidden;\r\n  width: 100%;\n}\n.less-w[data-v-3aca1048] {\r\n  width: 350px;\n}\n#storke-width[data-v-3aca1048] {\r\n  width: 60px;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -47451,6 +47636,24 @@ module.exports = "/images/icecream.png?b25218d0cb46b093f63a2ddcbd8ef9c3";
 
 /***/ }),
 
+/***/ "./node_modules/fontfaceobserver/fontfaceobserver.standalone.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/fontfaceobserver/fontfaceobserver.standalone.js ***!
+  \**********************************************************************/
+/***/ ((module) => {
+
+/* Font Face Observer v2.3.0 - © Bram Stein. License: BSD-3-Clause */(function(){function p(a,c){document.addEventListener?a.addEventListener("scroll",c,!1):a.attachEvent("scroll",c)}function u(a){document.body?a():document.addEventListener?document.addEventListener("DOMContentLoaded",function b(){document.removeEventListener("DOMContentLoaded",b);a()}):document.attachEvent("onreadystatechange",function g(){if("interactive"==document.readyState||"complete"==document.readyState)document.detachEvent("onreadystatechange",g),a()})};function w(a){this.g=document.createElement("div");this.g.setAttribute("aria-hidden","true");this.g.appendChild(document.createTextNode(a));this.h=document.createElement("span");this.i=document.createElement("span");this.m=document.createElement("span");this.j=document.createElement("span");this.l=-1;this.h.style.cssText="max-width:none;display:inline-block;position:absolute;height:100%;width:100%;overflow:scroll;font-size:16px;";this.i.style.cssText="max-width:none;display:inline-block;position:absolute;height:100%;width:100%;overflow:scroll;font-size:16px;";
+this.j.style.cssText="max-width:none;display:inline-block;position:absolute;height:100%;width:100%;overflow:scroll;font-size:16px;";this.m.style.cssText="display:inline-block;width:200%;height:200%;font-size:16px;max-width:none;";this.h.appendChild(this.m);this.i.appendChild(this.j);this.g.appendChild(this.h);this.g.appendChild(this.i)}
+function x(a,c){a.g.style.cssText="max-width:none;min-width:20px;min-height:20px;display:inline-block;overflow:hidden;position:absolute;width:auto;margin:0;padding:0;top:-999px;white-space:nowrap;font-synthesis:none;font:"+c+";"}function B(a){var c=a.g.offsetWidth,b=c+100;a.j.style.width=b+"px";a.i.scrollLeft=b;a.h.scrollLeft=a.h.scrollWidth+100;return a.l!==c?(a.l=c,!0):!1}function C(a,c){function b(){var e=g;B(e)&&null!==e.g.parentNode&&c(e.l)}var g=a;p(a.h,b);p(a.i,b);B(a)};function D(a,c,b){c=c||{};b=b||window;this.family=a;this.style=c.style||"normal";this.weight=c.weight||"normal";this.stretch=c.stretch||"normal";this.context=b}var E=null,F=null,G=null,H=null;function I(a){null===F&&(M(a)&&/Apple/.test(window.navigator.vendor)?(a=/AppleWebKit\/([0-9]+)(?:\.([0-9]+))(?:\.([0-9]+))/.exec(window.navigator.userAgent),F=!!a&&603>parseInt(a[1],10)):F=!1);return F}function M(a){null===H&&(H=!!a.document.fonts);return H}
+function N(a,c){var b=a.style,g=a.weight;if(null===G){var e=document.createElement("div");try{e.style.font="condensed 100px sans-serif"}catch(q){}G=""!==e.style.font}return[b,g,G?a.stretch:"","100px",c].join(" ")}
+D.prototype.load=function(a,c){var b=this,g=a||"BESbswy",e=0,q=c||3E3,J=(new Date).getTime();return new Promise(function(K,L){if(M(b.context)&&!I(b.context)){var O=new Promise(function(r,t){function h(){(new Date).getTime()-J>=q?t(Error(""+q+"ms timeout exceeded")):b.context.document.fonts.load(N(b,'"'+b.family+'"'),g).then(function(n){1<=n.length?r():setTimeout(h,25)},t)}h()}),P=new Promise(function(r,t){e=setTimeout(function(){t(Error(""+q+"ms timeout exceeded"))},q)});Promise.race([P,O]).then(function(){clearTimeout(e);
+K(b)},L)}else u(function(){function r(){var d;if(d=-1!=k&&-1!=l||-1!=k&&-1!=m||-1!=l&&-1!=m)(d=k!=l&&k!=m&&l!=m)||(null===E&&(d=/AppleWebKit\/([0-9]+)(?:\.([0-9]+))/.exec(window.navigator.userAgent),E=!!d&&(536>parseInt(d[1],10)||536===parseInt(d[1],10)&&11>=parseInt(d[2],10))),d=E&&(k==y&&l==y&&m==y||k==z&&l==z&&m==z||k==A&&l==A&&m==A)),d=!d;d&&(null!==f.parentNode&&f.parentNode.removeChild(f),clearTimeout(e),K(b))}function t(){if((new Date).getTime()-J>=q)null!==f.parentNode&&f.parentNode.removeChild(f),
+L(Error(""+q+"ms timeout exceeded"));else{var d=b.context.document.hidden;if(!0===d||void 0===d)k=h.g.offsetWidth,l=n.g.offsetWidth,m=v.g.offsetWidth,r();e=setTimeout(t,50)}}var h=new w(g),n=new w(g),v=new w(g),k=-1,l=-1,m=-1,y=-1,z=-1,A=-1,f=document.createElement("div");f.dir="ltr";x(h,N(b,"sans-serif"));x(n,N(b,"serif"));x(v,N(b,"monospace"));f.appendChild(h.g);f.appendChild(n.g);f.appendChild(v.g);b.context.document.body.appendChild(f);y=h.g.offsetWidth;z=n.g.offsetWidth;A=v.g.offsetWidth;t();
+C(h,function(d){k=d;r()});x(h,N(b,'"'+b.family+'",sans-serif'));C(n,function(d){l=d;r()});x(n,N(b,'"'+b.family+'",serif'));C(v,function(d){m=d;r()});x(v,N(b,'"'+b.family+'",monospace'))})})}; true?module.exports=D:(0);}());
+
+
+/***/ }),
+
 /***/ "./node_modules/ieee754/index.js":
 /*!***************************************!*\
   !*** ./node_modules/ieee754/index.js ***!
@@ -65073,10 +65276,10 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/customTeeDesignTool/CustomTeeDesignTool2.vue?vue&type=style&index=0&id=1e8fa21a&scoped=true&lang=css&":
-/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/customTeeDesignTool/CustomTeeDesignTool2.vue?vue&type=style&index=0&id=1e8fa21a&scoped=true&lang=css& ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue?vue&type=style&index=0&id=3aca1048&scoped=true&lang=css&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue?vue&type=style&index=0&id=3aca1048&scoped=true&lang=css& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -65086,7 +65289,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomTeeDesignTool2_vue_vue_type_style_index_0_id_1e8fa21a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./CustomTeeDesignTool2.vue?vue&type=style&index=0&id=1e8fa21a&scoped=true&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/customTeeDesignTool/CustomTeeDesignTool2.vue?vue&type=style&index=0&id=1e8fa21a&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomTeeDesignTool_vue_vue_type_style_index_0_id_3aca1048_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./CustomTeeDesignTool.vue?vue&type=style&index=0&id=3aca1048&scoped=true&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue?vue&type=style&index=0&id=3aca1048&scoped=true&lang=css&");
 
             
 
@@ -65095,11 +65298,11 @@ var options = {};
 options.insert = "head";
 options.singleton = false;
 
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomTeeDesignTool2_vue_vue_type_style_index_0_id_1e8fa21a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"], options);
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomTeeDesignTool_vue_vue_type_style_index_0_id_3aca1048_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"], options);
 
 
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomTeeDesignTool2_vue_vue_type_style_index_0_id_1e8fa21a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomTeeDesignTool_vue_vue_type_style_index_0_id_3aca1048_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -65522,48 +65725,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _CustomTeeDesignTool_vue_vue_type_template_id_3aca1048___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CustomTeeDesignTool.vue?vue&type=template&id=3aca1048& */ "./resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue?vue&type=template&id=3aca1048&");
+/* harmony import */ var _CustomTeeDesignTool_vue_vue_type_template_id_3aca1048_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CustomTeeDesignTool.vue?vue&type=template&id=3aca1048&scoped=true& */ "./resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue?vue&type=template&id=3aca1048&scoped=true&");
 /* harmony import */ var _CustomTeeDesignTool_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CustomTeeDesignTool.vue?vue&type=script&lang=js& */ "./resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _CustomTeeDesignTool_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _CustomTeeDesignTool_vue_vue_type_template_id_3aca1048___WEBPACK_IMPORTED_MODULE_0__.render,
-  _CustomTeeDesignTool_vue_vue_type_template_id_3aca1048___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue"
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/components/customTeeDesignTool/CustomTeeDesignTool2.vue":
-/*!******************************************************************************!*\
-  !*** ./resources/js/components/customTeeDesignTool/CustomTeeDesignTool2.vue ***!
-  \******************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _CustomTeeDesignTool2_vue_vue_type_template_id_1e8fa21a_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CustomTeeDesignTool2.vue?vue&type=template&id=1e8fa21a&scoped=true& */ "./resources/js/components/customTeeDesignTool/CustomTeeDesignTool2.vue?vue&type=template&id=1e8fa21a&scoped=true&");
-/* harmony import */ var _CustomTeeDesignTool2_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CustomTeeDesignTool2.vue?vue&type=script&lang=js& */ "./resources/js/components/customTeeDesignTool/CustomTeeDesignTool2.vue?vue&type=script&lang=js&");
-/* harmony import */ var _CustomTeeDesignTool2_vue_vue_type_style_index_0_id_1e8fa21a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CustomTeeDesignTool2.vue?vue&type=style&index=0&id=1e8fa21a&scoped=true&lang=css& */ "./resources/js/components/customTeeDesignTool/CustomTeeDesignTool2.vue?vue&type=style&index=0&id=1e8fa21a&scoped=true&lang=css&");
+/* harmony import */ var _CustomTeeDesignTool_vue_vue_type_style_index_0_id_3aca1048_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CustomTeeDesignTool.vue?vue&type=style&index=0&id=3aca1048&scoped=true&lang=css& */ "./resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue?vue&type=style&index=0&id=3aca1048&scoped=true&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -65574,19 +65738,19 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
-  _CustomTeeDesignTool2_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _CustomTeeDesignTool2_vue_vue_type_template_id_1e8fa21a_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
-  _CustomTeeDesignTool2_vue_vue_type_template_id_1e8fa21a_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _CustomTeeDesignTool_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _CustomTeeDesignTool_vue_vue_type_template_id_3aca1048_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _CustomTeeDesignTool_vue_vue_type_template_id_3aca1048_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
-  "1e8fa21a",
+  "3aca1048",
   null
   
 )
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/customTeeDesignTool/CustomTeeDesignTool2.vue"
+component.options.__file = "resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue"
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
 
 /***/ }),
@@ -65863,22 +66027,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/customTeeDesignTool/CustomTeeDesignTool2.vue?vue&type=script&lang=js&":
-/*!*******************************************************************************************************!*\
-  !*** ./resources/js/components/customTeeDesignTool/CustomTeeDesignTool2.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomTeeDesignTool2_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./CustomTeeDesignTool2.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/customTeeDesignTool/CustomTeeDesignTool2.vue?vue&type=script&lang=js&");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomTeeDesignTool2_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
 /***/ "./resources/js/components/customerMaintenance/customerLogin.vue?vue&type=script&lang=js&":
 /*!************************************************************************************************!*\
   !*** ./resources/js/components/customerMaintenance/customerLogin.vue?vue&type=script&lang=js& ***!
@@ -65992,36 +66140,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue?vue&type=template&id=3aca1048&":
-/*!************************************************************************************************************!*\
-  !*** ./resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue?vue&type=template&id=3aca1048& ***!
-  \************************************************************************************************************/
+/***/ "./resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue?vue&type=template&id=3aca1048&scoped=true&":
+/*!************************************************************************************************************************!*\
+  !*** ./resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue?vue&type=template&id=3aca1048&scoped=true& ***!
+  \************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomTeeDesignTool_vue_vue_type_template_id_3aca1048___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomTeeDesignTool_vue_vue_type_template_id_3aca1048___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomTeeDesignTool_vue_vue_type_template_id_3aca1048_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomTeeDesignTool_vue_vue_type_template_id_3aca1048_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomTeeDesignTool_vue_vue_type_template_id_3aca1048___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./CustomTeeDesignTool.vue?vue&type=template&id=3aca1048& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue?vue&type=template&id=3aca1048&");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/customTeeDesignTool/CustomTeeDesignTool2.vue?vue&type=template&id=1e8fa21a&scoped=true&":
-/*!*************************************************************************************************************************!*\
-  !*** ./resources/js/components/customTeeDesignTool/CustomTeeDesignTool2.vue?vue&type=template&id=1e8fa21a&scoped=true& ***!
-  \*************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomTeeDesignTool2_vue_vue_type_template_id_1e8fa21a_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomTeeDesignTool2_vue_vue_type_template_id_1e8fa21a_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomTeeDesignTool2_vue_vue_type_template_id_1e8fa21a_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./CustomTeeDesignTool2.vue?vue&type=template&id=1e8fa21a&scoped=true& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/customTeeDesignTool/CustomTeeDesignTool2.vue?vue&type=template&id=1e8fa21a&scoped=true&");
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomTeeDesignTool_vue_vue_type_template_id_3aca1048_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./CustomTeeDesignTool.vue?vue&type=template&id=3aca1048&scoped=true& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue?vue&type=template&id=3aca1048&scoped=true&");
 
 
 /***/ }),
@@ -66128,15 +66259,15 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/customTeeDesignTool/CustomTeeDesignTool2.vue?vue&type=style&index=0&id=1e8fa21a&scoped=true&lang=css&":
-/*!***************************************************************************************************************************************!*\
-  !*** ./resources/js/components/customTeeDesignTool/CustomTeeDesignTool2.vue?vue&type=style&index=0&id=1e8fa21a&scoped=true&lang=css& ***!
-  \***************************************************************************************************************************************/
+/***/ "./resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue?vue&type=style&index=0&id=3aca1048&scoped=true&lang=css&":
+/*!**************************************************************************************************************************************!*\
+  !*** ./resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue?vue&type=style&index=0&id=3aca1048&scoped=true&lang=css& ***!
+  \**************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomTeeDesignTool2_vue_vue_type_style_index_0_id_1e8fa21a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./CustomTeeDesignTool2.vue?vue&type=style&index=0&id=1e8fa21a&scoped=true&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/customTeeDesignTool/CustomTeeDesignTool2.vue?vue&type=style&index=0&id=1e8fa21a&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomTeeDesignTool_vue_vue_type_style_index_0_id_3aca1048_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./CustomTeeDesignTool.vue?vue&type=style&index=0&id=3aca1048&scoped=true&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue?vue&type=style&index=0&id=3aca1048&scoped=true&lang=css&");
 
 
 /***/ }),

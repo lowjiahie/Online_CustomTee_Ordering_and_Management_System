@@ -30,7 +30,7 @@ class Staff extends Model
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->uuid = IdGenerator::generate(['table' => $this->table, 'field' => 'staff_id', 'length' => 7, 'prefix' => 'SF']);
+            $model->staff_id = IdGenerator::generate(['table' => 'staff', 'field' => 'staff_id', 'length' => 7, 'prefix' => 'SF']);
         });
     }
 }

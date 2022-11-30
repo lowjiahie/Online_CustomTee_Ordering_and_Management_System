@@ -36,7 +36,7 @@ class PublishedDesignReport extends Model
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->uuid = IdGenerator::generate(['table' => $this->table, 'field' => 'p_design_report_id', 'length' => 7, 'prefix' => 'DR']);
+            $model->p_design_report_id = IdGenerator::generate(['table' => 'published_design_reports', 'field' => 'p_design_report_id', 'length' => 7, 'prefix' => 'DR']);
         });
     }
 }
