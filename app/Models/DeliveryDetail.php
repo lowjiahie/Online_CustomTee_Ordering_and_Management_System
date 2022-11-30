@@ -30,7 +30,7 @@ class DeliveryDetail extends Model
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->uuid = IdGenerator::generate(['table' => $this->table, 'field' => 'delivery_detail_id', 'length' => 7, 'prefix' => 'DE']);
+            $model->delivery_detail_id = IdGenerator::generate(['table' => 'delivery_details', 'field' => 'delivery_detail_id', 'length' => 7, 'prefix' => 'DE']);
         });
     }
 }

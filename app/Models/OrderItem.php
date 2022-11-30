@@ -37,7 +37,7 @@ class OrderItem extends Model
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->uuid = IdGenerator::generate(['table' => $this->table, 'field' => 'order_item_id', 'length' => 7, 'prefix' => 'OI']);
+            $model->order_item_id = IdGenerator::generate(['table' => 'order_items', 'field' => 'order_item_id', 'length' => 7, 'prefix' => 'OI']);
         });
     }
 }

@@ -54,7 +54,7 @@ class OrderedCustomTee extends Model
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->uuid = IdGenerator::generate(['table' => $this->table, 'field' => 'o_custom_tee_id', 'length' => 7, 'prefix' => 'OT']);
+            $model->o_custom_tee_id = IdGenerator::generate(['table' => 'ordered_custom_tees', 'field' => 'o_custom_tee_id', 'length' => 7, 'prefix' => 'OT']);
         });
     }
 }

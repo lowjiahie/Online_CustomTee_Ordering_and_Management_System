@@ -30,7 +30,7 @@ class PrintingMethod extends Model
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->uuid = IdGenerator::generate(['table' => $this->table, 'field' => 'p_method_id', 'length' => 7, 'prefix' => 'PM']);
+            $model->p_method_id = IdGenerator::generate(['table' => 'printing_methods', 'field' => 'p_method_id', 'length' => 7, 'prefix' => 'PM']);
         });
     }
 }

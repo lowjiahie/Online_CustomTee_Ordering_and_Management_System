@@ -36,7 +36,7 @@ class PlainTeeSize extends Model
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->uuid = IdGenerator::generate(['table' => $this->table, 'field' => 'plain_tee_size_id', 'length' => 7, 'prefix' => 'PS']);
+            $model->plain_tee_size_id = IdGenerator::generate(['table' => 'plain_tee_sizes', 'field' => 'plain_tee_size_id', 'length' => 7, 'prefix' => 'PS']);
         });
     }
 }

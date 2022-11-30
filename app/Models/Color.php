@@ -30,7 +30,7 @@ class Color extends Model
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->uuid = IdGenerator::generate(['table' => $this->table, 'field' => 'color_id', 'length' => 7, 'prefix' => 'CL']);
+            $model->color_id = IdGenerator::generate(['table' => 'colors', 'field' => 'color_id', 'length' => 7, 'prefix' => 'CL']);
         });
     }
 }

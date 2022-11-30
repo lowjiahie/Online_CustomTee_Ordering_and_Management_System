@@ -30,7 +30,7 @@ class PaypalAccount extends Model
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->uuid = IdGenerator::generate(['table' => $this->table, 'field' => 'paypal_acc_id', 'length' => 7, 'prefix' => 'PA']);
+            $model->paypal_acc_id = IdGenerator::generate(['table' => 'paypal_accounts', 'field' => 'paypal_acc_id', 'length' => 7, 'prefix' => 'PA']);
         });
     }
 }
