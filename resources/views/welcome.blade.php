@@ -72,7 +72,7 @@
 
 
                 <div class="links">
-                    <a href="/customer/home" >Online Custom-Tee Ordering System</a>
+                    <a href="/customer" >Online Custom-Tee Ordering System</a>
                     <a href="{{ route('admin.login') }}" >Online Custom-Tee Management System</a>
                 </div>
             </div>

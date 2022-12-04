@@ -57,7 +57,7 @@
       </div>
       <div class="col-6">
         <!-- Create the container of the tool -->
-        <div id="tshirt-div" :style="{'background-color':ptColor}">
+        <div ref="tshirtDiv" id="tshirt-div" :style="{'background-color':ptColor}">
           <!-- 
         Initially, the image will have the background tshirt that has transparency
         So we can simply update the color with CSS or JavaScript dinamically
@@ -65,9 +65,15 @@
           <img
             v-if="isActive"
             id="tshirt-backgroundpicture"
+            class="shirtImg"
             src="../../../../public/image/crew_front.png"
           />
-          <img v-else id="tshirt-backgroundpicture" src="../../../../public/image/crew_back.png" />
+          <img
+            v-else
+            id="tshirt-backgroundpicture"
+            class="shirtImg"
+            src="../../../../public/image/crew_back.png"
+          />
 
           <!-- 
         The container where Fabric.js will work. Notice that in the the style of #canvas
@@ -630,6 +636,9 @@ import { fabric } from "fabric";
 import "fabric-history";
 import mergeImages from "merge-images";
 import FontFaceObserver from "fontfaceobserver";
+import { mapState, mapActions } from "pinia";
+import { useAuthStore } from "../../store/auth";
+import domtoimage from "dom-to-image-more";
 
 let canvas1 = null;
 let canvas2 = null;
@@ -649,7 +658,7 @@ export default {
       saveName: "",
       frontDesignJson: '""',
       backDesignJson: '""',
-      ptColor: "#fff",
+      ptColor: "green",
       selected: "",
       checkIsValidSize: "",
       checkIsValidType: "",
@@ -1000,28 +1009,59 @@ export default {
 
       let imgPath = "";
 
-      imgPath = require("../../../../public/image/crew_front.png");
-      this.imgMergedFront = this.combineImages(imgPath, this.imgStateFront);
+      domtoimage
+        .toJpeg(this.$refs.tshirtDiv, {
+          quality: 1,
+          filter: this.filterTag,
+          height: 600,
+          width: 500,
+        })
+        .then((dataUrl) => {
+          imgPath = require("../../../../public/image/crew_front.png");
+          this.imgMergedFront = this.combineImages(dataUrl,imgPath, this.imgStateFront);
 
-      imgPath = require("../../../../public/image/crew_back.png");
-      this.imgMergedBack = this.combineImages(imgPath, this.imgStateBack);
+          imgPath = require("../../../../public/image/crew_back.png");
+          this.imgMergedBack = this.combineImages(dataUrl,imgPath, this.imgStateBack);
 
-      Promise.all([this.imgMergedFront, this.imgMergedBack]).then((b64) => {
-        this.imgTest1 = b64[0];
-        this.imgTest2 = b64[1];
+          Promise.all([this.imgMergedFront, this.imgMergedBack]).then((b64) => {
+            this.imgTest1 = b64[0];
+            this.imgTest2 = b64[1];
 
-        //send post request to save the customTee design
-        //in here post the data to backend then return success or failed status
-        this.customTee.ptTypeColorID = "TC00001"
-        this.customTee.cusID = "CS00001"
-        this.customTee.name = this.saveName;
-        this.customTee.frontDesignImg = b64[0];
-        this.customTee.backDesignImg = b64[1];
-        this.customTee.frontDesignJson = this.frontDesignJson;
-        this.customTee.backDesignJson = this.backDesignJson;
+            //send post request to save the customTee design
+            //in here post the data to backend then return success or failed status
+            this.customTee.ptTypeColorID = "TC00001";
+            this.customTee.cusID = this.authCus.cus_id;
+            this.customTee.name = this.saveName;
+            this.customTee.frontDesignImg = b64[0];
+            this.customTee.backDesignImg = b64[1];
+            this.customTee.frontDesignJson = this.frontDesignJson;
+            this.customTee.backDesignJson = this.backDesignJson;
 
-        alert("Success Saved");
-      });
+            axios
+              .post("/api/saveDesign", {
+                customTee: this.customTee,
+              })
+              .then(() => {
+                alert("Success Saved");
+              })
+              .catch((error) => {
+                if (error.response.status === 422) {
+                  console.log(error.response.data.errors);
+                }
+              });
+          });
+        });
+    },
+    filterTag(node) {
+      if (node.classList) {
+        if (
+          node.classList.contains("drawing-area") ||
+          node.classList.contains("shirtImg")
+        ) {
+          return false;
+        }
+      }
+      return true;
     },
     loadCanvas(canvas, jsonDesign) {
       canvas.loadFromJSON(jsonDesign, canvas.renderAll.bind(canvas));
@@ -1032,10 +1072,12 @@ export default {
     redo() {
       maincanvas.redo();
     },
-    combineImages(frontOrBackImg, dataURL) {
+    combineImages(background,frontOrBackImg, dataURL) {
       //after combine return the promise obj and included base64
       return mergeImages(
         [
+          background
+          ,
           frontOrBackImg,
           {
             src: dataURL,
@@ -1157,7 +1199,6 @@ export default {
           maincanvas.add(obj).renderAll;
         });
       }
-
       this.$refs.btnClose.click();
     },
     clearUploadImage() {
@@ -1232,6 +1273,7 @@ export default {
       }
       return "";
     },
+    ...mapState(useAuthStore, ["authCus"]),
   },
 };
 </script>

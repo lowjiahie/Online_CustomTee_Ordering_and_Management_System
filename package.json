@@ -25,12 +25,13 @@
     },
     "dependencies": {
         "autoprefixer": "10.4.5",
-        "dom-to-image": "^2.6.0",
+        "dom-to-image-more": "^2.12.0",
         "fabric-history": "^1.7.0",
         "file-saver": "^2.0.5",
         "fontfaceobserver": "^2.3.0",
         "merge-images": "^2.0.0",
         "pinia": "^2.0.24",
+        "pinia-plugin-persistedstate": "^3.0.1",
         "vue-router": "^3.5.4"
     }
 }
