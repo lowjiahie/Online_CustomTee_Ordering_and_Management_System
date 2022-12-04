@@ -11,6 +11,13 @@ use Intervention\Image\Facades\Image;
 
 class CustomTeeDesignController extends Controller
 {
+
+    public function chkExstCusTeeDesign(Request $request)
+    {
+        $customTee =  $request->customTee;
+        dd(CustomTeeDesign::where(['name', '=', $customTee['name']], ['pt_type_color_id', '=', $customTee['ptTypeColorID']], ['cus_id', '=', $customTee['cusID']])->exists());
+    }
+
     public function saveDesign(Request $request)
     {
         $customTee =  $request->customTee;
@@ -28,19 +35,16 @@ class CustomTeeDesignController extends Controller
 
         Image::make(file_get_contents($customTee['frontDesignImg']))->save($frontPath);
         Image::make(file_get_contents($customTee['backDesignImg']))->save($backPath);
-        $customTeeExt = CustomTeeDesign::find([
-            'pt_type_color_id' => $customTee['ptTypeColorID'],
-            'cus_id' =>$customTee['cusID'],
-        ]);
+        $customTeeExt = CustomTeeDesign::where('name',);
 
-        CustomTeeDesign::create([
-            'pt_type_color_id'=> $customTee['ptTypeColorID'],
-            'cus_id'=> $customTee['cusID'],
-            'name'=> $customTee['name'],
-            'front_design_img'=>$front_jpg_name,
-            'back_design_img'=>$back_jpg_name,
-            'front_design_json'=>json_encode($customTee['frontDesignJson']),
-            'back_design_json'=>json_encode($customTee['backDesignJson']),
-        ]);
+        // CustomTeeDesign::create([
+        //     'name'=> $customTee['name'],
+        //     'front_design_img'=>$front_jpg_name,
+        //     'back_design_img'=>$back_jpg_name,
+        //     'front_design_json'=>json_encode($customTee['frontDesignJson']),
+        //     'back_design_json'=>json_encode($customTee['backDesignJson']),
+        //     'pt_type_color_id'=> $customTee['ptTypeColorID'],
+        //     'cus_id'=> $customTee['cusID'],
+        // ]);
     }
 }
