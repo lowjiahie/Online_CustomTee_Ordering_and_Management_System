@@ -104,7 +104,6 @@ class StaffController extends Controller
             return view('admin.updateProfile', ['staffInfo' => $staffInfo]);
         }else{
             // Redirect user to dashboard page
-            echo "<script>alert('Redirecting to dashboard!')</script>";
             $staffID = $request->session()->get('StaffID');
             $staffInfo = $this->repository->getById($staffID);
             return view('admin.dashboard', ['staffInfo' => $staffInfo]);
@@ -164,7 +163,6 @@ class StaffController extends Controller
             }
         }else{
             // Redirect user to dashboard page
-            echo "<script>alert('Redirecting to dashboard!')</script>";
             $staffID = $request->session()->get('StaffID');
             $staffInfo = $this->repository->getById($staffID);
             return view('admin.dashboard', ['staffInfo' => $staffInfo]);
@@ -178,6 +176,25 @@ class StaffController extends Controller
         return view('admin.dashboard', ['staffInfo' => $staffInfo]);
     }
 
+    public function dashboardBack(Request $request){
+        // Get staff info from database
+        $staffID = $request->session()->get('StaffID');
+        $staffInfo = $this->repository->getById($staffID);
+        return view('admin.dashboard', ['staffInfo' => $staffInfo]);
+    }
+
+    public function profile(Request $request){
+        $staffID = $request->session()->get('StaffID');
+        $staffInfo = $this->repository->getById($staffID);
+        return view('admin.profile', ['staffInfo' => $staffInfo]);
+    }
+
+    public function addAdminInfo(Request $request){
+        $staffID = $request->session()->get('StaffID');
+        $staffInfo = $this->repository->getById($staffID);
+        return view('admin.addAdmin', ['staffInfo' => $staffInfo]);
+    }
+
     public function logout(Request $request)
     {
         // Remove all session and redirect user to login page
@@ -187,6 +204,46 @@ class StaffController extends Controller
         $request->session()->forget('StaffID');
         echo "<script>alert('Logout Success!')</script>";
         return view('admin.login');
+    }
+
+    public function addAdmin(Request $request){
+        // Check whether user want add or cancel
+        $changeCancel = $request->input('AddCancel');
+        if (!strcmp($changeCancel, "Add")) {
+            $request->validate([
+                "name" => "required",
+                "email" => "required",
+                "password" => "required",
+                "gender" => "required",
+                "date_of_birth" => "required",
+                "phone_no" => "required",
+                "role" => "required"
+            ]);
+
+            $name = $request->input('name');
+            $email = $request->input('email');
+            $password = $request->input('password');
+            $gender = $request->input('gender');
+            $date_of_birth = $request->input('date_of_birth');
+            $phone_no = $request->input('phone_no');
+            $role = $request->input('role');
+
+            // Add data to database
+            $data = ["name"=>$name, "email"=>$email, "password"=>$password, "gender"=>$gender,
+            "date_of_birth"=>$date_of_birth, "phone_no"=>$phone_no, "role"=>$role];
+            $this->repository->create($data);
+
+            // Redirect to printing method list
+            echo "<script>alert('Add successfully! You can login to the new account now!')</script>";
+            $staffID = $request->session()->get('StaffID');
+            $staffInfo = $this->repository->getById($staffID);
+            return view('admin.dashboard', ['staffInfo'=>$staffInfo]);
+        }else{
+            // Redirect user to dashboard page
+            $staffID = $request->session()->get('StaffID');
+            $staffInfo = $this->repository->getById($staffID);
+            return view('admin.dashboard', ['staffInfo' => $staffInfo]);
+        }
     }
 
 }

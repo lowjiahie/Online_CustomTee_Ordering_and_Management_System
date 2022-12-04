@@ -317,9 +317,8 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="foodTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom-Tee Functions :</h6>
-                        <a class="collapse-item" href="#">View Design</a>
-                        <a class="collapse-item" href="#">Banned Design</a>
-                        <a class="collapse-item" href="#">Unbanned Design</a>
+                        <a class="collapse-item" href="{{ route('admin.designList') }}">View Design</a>
+                        <a class="collapse-item" href="#">View Report</a>
                     </div>
                 </div>
             </li>
@@ -370,9 +369,8 @@
                 <div id="collapseFive" class="collapse" aria-labelledby="tableFour" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Printing Functions :</h6>
-                        <a class="collapse-item" href="">Add Printing Method</a>
+                        <a class="collapse-item" href="{{ route('admin.printingMethodAddPage') }}">Add Printing Method</a>
                         <a class="collapse-item" href="{{ route('admin.printingMethodList') }}">View Printing Method</a>
-                        <a class="collapse-item" href="#">Search Printing Method</a>
                     </div>
                 </div>
             </li>
@@ -436,18 +434,24 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{{ route('admin.profile') }}">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
                                 <a class="dropdown-item" href="{{ route('admin.update') }}">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    <i class="fas fa-address-card fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Update Profile
                                 </a>
                                 <a class="dropdown-item" href="{{ route('admin.change') }}">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    <i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Change Password
                                 </a>
+                                @if($staffInfo->role == "Super Admin")
+                                <a class="dropdown-item" href="{{ route('admin.add') }}">
+                                    <i class="fas fa-user-plus fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Add Admin
+                                </a>
+                                @endif
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{{ route('admin.logout') }}">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>

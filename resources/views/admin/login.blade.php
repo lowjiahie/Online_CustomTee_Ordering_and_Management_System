@@ -79,7 +79,8 @@
         .submit_class {
             border-style: none;
             border-radius: 5px;
-            background-color: #FFE6D4;
+            background-color: black;
+            color: white;
             padding: 8px 50px;
             font-family: 'system-ui';
             text-transform: uppercase;
