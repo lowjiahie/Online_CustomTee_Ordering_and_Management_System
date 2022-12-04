@@ -20,9 +20,13 @@ use App\Http\Controllers\Customer\CustomTeeDesignController;
 //     return $request->user();
 // });
 
+//CustomerController
 Route::post("login", [CustomerController::class, 'login']);
 Route::post("register", [CustomerController::class, 'register']);
+
+//CustomTeeDesignController
 Route::post("saveDesign", [CustomTeeDesignController::class, 'saveDesign']);
+Route::post("chkExstCusTeeDesign", [CustomTeeDesignController::class, 'chkExstCusTeeDesign']);
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     //All secure URL's
