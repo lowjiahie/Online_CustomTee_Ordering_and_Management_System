@@ -2,22 +2,30 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Thiagoprz\CompositeKey\HasCompositeKey;
+use Haruncpi\LaravelIdGenerator\IdGenerator;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class CustomTeeDesign extends Model
 {
-    use HasFactory, HasCompositeKey;
+    use HasFactory;
 
     protected $fillable = [
-        'pt_type_color_id', 'cus_id', 'name', 'front_design_img', 'back_design_img', 
-        'front_design_json', 'back_design_json'
+        'name', 'front_design_img', 'back_design_img', 
+        'front_design_json', 'back_design_json','pt_type_color_id', 'cus_id'
     ];
 
     public $timestamps = true;
 
     public $incrementing = false;
 
-    protected $primaryKey = ['pt_type_color_id', 'cus_id'];
+    protected $primaryKey = 'c_tee_design_id';
+
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function ($model) {
+            $model->c_tee_design_id = IdGenerator::generate(['table' => 'custom_tee_designs', 'field' => 'c_tee_design_id', 'length' => 7, 'prefix' => 'CD']);
+        });
+    }
 }

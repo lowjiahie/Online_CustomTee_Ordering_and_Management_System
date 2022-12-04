@@ -351,11 +351,11 @@
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarColor01">
+        <div class="collapse navbar-collapse" id="navbarText">
           <!--Left side nav-bar - nav-link -->
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
-              <a class="nav-link" href="#">Home</a>
+              <router-link class="nav-link" :to="{name:'home'}">Home</router-link>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Create Design</a>
@@ -371,7 +371,7 @@
 
           <!--Right side navbar -->
           <div class="set-right">
-            <ul v-if="this.displayLogin == false" class="navbar-nav me-auto">
+            <ul v-if="authStatus" class="navbar-nav me-auto">
               <li class="nav-item">
                 <a class="nav-link position-relative" href="#">
                   <svg
@@ -403,7 +403,7 @@
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  <span class="mr-2 pt-2 small">LowJiaHie</span>
+                  <span class="mr-2 pt-2 small">{{ authCus.name }}</span>
                   <svg
                     t="1646278750138"
                     class="icon"
@@ -426,14 +426,14 @@
                   <a class="dropdown-item" href="#">My Order</a>
                   <a class="dropdown-item" href="#">My Design</a>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">LogOut</a>
+                  <button class="dropdown-item" type="button" @click="logout">LogOut</button>
                 </div>
               </li>
             </ul>
 
             <ul v-else class="navbar-nav me-auto">
               <li class="nav-item">
-                <a class="btn btn-outline-secondary">Login Now</a>
+                <router-link class="btn btn-outline-secondary" :to="{name: 'login'}">Login Now</router-link>
               </li>
             </ul>
           </div>
@@ -447,11 +447,24 @@
   </div>
 </template>
 <script>
+import { mapState, mapActions } from "pinia";
+import { useAuthStore } from "./store/auth";
 export default {
   data() {
     return {
-      displayLogin: false,
     };
+  },
+  watch: {
+    $route(to, from) {
+      console.log(this.authStatus);
+      this.resetErrors();
+    },
+  },
+  methods: {
+    ...mapActions(useAuthStore, ["resetErrors", "logout"]),
+  },
+  computed: {
+    ...mapState(useAuthStore, ["authStatus", "authCus"]),
   },
 };
 </script>

@@ -4,19 +4,25 @@
       <h3>Sign In</h3>
       <div class="form-group">
         <label class="fw-bold">Email address</label>
-        <input type="email" class="form-control form-control-lg" />
+        <input type="email" v-model="form.email" class="form-control form-control-lg" />
+        <span class="text-danger" v-if="authErrors.email">{{ authErrors.email[0] }}</span>
       </div>
       <div class="form-group mt-2">
         <label class="fw-bold">Password</label>
-        <input type="password" class="form-control form-control-lg" />
+        <input type="password" v-model="form.password" class="form-control form-control-lg" />
+        <span class="text-danger" v-if="authErrors.password">{{ authErrors.password[0] }}</span>
       </div>
-      <button type="submit" class="btn btn-dark btn-lg btn-block mt-3">Sign In</button>
+      <button
+        type="button"
+        @click.prevent="login(form)"
+        class="btn btn-dark btn-lg btn-block mt-3"
+      >Sign In</button>
       <p class="forgot-password text-right mt-2">
         <router-link :to="{name:'pwdRecovery'}">Forgot password ?</router-link>
       </p>
       <p class="forgot-password text-center">
         Dont have account
-        <router-link to="/customer/register">Sign Up?</router-link>
+        <router-link :to="{name:'register'}">Sign Up?</router-link>
       </p>
     </form>
   </div>
@@ -68,9 +74,23 @@ label {
 }
 </style>
 <script>
+import { mapState, mapActions } from "pinia";
+import { useAuthStore } from "../../store/auth";
+
 export default {
   data() {
-    return {};
+    return {
+      form: {
+        email: "",
+        password: "",
+      },
+    };
+  },
+  methods: {
+    ...mapActions(useAuthStore, ["login", "resetErrors"]),
+  },
+  computed: {
+    ...mapState(useAuthStore, ["authErrors"]),
   },
 };
 </script>

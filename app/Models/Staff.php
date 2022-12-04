@@ -23,7 +23,7 @@ class Staff extends Model
     //One staff can create many competitions
     public function competitions()
     {
-        return $this->hasMany(Staff::class);
+        return $this->hasMany(Competition::class);
     }
 
     public static function boot()

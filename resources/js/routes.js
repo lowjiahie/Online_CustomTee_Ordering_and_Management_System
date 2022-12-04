@@ -1,5 +1,5 @@
 import VueRouter from "vue-router";
-import ExampleComponent from "./components/ExampleComponent"
+import HomeComponent from "./components/Home/Home"
 import CustomTeeDesignToolComponent from "./components/customTeeDesignTool/CustomTeeDesignTool"
 import ViewDesignWithPriceComponent from "./components/sharingSection/ViewDesignWithPrice"
 import ViewDesignWithFreeComponent from "./components/sharingSection/ViewDesignWithFree"
@@ -9,8 +9,8 @@ import customerPwdRecoveryComponent from "./components/customerMaintenance/custo
 
 const routes = [
     {
-        path: "/customer/home",
-        component: ExampleComponent,
+        path: "/customer/",
+        component: HomeComponent,
         name: 'home',
     },
     {

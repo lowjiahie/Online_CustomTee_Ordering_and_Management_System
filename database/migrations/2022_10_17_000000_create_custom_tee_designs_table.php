@@ -14,6 +14,12 @@ class CreateCustomTeeDesignsTable extends Migration
     public function up()
     {
         Schema::create('custom_tee_designs', function (Blueprint $table) {
+            $table->string('c_tee_design_id');
+            $table->string('name');
+            $table->string('front_design_img')->nullable();
+            $table->string('back_design_img')->nullable();
+            $table->json('front_design_json')->nullable();
+            $table->json('back_design_json')->nullable();
             $table->string('pt_type_color_id')->index();
             $table->foreign('pt_type_color_id')->references('pt_type_color_id')
                 ->on('plain_tee_type_colors')
@@ -23,14 +29,8 @@ class CreateCustomTeeDesignsTable extends Migration
             $table->foreign('cus_id')->references('cus_id')
                 ->on('customers')
                 ->onDelete('cascade');
-
-            $table->string('name');
-            $table->string('front_design_img')->nullable();
-            $table->string('back_design_img')->nullable();
-            $table->json('front_design_json')->nullable();
-            $table->json('back_design_json')->nullable();
             $table->timestamps();
-            $table->primary(['pt_type_color_id','cus_id']);
+            $table->primary('c_tee_design_id');
         });
     }
 
