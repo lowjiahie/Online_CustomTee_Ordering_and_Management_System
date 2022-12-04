@@ -15,7 +15,8 @@ class CustomTeeDesignController extends Controller
     public function chkExstCusTeeDesign(Request $request)
     {
         $customTee =  $request->customTee;
-        dd(CustomTeeDesign::where(['name', '=', $customTee['name']], ['pt_type_color_id', '=', $customTee['ptTypeColorID']], ['cus_id', '=', $customTee['cusID']])->exists());
+        $record = CustomTeeDesign::where('name',$customTee['name'])->where('pt_type_color_id',$customTee['ptTypeColorID'])->where('cus_id',$customTee['cusID'])->exists();
+        dd($record);
     }
 
     public function saveDesign(Request $request)

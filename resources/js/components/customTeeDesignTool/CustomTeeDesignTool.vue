@@ -1018,10 +1018,18 @@ export default {
         })
         .then((dataUrl) => {
           imgPath = require("../../../../public/image/crew_front.png");
-          this.imgMergedFront = this.combineImages(dataUrl,imgPath, this.imgStateFront);
+          this.imgMergedFront = this.combineImages(
+            dataUrl,
+            imgPath,
+            this.imgStateFront
+          );
 
           imgPath = require("../../../../public/image/crew_back.png");
-          this.imgMergedBack = this.combineImages(dataUrl,imgPath, this.imgStateBack);
+          this.imgMergedBack = this.combineImages(
+            dataUrl,
+            imgPath,
+            this.imgStateBack
+          );
 
           Promise.all([this.imgMergedFront, this.imgMergedBack]).then((b64) => {
             this.imgTest1 = b64[0];
@@ -1038,17 +1046,30 @@ export default {
             this.customTee.backDesignJson = this.backDesignJson;
 
             axios
-              .post("/api/saveDesign", {
-                customTee: this.customTee,
+              .post("/api/chkExstCusTeeDesign", { customTee: this.customTee })
+              .then((response) => {
+                
+
+
               })
-              .then(() => {
-                alert("Success Saved");
-              })
-              .catch((error) => {
+              .catch(() => {
                 if (error.response.status === 422) {
                   console.log(error.response.data.errors);
                 }
               });
+
+            // axios
+            //   .post("/api/saveDesign", {
+            //     customTee: this.customTee,
+            //   })
+            //   .then(() => {
+            //     alert("Success Saved");
+            //   })
+            //   .catch((error) => {
+            //     if (error.response.status === 422) {
+            //       console.log(error.response.data.errors);
+            //     }
+            //   });
           });
         });
     },
@@ -1072,12 +1093,11 @@ export default {
     redo() {
       maincanvas.redo();
     },
-    combineImages(background,frontOrBackImg, dataURL) {
+    combineImages(background, frontOrBackImg, dataURL) {
       //after combine return the promise obj and included base64
       return mergeImages(
         [
-          background
-          ,
+          background,
           frontOrBackImg,
           {
             src: dataURL,

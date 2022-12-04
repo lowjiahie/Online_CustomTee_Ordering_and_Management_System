@@ -6015,15 +6015,24 @@ var maincanvas = null;
           _this.customTee.backDesignImg = b64[1];
           _this.customTee.frontDesignJson = _this.frontDesignJson;
           _this.customTee.backDesignJson = _this.backDesignJson;
-          axios.post("/api/saveDesign", {
+          axios.post("/api/chkExstCusTeeDesign", {
             customTee: _this.customTee
-          }).then(function () {
-            alert("Success Saved");
-          })["catch"](function (error) {
+          }).then(function (response) {})["catch"](function () {
             if (error.response.status === 422) {
               console.log(error.response.data.errors);
             }
-          });
+          }); // axios
+          //   .post("/api/saveDesign", {
+          //     customTee: this.customTee,
+          //   })
+          //   .then(() => {
+          //     alert("Success Saved");
+          //   })
+          //   .catch((error) => {
+          //     if (error.response.status === 422) {
+          //       console.log(error.response.data.errors);
+          //     }
+          //   });
         });
       });
     },
