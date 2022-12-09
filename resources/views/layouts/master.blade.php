@@ -318,7 +318,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom-Tee Functions :</h6>
                         <a class="collapse-item" href="{{ route('admin.designList') }}">View Design</a>
-                        <a class="collapse-item" href="#">View Report</a>
+                        <a class="collapse-item" href="{{ route('admin.designReportList') }}">View Report</a>
                     </div>
                 </div>
             </li>
@@ -334,8 +334,7 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Order Functions :</h6>
-                        <a class="collapse-item" href="#">View Order</a>
-                        <a class="collapse-item" href="#">Search Order</a>
+                        <a class="collapse-item" href="{{ route('admin.orderList') }}">View Order</a>
                     </div>
                 </div>
             </li>
@@ -350,11 +349,10 @@
                 <div id="collapseFour" class="collapse" aria-labelledby="forumSix" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Plain-T Functions :</h6>
-                        <a class="collapse-item" href="#">Add Color</a>
-                        <a class="collapse-item" href="#">Add Type</a>
-                        <a class="collapse-item" href="#">Add Plain-T</a>
-                        <a class="collapse-item" href="#">View Plain-T</a>
-                        <a class="collapse-item" href="#">Search Plain-T</a>
+                        <a class="collapse-item" href="{{ route('admin.plainTeeColorList') }}">View Color</a>
+                        <a class="collapse-item" href="{{ route('admin.plainTeeTypeList') }}">View Type</a>
+                        <a class="collapse-item" href="{{ route('admin.plainTeeTypeColorList') }}">View Type Color</a>
+                        <a class="collapse-item" href="{{ route('admin.plainTeeList') }}">View Plain-T</a>
                     </div>
                 </div>
             </li>
@@ -385,9 +383,8 @@
                 <div id="collapseSix" class="collapse" aria-labelledby="tableFour" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Competition Functions :</h6>
-                        <a class="collapse-item" href="">Add Competition</a>
-                        <a class="collapse-item" href="">View Competition</a>
-                        <a class="collapse-item" href="#">Search Competition</a>
+                        <a class="collapse-item" href="{{ route('admin.competitionAddPage') }}">Add Competition</a>
+                        <a class="collapse-item" href="{{ route('admin.competitionList') }}">View Competition</a>
                     </div>
                 </div>
             </li>

@@ -150,7 +150,6 @@ class PrintingMethodController extends Controller
             $staffID = $request->session()->get('StaffID');
             $staffInfo = $this->staffRepository->getById($staffID);
             return view('admin.printingMethodDetail', ['printingMethodDetail'=>$printingMethodDetail], ['staffInfo'=>$staffInfo]);
-
         }else{
             // Cancel - redirect to printing method detail page
             $printingMethodDetail = $this->printingMethodRepository->getById($p_method_id);
@@ -158,7 +157,6 @@ class PrintingMethodController extends Controller
             $staffInfo = $this->staffRepository->getById($staffID);
             return view('admin.printingMethodDetail', ['printingMethodDetail'=>$printingMethodDetail], ['staffInfo'=>$staffInfo]);
         }
-
     }
 
 }

@@ -10,9 +10,9 @@
                     <div class='row'
                         style='background-color: white; color:rgb(0, 0, 0); margin: 10px 10px 10px 10px; padding: 20px 10px 20px 10px;'>
                         <div class='col' style='color:rgb(0, 0, 0); margin: 0 auto;'>
-                            <img src="{{ asset('image/published_design/'.$designUpdate->front_design_img) }}" alt="Front Design" width="200" height="200"
+                            <img src="{{ asset('publishedDesign/'.$designUpdate->front_design_img) }}" alt="Front Design" width="200" height="200"
                             style="display: block; margin-left: 25%; float: left;" />
-                            <img src="{{ asset('image/published_design/'.$designUpdate->back_design_img) }}" alt="Back Design" width="200" height="200"
+                            <img src="{{ asset('publishedDesign/'.$designUpdate->back_design_img) }}" alt="Back Design" width="200" height="200"
                             style="display: block; margin-right: 25%; float: right;" />
                         </div>
                     </div>
@@ -70,18 +70,18 @@
                         <div class='col' style='color:rgb(0, 0, 0);'>
                             @if ($designUpdate->status == "Published")
                             <select name="status">
-                                <option value="Published" selected="selected">Published</option>
-                                <option value="Banned">Banned</option>
+                                <option value="published" selected="selected">Published</option>
+                                <option value="banned">Banned</option>
                             </select>
                             @elseif ($designUpdate->status == "Banned")
                             <select name="status">
-                                <option value="Published">Published</option>
-                                <option value="Banned" selected="selected">Banned</option>
+                                <option value="published">Published</option>
+                                <option value="banned" selected="selected">Banned</option>
                             </select>
                             @else
                             <select name="status">
-                                <option value="Published">Published</option>
-                                <option value="Banned">Banned</option>
+                                <option value="published">Published</option>
+                                <option value="banned">Banned</option>
                             </select>
                             @endif
                         </div>

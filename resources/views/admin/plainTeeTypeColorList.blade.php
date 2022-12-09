@@ -4,19 +4,19 @@
     <div>
         <div style="margin: 0 auto; padding: 10px 10px 10px 10px;">
             <div>
-                <h1 style="float: left; font-size:24px; margin-left: 10%;">Printing Method List</h1>
-                <a href="{{ route('admin.printingMethodAddPage') }}">
+                <h1 style="float: left; font-size:24px; margin-left: 10%;">Type Color List</h1>
+                <a href="{{ route('admin.plainTeeAddTypeColorPage') }}">
                     <i class="fas fa-plus"
                         style="float: left; padding: 2px 2px 2px 2px; margin: 0px 10px 5px 5px;
                         font-size:24px; color:grey; margin-right:10%;"></i>
                 </a>
-                <form action="{{ route('admin.printingMethodSearch') }}" method="POST">
+                <form action="{{ route('admin.plainTeeTypeColorSearch') }}" method="POST">
                     @csrf
                     <input type="submit" name="search" value="Search"
                         style="float: right; border-style:none; border-radius:5px; color:white; background-color:black; padding:8px 50px;
                         font-family:'system-ui'; text-transform:uppercase; letter-spacing:.8px; display:block;
                         margin-right:10%; box-shadow:2px 2px 5px rgb(0, 0, 0, 0.2); cursor:pointer;" />
-                    <input type="text" name="searchPrintingMethod" placeholder="Search printing method name" style="width:35%; float: right; margin-right:2%;"; />
+                    <input type="text" name="searchDetail" placeholder="Search detail" style="width:35%; float: right; margin-right:2%;"; />
                 </form>
             </div>
             <br /><br />
@@ -27,7 +27,7 @@
                     if (isset($_GET['sortingDecision'])) {
                         $sortingDecision = $_GET['sortingDecision'];
                     } else {
-                        $sortingDecision = 'p_method_id';
+                        $sortingDecision = 'pt_type_color_id';
                     }
 
                     // Set Ascending Sort
@@ -41,7 +41,8 @@
                     $sort == 'ASC' ? ($sort = 'DESC') : ($sort = 'ASC');
 
                     //Query
-                    $sql = "SELECT * FROM printing_methods ORDER BY $sortingDecision $sort";
+                    $sql = "SELECT * FROM plain_tee_type_colors AS TC, types AS T, colors AS C
+                    WHERE TC.type_id=T.type_id AND TC.color_id=C.color_id ORDER BY $sortingDecision $sort";
 
                     // Count all the records inside database
                     $recordCount = 0;
@@ -62,19 +63,19 @@
                     echo "
                         <div class='row' style='background-color: rgb(200, 197, 197); margin: 10px 10px 10px 10px; padding: 20px 10px 20px 10px;'>
                             <div class='col'>
-                                <a href='/admin/printingMethodList?sortingDecision=p_method_id&sort=$sort' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>Printing Method ID</a>
+                                <a href='/admin/plainTeeTypeColorList?sortingDecision=pt_type_color_id&sort=$sort' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>Type Color ID</a>
                             </div>
                             <div class='col'>
-                                <a href='/admin/printingMethodList?sortingDecision=name&sort=$sort' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>Name</a>
+                                <a href='/admin/plainTeeTypeColorList?sortingDecision=color_name&sort=$sort' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>Color</a>
                             </div>
                             <div class='col'>
-                                <a href='/admin/printingMethodList?sortingDecision=price&sort=$sort' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>Price(RM)</a>
+                                <a href='/admin/plainTeeTypeColorList?sortingDecision=name&sort=$sort' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>Type</a>
                             </div>
                             <div class='col'>
-                                <a href='/admin/printingMethodList?sortingDecision=minimum_order&sort=$sort' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>Minimum Order</a>
+                                <a href='/admin/plainTeeTypeColorList?sortingDecision=detail&sort=$sort' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>Detail</a>
                             </div>
                             <div class='col'>
-                                <a href='/admin/printingMethodList?sortingDecision=status&sort=$sort' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>Status</a>
+                                <a href='/admin/plainTeeTypeColorList?sortingDecision=price&sort=$sort' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>Price(RM)</a>
                             </div>
                             <div class='col'>
 
@@ -92,22 +93,22 @@
                                 echo "
                                     <div class='row' style='background-color: white; margin: 10px 10px 10px 10px; padding: 10px 10px 10px 10px;'>
                                         <div class='col' style='color:rgb(0, 0, 0);'>".
-                                            $row["p_method_id"]."
+                                            $row["pt_type_color_id"]."
+                                        </div>
+                                        <div class='col' style='color:rgb(0, 0, 0);'>".
+                                            $row["color_name"]."
                                         </div>
                                         <div class='col' style='color:rgb(0, 0, 0);'>".
                                             $row["name"]."
                                         </div>
                                         <div class='col' style='color:rgb(0, 0, 0);'>".
+                                            $row["detail"]."
+                                        </div>
+                                        <div class='col' style='color:rgb(0, 0, 0);'>".
                                             $row["price"]."
                                         </div>
-                                        <div class='col' style='color:rgb(0, 0, 0);'>".
-                                            $row["minimum_order"]."
-                                        </div>
-                                        <div class='col' style='color:rgb(0, 0, 0);'>".
-                                            $row["status"]."
-                                        </div>
                                         <div class='col' style='color:rgb(0, 0, 0);'>
-                                            <a href='/admin/printingMethodDetailInfo/".$row["p_method_id"]."' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>View Detail</a>
+                                            <a href='/admin/plainTeeTypeColorDetailInfo/".$row["pt_type_color_id"]."' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>View Detail</a>
                                         </div>
                                     </div>
                                 ";
@@ -116,22 +117,22 @@
                                 echo "
                                     <div class='row' style='background-color: rgb(200, 197, 197); color:rgb(0, 0, 0); margin: 10px 10px 10px 10px; padding: 20px 10px 20px 10px;'>
                                         <div class='col' style='color:rgb(0, 0, 0);'>".
-                                            $row["p_method_id"]."
+                                            $row["pt_type_color_id"]."
+                                        </div>
+                                        <div class='col' style='color:rgb(0, 0, 0);'>".
+                                            $row["color_name"]."
                                         </div>
                                         <div class='col' style='color:rgb(0, 0, 0);'>".
                                             $row["name"]."
                                         </div>
                                         <div class='col' style='color:rgb(0, 0, 0);'>".
+                                            $row["detail"]."
+                                        </div>
+                                        <div class='col' style='color:rgb(0, 0, 0);'>".
                                             $row["price"]."
                                         </div>
-                                        <div class='col' style='color:rgb(0, 0, 0);'>".
-                                            $row["minimum_order"]."
-                                        </div>
-                                        <div class='col' style='color:rgb(0, 0, 0);'>".
-                                            $row["status"]."
-                                        </div>
                                         <div class='col' style='color:rgb(0, 0, 0);'>
-                                            <a href='/admin/printingMethodDetailInfo/".$row["p_method_id"]."' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>View Detail</a>
+                                            <a href='/admin/plainTeeTypeColorDetailInfo/".$row["pt_type_color_id"]."' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>View Detail</a>
                                         </div>
                                     </div>
                                 ";
@@ -141,29 +142,29 @@
                     }
                 }else{
                     ?>
-                    @foreach ($printingMethodList as $printingMethod)
+                    @foreach ($typeColorList as $typeColor)
                         @if ($rowColor == 1)
                             <div class='row'
                                 style='background-color: white; margin: 10px 10px 10px 10px; padding: 10px 10px 10px 10px;'>
                                 <div class='col' style='color:rgb(0, 0, 0);'>
-                                    {{ $printingMethod->p_method_id }}
+                                    {{ $typeColor->pt_type_color_id }}
                                 </div>
                                 <div class='col' style='color:rgb(0, 0, 0);'>
-                                    {{ $printingMethod->name }}
+                                    {{ $typeColor->color_name }}
                                 </div>
                                 <div class='col' style='color:rgb(0, 0, 0);'>
-                                    {{ $printingMethod->price }}
+                                    {{ $typeColor->name }}
                                 </div>
                                 <div class='col' style='color:rgb(0, 0, 0);'>
-                                    {{ $printingMethod->minimum_order }}
+                                    {{ $typeColor->detail }}
                                 </div>
                                 <div class='col' style='color:rgb(0, 0, 0);'>
-                                    {{ $printingMethod->status }}
+                                    {{ $typeColor->price }}
                                 </div>
                                 <div class='col' style='color:rgb(0, 0, 0);'>
-                                    <a href="{{ '/admin/printingMethodDetailInfo/' . $printingMethod->p_method_id }}"
-                                        style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>View
-                                        Detail</a>
+                                    <a href="{{ '/admin/plainTeeTypeColorDetailInfo/' . $typeColor->pt_type_color_id }}"
+                                        style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>View Detail
+                                    </a>
                                 </div>
                             </div>
                             <?php $rowColor = 0; ?>
@@ -171,24 +172,24 @@
                             <div class='row'
                                 style='background-color: rgb(200, 197, 197); color:rgb(0, 0, 0); margin: 10px 10px 10px 10px; padding: 20px 10px 20px 10px;'>
                                 <div class='col' style='color:rgb(0, 0, 0);'>
-                                    {{ $printingMethod->p_method_id }}
+                                    {{ $typeColor->pt_type_color_id }}
                                 </div>
                                 <div class='col' style='color:rgb(0, 0, 0);'>
-                                    {{ $printingMethod->name }}
+                                    {{ $typeColor->color_name }}
                                 </div>
                                 <div class='col' style='color:rgb(0, 0, 0);'>
-                                    {{ $printingMethod->price }}
+                                    {{ $typeColor->name }}
                                 </div>
                                 <div class='col' style='color:rgb(0, 0, 0);'>
-                                    {{ $printingMethod->minimum_order }}
+                                    {{ $typeColor->detail }}
                                 </div>
                                 <div class='col' style='color:rgb(0, 0, 0);'>
-                                    {{ $printingMethod->status }}
+                                    {{ $typeColor->price }}
                                 </div>
                                 <div class='col' style='color:rgb(0, 0, 0);'>
-                                    <a href="{{ '/admin/printingMethodDetailInfo/' . $printingMethod->p_method_id }}"
-                                        style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>View
-                                        Detail</a>
+                                    <a href="{{ '/admin/plainTeeTypeColorDetailInfo/' . $typeColor->pt_type_color_id }}"
+                                        style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>View Detail
+                                    </a>
                                 </div>
                             </div>
                             <?php $rowColor = 1; ?>

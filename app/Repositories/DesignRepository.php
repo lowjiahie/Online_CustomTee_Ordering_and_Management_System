@@ -18,12 +18,24 @@ class DesignRepository implements DesignRepositoryInterface {
         return DB::select("SELECT * FROM published_designs WHERE name LIKE '%$name%'");
     }
 
+    public function searchByTitle($title){
+        return DB::select("SELECT * FROM published_design_reports WHERE title LIKE '%$title%'");
+    }
+
     public function getById($id){
         return DB::table('published_designs')
         ->select('published_designs.*')
         ->where('published_designs.p_design_id', $id)
         ->first();
     }
+
+    public function getByReportId($id){
+        return DB::table('published_design_reports')
+        ->select('published_design_reports.*')
+        ->where('published_design_reports.p_design_report_id', $id)
+        ->first();
+    }
+
     public function getCusName($id){
         return DB::table('customers')
         ->select('customers.*')
@@ -33,6 +45,10 @@ class DesignRepository implements DesignRepositoryInterface {
 
     public function updateStatus($id, $status, $reason_banned_denied){
         return DB::update("UPDATE published_designs SET status='$status', reason_banned_denied='$reason_banned_denied' WHERE p_design_id='$id'");
+    }
+
+    public function deleteReport($id){
+        return DB::delete("DELETE FROM published_design_reports WHERE p_design_id='$id'");
     }
 
 }

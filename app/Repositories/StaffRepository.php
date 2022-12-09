@@ -27,8 +27,8 @@ class StaffRepository implements StaffRepositoryInterface {
         return Staff::create($contain);
     }
 
-    public function updateProfile($id, $name, $email){
-        return DB::update("UPDATE staff SET name='$name', email='$email' WHERE staff_id='$id'");
+    public function updateProfile($id, $name){
+        return DB::update("UPDATE staff SET name='$name' WHERE staff_id='$id'");
     }
 
     public function changePassword($id, $password){

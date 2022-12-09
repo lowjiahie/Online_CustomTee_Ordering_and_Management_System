@@ -51,8 +51,8 @@
                         </div>
                         <div class='col' style='color:rgb(0, 0, 0);'>
                             <select name="status">
-                                <option value="Active">Active</option>
-                                <option value="Inactive">Inactive</option>
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
                             </select>
                         </div>
                     </div>

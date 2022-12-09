@@ -92,10 +92,9 @@ class StaffController extends Controller
             // Get staff_id from session, name and email from input
             $staffID = $request->session()->get('StaffID');
             $name = $request->input("name");
-            $email = $request->input("email");
 
             // Update to database
-            $this->repository->updateProfile($staffID, $name, $email);
+            $this->repository->updateProfile($staffID, $name);
 
             // Redirect back to the update profile page
             echo "<script>alert('User profile update successfully!')</script>";
@@ -208,8 +207,8 @@ class StaffController extends Controller
 
     public function addAdmin(Request $request){
         // Check whether user want add or cancel
-        $changeCancel = $request->input('AddCancel');
-        if (!strcmp($changeCancel, "Add")) {
+        $addCancel = $request->input('AddCancel');
+        if (!strcmp($addCancel, "Add")) {
             $request->validate([
                 "name" => "required",
                 "email" => "required",
@@ -228,16 +227,23 @@ class StaffController extends Controller
             $phone_no = $request->input('phone_no');
             $role = $request->input('role');
 
-            // Add data to database
-            $data = ["name"=>$name, "email"=>$email, "password"=>$password, "gender"=>$gender,
-            "date_of_birth"=>$date_of_birth, "phone_no"=>$phone_no, "role"=>$role];
-            $this->repository->create($data);
+            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                // Add data to database
+                $data = ["name"=>$name, "email"=>$email, "password"=>$password, "gender"=>$gender,
+                "date_of_birth"=>$date_of_birth, "phone_no"=>$phone_no, "role"=>$role];
+                $this->repository->create($data);
 
-            // Redirect to printing method list
-            echo "<script>alert('Add successfully! You can login to the new account now!')</script>";
-            $staffID = $request->session()->get('StaffID');
-            $staffInfo = $this->repository->getById($staffID);
-            return view('admin.dashboard', ['staffInfo'=>$staffInfo]);
+                // Redirect to printing method list
+                echo "<script>alert('Add successfully! You can login to the new account now!')</script>";
+                $staffID = $request->session()->get('StaffID');
+                $staffInfo = $this->repository->getById($staffID);
+                return view('admin.dashboard', ['staffInfo'=>$staffInfo]);
+            } else {
+                echo "<script>alert('Email is not valid!')</script>";
+                $staffID = $request->session()->get('StaffID');
+                $staffInfo = $this->repository->getById($staffID);
+                return view('admin.addAdmin', ['staffInfo'=>$staffInfo]);
+            }
         }else{
             // Redirect user to dashboard page
             $staffID = $request->session()->get('StaffID');
