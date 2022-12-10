@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Customer\CustomerController;
 use App\Http\Controllers\Customer\CustomTeeDesignController;
+use App\Http\Controllers\customer\PublishedDesignController;
+use App\Http\Controllers\customer\PlainTeeTypeColorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,13 +25,30 @@ use App\Http\Controllers\Customer\CustomTeeDesignController;
 //CustomerController
 Route::post("login", [CustomerController::class, 'login']);
 Route::post("register", [CustomerController::class, 'register']);
+Route::post("logout", [CustomerController::class, 'logout']);
 
 //CustomTeeDesignController
 Route::post("saveDesign", [CustomTeeDesignController::class, 'saveDesign']);
 Route::post("chkExstCusTeeDesign", [CustomTeeDesignController::class, 'chkExstCusTeeDesign']);
+Route::post("getPresetDesign", [CustomTeeDesignController::class, 'getPresetDesign']);
+Route::post("deletePresetDesign", [CustomTeeDesignController::class, 'deletePresetDesign']);
+Route::post("loadPresetDesign", [CustomTeeDesignController::class, 'loadPresetDesign']);
 
-Route::group(['middleware' => 'auth:sanctum'], function () {
-    //All secure URL's
-    Route::post("logout", [CustomerController::class, 'logout']);
+//PlainTeeTypeColorController
+Route::post("getPlainTeeTypeColor", [PlainTeeTypeColorController::class, 'getPlainTeeTypeColor']);
 
-});
+
+//PublishedDesignController
+Route::post("publishDesign", [PublishedDesignController::class, 'publishDesign']);
+Route::post("getPublishDesignWithStatus", [PublishedDesignController::class, 'getPublishDesignWithStatus']);
+Route::post("getPublishedDesignsOnSelling", [PublishedDesignController::class, 'getPublishedDesignsOnSelling']);
+Route::post("getPublishedDesignsOnSharing", [PublishedDesignController::class, 'getPublishedDesignsOnSharing']);
+Route::post("reportPublishedDesign", [PublishedDesignController::class, 'reportPublishedDesign']);
+Route::post("saveToMyDesign", [PublishedDesignController::class, 'saveToMyDesign']);
+Route::post("getSavedPurchasedDesigns", [PublishedDesignController::class, 'getSavedPurchasedDesigns']);
+
+
+// Route::group(['middleware' => 'auth:sanctum'], function () {
+//     //All secure URL's
+
+// });

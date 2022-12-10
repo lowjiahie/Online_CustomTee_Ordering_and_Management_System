@@ -4,13 +4,19 @@ import router from '../routes'
 
 export const useAuthStore = defineStore("auth", {
     state: () => ({
-        authCus: null,
+        authCus: {
+            'cus_id':"",
+            'name':"",
+            'address':"",
+            'phone_num':"",
+            'email':"",
+        },
         authErrors: [],
         authStatus: false,
     }),
     persist: true,
     getters: {
-        user: (state) => state.authCus,
+        cus: (state) => state.authCus,
         errors: (state) => state.authErrors,
         status: (state) => state.authStatus,
     },
@@ -46,8 +52,14 @@ export const useAuthStore = defineStore("auth", {
                 password_confirmation: data.password_confirmation,
             }).then((response) => {
                 console.log(response);
-                alert("Successfully Register");
-                router.push("/customer/login");
+                swal(
+                    "Success",
+                    "Successfully Register!!",
+                    "success"
+                ).then((value) => {
+                    router.push("/customer/login");
+                })
+
             }).catch((error) => {
                 if (error.response.status === 422) {
                     this.authErrors = error.response.data.errors;
@@ -55,13 +67,16 @@ export const useAuthStore = defineStore("auth", {
             })
         },
         async logout() {
-            axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('authToken')}`
             await axios.post("/api/logout", {
                 cus_id: this.authCus.cus_id,
             }).then(() => {
                 localStorage.removeItem('authToken');
                 this.authStatus = false;
-                this.authCus = null;
+                this.authCus.cus_id = "";
+                this.authCus.address = "";
+                this.authCus.email = "";
+                this.authCus.name = "";
+                this.authCus.phone_num = "";
                 router.push("/customer/login");
             }).catch((error) => {
                 if (error.response.status === 422) {

@@ -52,4 +52,5 @@ class PublishedDesign extends Model
             $model->p_design_id = IdGenerator::generate(['table' => 'published_designs', 'field' => 'p_design_id', 'length' => 7, 'prefix' => 'PD']);
         });
     }
+    
 }

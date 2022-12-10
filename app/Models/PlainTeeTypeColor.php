@@ -44,6 +44,12 @@ class PlainTeeTypeColor extends Model
         return $this->belongsTo(Color::class);
     }
 
+    //One plainTeeTypeColor has many CustomTeeDesign
+    public function customTeeDesigns()
+    {
+        return $this->hasMany(CustomTeeDesign::class);
+    }
+
     public static function boot()
     {
         parent::boot();

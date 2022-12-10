@@ -392,7 +392,7 @@
                 <label for="Shape Color" class="form-label text-secondary fw-bold">Shape Color</label>
                 <input
                   type="color"
-                  class="form control"
+                  class="form-control form-control-color"
                   v-model="fillHexCode"
                   @input="fillColorOnChange"
                 />
@@ -401,7 +401,7 @@
                 <label for="Stroke Color" class="form-label text-secondary fw-bold">Stroke Color</label>
                 <input
                   type="color"
-                  class="form control"
+                  class="form-control form-control-color"
                   v-model="strokeHexCode"
                   @input="strokeColorOnChange"
                 />
@@ -473,12 +473,14 @@
             <p class="mt-3 mb-2">Below is the product information.</p>
 
             <div class="info">
-              <h4 class="mb-3 fw-bold">{Gildan}{Cotton}</h4>
+              <h4 class="mb-3 fw-bold">{{ presetDesign.type_name }} {{ presetDesign.material }} ({{ presetDesign.color_name }})</h4>
               <p class="mb-1">
-                <b>Detail</b> Long 123
+                <b>Detail</b>
+                {{ presetDesign.detail }}
               </p>
               <p class="mb-1">
-                <span class="fw-bold">Plain-Tee Price</span> RM 15.00
+                <span class="fw-bold">Plain-Tee Price</span>
+                {{ presetDesign.price | currency('RM')}}
               </p>
               <p class="mb-3 fst-italic text-secondary">
                 <b>(*price does not included printing price and delivery price)</b>
@@ -488,10 +490,7 @@
               <p class="mb-1">
                 <b>Description</b>
               </p>
-              <p class="mb-1">
-                1231231231231231231sadasdasdasdas dasdas dasdsad
-                asdasdasd
-              </p>
+              <p class="mb-1">{{ presetDesign.description }}</p>
             </div>
           </div>
         </div>
@@ -500,9 +499,6 @@
     <br />
     <br />
     <br />
-    <img id="img1" :src="imgTest1" alt="ntg" />
-    <img id="img2" :src="imgTest2" alt="ntg" />
-
     <!-- start modal -->
     <div
       class="modal fade"
@@ -631,19 +627,22 @@
 </style>
 <script>
 import { fabric } from "fabric";
-// import { saveAs } from "file-saver";
-// import domtoimage from "dom-to-image";
 import "fabric-history";
 import mergeImages from "merge-images";
 import FontFaceObserver from "fontfaceobserver";
 import { mapState, mapActions } from "pinia";
 import { useAuthStore } from "../../store/auth";
+import { useLastDesignStore } from "../../store/lastDesign";
 import domtoimage from "dom-to-image-more";
+import swal from "sweetalert";
+import router from "../../routes";
+import Vue2Filters from "vue2-filters";
 
 let canvas1 = null;
 let canvas2 = null;
 let maincanvas = null;
 export default {
+  mixins: [Vue2Filters.mixin],
   data() {
     return {
       imgStateFront: "",
@@ -652,8 +651,6 @@ export default {
       imgMergedBack: require("../../../../public/image/crew_back.png"),
       isActive: true,
       frontOrBack: "Front",
-      imgTest1: "",
-      imgTest2: "",
       text: "",
       saveName: "",
       frontDesignJson: '""',
@@ -690,25 +687,23 @@ export default {
       },
     };
   },
+  created() {
+    if (!this.editStatus) {
+      this.$router.go(-1);
+    }
+  },
   mounted() {
     canvas1 = new fabric.Canvas("canvas1", { preserveObjectStacking: true });
     canvas2 = new fabric.Canvas("canvas2", { preserveObjectStacking: true });
+    this.frontDesignJson = this.presetDesign.front_design_json;
+    this.backDesignJson = this.presetDesign.back_design_json;
+    this.saveName = this.presetDesign.name;
+    this.ptColor = this.presetDesign.color_code;
 
     this.loadCanvas(canvas1, this.frontDesignJson);
     this.loadCanvas(canvas2, this.backDesignJson);
 
     maincanvas = canvas1;
-
-    var circle1 = new fabric.Circle({
-      radius: 50,
-      fill: this.fillDefaultColor,
-      stroke: this.strokeDefaultColor,
-      scaleX: this.scaleDefault,
-      angle: this.angleDefault,
-      strokeWidth: this.strokeDefaultWidth,
-      top: fabric.util.getRandomInt(25, maincanvas.height - 25),
-      left: fabric.util.getRandomInt(25, maincanvas.width - 25),
-    });
 
     // //listening the object and prevent moving out of the canvas
     // canvas.on("object:moving", function (e) {
@@ -821,20 +816,22 @@ export default {
       ctx.restore();
     }
 
-    // Render the circle in canvas
-    maincanvas.add(circle1);
-    maincanvas.renderAll();
-
     //Event
     //when the object selected the created event will trigger
     //when the second, third and so on is selected then updated event will trigger
-    maincanvas.on({
+    canvas1.on({
+      "selection:cleared": this.onDeselectedObj,
+      "selection:updated": this.onSelectedObj,
+      "selection:created": this.onSelectedObj,
+    });
+    canvas2.on({
       "selection:cleared": this.onDeselectedObj,
       "selection:updated": this.onSelectedObj,
       "selection:created": this.onSelectedObj,
     });
   },
   methods: {
+    ...mapActions(useLastDesignStore, ["setPresetCustomTee"]),
     toggle() {
       this.isActive = !this.isActive;
       maincanvas.discardActiveObject().renderAll();
@@ -845,7 +842,12 @@ export default {
       //used to add text to canvas
       //Checked undefined, null, NaN, 0, "" (empty string) or false
       if (!this.text || this.text.match(/^\s|\s$/)) {
-        alert("Text cannot empty and included space at front and back!!");
+        swal(
+          "Invalid Format",
+          "Text cannot empty and included space at front and back!!",
+          "error"
+        );
+
         return;
       }
 
@@ -961,6 +963,7 @@ export default {
         case "polygon":
         case "rect":
         case "triangle":
+          console.log("is shape");
           this.showEditShape = true;
           this.fillHexCode = String(maincanvas.getActiveObject().get("fill"));
           this.strokeHexCode = String(
@@ -984,7 +987,11 @@ export default {
       //havent done
       //check empty, undifined, null or included spacing
       if (!this.saveName || /\s+/g.test(this.saveName)) {
-        alert("Text cannot empty and cannot include spacing");
+        swal(
+          "Invalid Format",
+          "Text cannot empty and cannot include spacing",
+          "error"
+        );
         return;
       }
 
@@ -1032,45 +1039,73 @@ export default {
           );
 
           Promise.all([this.imgMergedFront, this.imgMergedBack]).then((b64) => {
-            this.imgTest1 = b64[0];
-            this.imgTest2 = b64[1];
-
             //send post request to save the customTee design
             //in here post the data to backend then return success or failed status
-            this.customTee.ptTypeColorID = "TC00001";
+            this.customTee.ptTypeColorID = this.presetDesign.pt_type_color_id;
             this.customTee.cusID = this.authCus.cus_id;
             this.customTee.name = this.saveName;
             this.customTee.frontDesignImg = b64[0];
             this.customTee.backDesignImg = b64[1];
-            this.customTee.frontDesignJson = this.frontDesignJson;
-            this.customTee.backDesignJson = this.backDesignJson;
+            this.customTee.frontDesignJson = JSON.stringify(this.frontDesignJson);
+            this.customTee.backDesignJson = JSON.stringify(this.backDesignJson);
 
             axios
               .post("/api/chkExstCusTeeDesign", { customTee: this.customTee })
               .then((response) => {
-                
-
-
+                if (response.data === 1) {
+                  //record exist
+                  //ask confirmation before update
+                  swal({
+                    title: "Are you sure?",
+                    text: "Record already exist are you sure you want overwrite existing design?",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                  }).then((confirmUpdate) => {
+                    if (confirmUpdate) {
+                      this.postCustomTeeDesignForCreate(this.customTee);
+                    }
+                  });
+                } else {
+                  this.postCustomTeeDesignForCreate(this.customTee);
+                }
               })
               .catch(() => {
-                if (error.response.status === 422) {
-                  console.log(error.response.data.errors);
+                if (
+                  error.response.status === 422 ||
+                  error.response.status === 500
+                ) {
+                  swal(
+                    "Failed Save",
+                    "Unsuccessfully save design due to server error!!",
+                    "error"
+                  );
                 }
               });
-
-            // axios
-            //   .post("/api/saveDesign", {
-            //     customTee: this.customTee,
-            //   })
-            //   .then(() => {
-            //     alert("Success Saved");
-            //   })
-            //   .catch((error) => {
-            //     if (error.response.status === 422) {
-            //       console.log(error.response.data.errors);
-            //     }
-            //   });
           });
+        });
+    },
+    postCustomTeeDesignForCreate(data) {
+      axios
+        .post("/api/saveDesign", {
+          customTee: data,
+        })
+        .then((response) => {
+          if (response.data.isValid == true) {
+            swal("Success Saved", "Successfully Saved Design!!", "success");
+          } else {
+            swal("Failed Save", "Unsuccessfully save design!!", "error");
+          }
+          this.setPresetCustomTee(this.customTee);
+        })
+        .catch((error) => {
+          if (error.response.status === 422 || error.response.status === 500) {
+            swal(
+              "Failed Save",
+              "Unsuccessfully save design due to server error!!",
+              "error"
+            );
+          }
         });
     },
     filterTag(node) {
@@ -1085,7 +1120,7 @@ export default {
       return true;
     },
     loadCanvas(canvas, jsonDesign) {
-      canvas.loadFromJSON(jsonDesign, canvas.renderAll.bind(canvas));
+      canvas.loadFromJSON(JSON.parse(jsonDesign), canvas.renderAll.bind(canvas));
     },
     undo() {
       maincanvas.undo();
@@ -1294,6 +1329,7 @@ export default {
       return "";
     },
     ...mapState(useAuthStore, ["authCus"]),
+    ...mapState(useLastDesignStore, ["presetDesign", "editStatus"]),
   },
 };
 </script>

@@ -3,9 +3,11 @@ import HomeComponent from "./components/Home/Home"
 import CustomTeeDesignToolComponent from "./components/customTeeDesignTool/CustomTeeDesignTool"
 import ViewDesignWithPriceComponent from "./components/sharingSection/ViewDesignWithPrice"
 import ViewDesignWithFreeComponent from "./components/sharingSection/ViewDesignWithFree"
-import customerLoginComponent from "./components/customerMaintenance/customerLogin"
-import customerRegisterComponent from "./components/customerMaintenance/customerRegister"
-import customerPwdRecoveryComponent from "./components/customerMaintenance/customerPwdRecovery"
+import CustomerLoginComponent from "./components/customerMaintenance/CustomerLogin"
+import CustomerRegisterComponent from "./components/customerMaintenance/CustomerRegister"
+import CustomerPwdRecoveryComponent from "./components/customerMaintenance/CustomerPwdRecovery"
+import ViewMyDesignComponent from "./components/myDesign/ViewMyDesign"
+import PlainTeeSelectionComponent from "./components/plainTee/PlainTeeSelection"
 
 const routes = [
     {
@@ -30,19 +32,30 @@ const routes = [
     },
     {
         path: "/customer/login",
-        component: customerLoginComponent,
+        component: CustomerLoginComponent,
         name: 'login'
     },
     {
         path: "/customer/register",
-        component: customerRegisterComponent,
+        component: CustomerRegisterComponent,
         name: 'register'
     },
     {
         path: "/customer/pwdRecovery",
-        component: customerPwdRecoveryComponent,
+        component: CustomerPwdRecoveryComponent,
         name: 'pwdRecovery'
     },
+    {
+        path: "/customer/myDesign",
+        component: ViewMyDesignComponent,
+        name: 'myDesign'
+    },
+    {
+        path: "/customer/viewPlainTee",
+        component: PlainTeeSelectionComponent,
+        name: 'viewPlainTee'
+    },
+
 ]
 
 const router = new VueRouter({

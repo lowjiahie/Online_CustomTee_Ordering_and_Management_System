@@ -7,9 +7,11 @@ import Vue from 'vue';
 import markRaw from 'vue';
 import { createPinia, PiniaVuePlugin } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+import Vue2Filters from 'vue2-filters'
 
 Vue.use(VueRouter)
 Vue.use(PiniaVuePlugin)
+Vue.use(Vue2Filters)
 const pinia = createPinia()
 
 // pinia.use(({ store }) => {

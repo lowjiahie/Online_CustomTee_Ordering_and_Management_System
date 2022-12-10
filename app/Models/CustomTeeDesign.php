@@ -11,8 +11,8 @@ class CustomTeeDesign extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'front_design_img', 'back_design_img', 
-        'front_design_json', 'back_design_json','pt_type_color_id', 'cus_id'
+        'name', 'front_design_img', 'back_design_img',
+        'front_design_json', 'back_design_json', 'pt_type_color_id', 'cus_id'
     ];
 
     public $timestamps = true;
@@ -20,6 +20,13 @@ class CustomTeeDesign extends Model
     public $incrementing = false;
 
     protected $primaryKey = 'c_tee_design_id';
+
+    //Many CustomTeeDesign belong to one PlainTeeTypeColors
+    public function plainTeeTypeColor()
+    {
+        return $this->belongsTo(PlainTeeTypeColor::class);
+    }
+
 
     public static function boot()
     {

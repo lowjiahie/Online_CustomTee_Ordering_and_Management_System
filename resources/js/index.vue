@@ -355,13 +355,10 @@
           <!--Left side nav-bar - nav-link -->
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
-              <router-link class="nav-link" :to="{name:'home'}">Home</router-link>
+              <router-link class="nav-link" :to="{name:'viewPlainTee'}">Create Design</router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Create Design</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Sharing Section</a>
+               <router-link class="nav-link" :to="{name:'design-price'}">Sharing Section</router-link>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Competition</a>
@@ -424,7 +421,7 @@
                 <div class="dropdown-menu dropdown-menu-end">
                   <a class="dropdown-item" href="#">Profile</a>
                   <a class="dropdown-item" href="#">My Order</a>
-                  <a class="dropdown-item" href="#">My Design</a>
+                  <router-link class="dropdown-item" :to="{name:'myDesign'}">My Design</router-link>
                   <div class="dropdown-divider"></div>
                   <button class="dropdown-item" type="button" @click="logout">LogOut</button>
                 </div>
@@ -449,22 +446,28 @@
 <script>
 import { mapState, mapActions } from "pinia";
 import { useAuthStore } from "./store/auth";
+import { useLastDesignStore } from "./store/lastDesign";
 export default {
   data() {
-    return {
-    };
+    return {};
   },
   watch: {
     $route(to, from) {
+      if (to.name != "design-tool") {
+        this.setEditStatus(false);
+      }
+      console.log(this.editStatus);
       console.log(this.authStatus);
       this.resetErrors();
     },
   },
   methods: {
     ...mapActions(useAuthStore, ["resetErrors", "logout"]),
+    ...mapActions(useLastDesignStore, ["setEditStatus"]),
   },
   computed: {
     ...mapState(useAuthStore, ["authStatus", "authCus"]),
+    ...mapState(useLastDesignStore, ["editStatus"]),
   },
 };
 </script>
