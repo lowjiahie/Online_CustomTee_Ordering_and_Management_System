@@ -19,6 +19,17 @@
     <!-- Custom styles for this template-->
     <link href="{{ asset('sbadmin2/css/sb-admin-2.min.css') }}" rel="stylesheet">
 
+    <style>
+        table{
+            border: 3px solid grey;
+        }
+
+        tr, td, th{
+            border: 1px solid grey;
+        }
+
+    </style>
+
     <!-- Default Bootstrap 5 styles-->
     <!--<link href="{{ asset('css/app.css') }}" rel="stylesheet">-->
 </head>
@@ -296,22 +307,6 @@
                     <span>Dashboard</span></a>
             </li>
 
-            <!-- Nav Item - Staff Login and Maintenance Module -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne"
-                    aria-expanded="true" aria-controls="collapseOne">
-                    <i class="fas fa-users"></i>
-                    <span>User Management</span>
-                </a>
-                <div id="collapseOne" class="collapse" aria-labelledby="userOne" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">User Functions :</h6>
-                        <a class="collapse-item" href="{{ route('admin.update') }}">Update Profile</a>
-                        <a class="collapse-item" href="{{ route('admin.change') }}">Change Password</a>
-                    </div>
-                </div>
-            </li>
-
             <!-- Nav Item - Custom-Tee Managing and Monitoring Module -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
@@ -322,9 +317,8 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="foodTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom-Tee Functions :</h6>
-                        <a class="collapse-item" href="#">View Design</a>
-                        <a class="collapse-item" href="#">Banned Design</a>
-                        <a class="collapse-item" href="#">Unbanned Design</a>
+                        <a class="collapse-item" href="{{ route('admin.designList') }}">View Design</a>
+                        <a class="collapse-item" href="{{ route('admin.designReportList') }}">View Report</a>
                     </div>
                 </div>
             </li>
@@ -340,8 +334,7 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Order Functions :</h6>
-                        <a class="collapse-item" href="#">View Order</a>
-                        <a class="collapse-item" href="#">Search Order</a>
+                        <a class="collapse-item" href="{{ route('admin.orderList') }}">View Order</a>
                     </div>
                 </div>
             </li>
@@ -356,11 +349,10 @@
                 <div id="collapseFour" class="collapse" aria-labelledby="forumSix" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Plain-T Functions :</h6>
-                        <a class="collapse-item" href="#">Add Color</a>
-                        <a class="collapse-item" href="#">Add Type</a>
-                        <a class="collapse-item" href="#">Add Plain-T</a>
-                        <a class="collapse-item" href="#">View Plain-T</a>
-                        <a class="collapse-item" href="#">Search Plain-T</a>
+                        <a class="collapse-item" href="{{ route('admin.plainTeeColorList') }}">View Color</a>
+                        <a class="collapse-item" href="{{ route('admin.plainTeeTypeList') }}">View Type</a>
+                        <a class="collapse-item" href="{{ route('admin.plainTeeTypeColorList') }}">View Type Color</a>
+                        <a class="collapse-item" href="{{ route('admin.plainTeeList') }}">View Plain-T</a>
                     </div>
                 </div>
             </li>
@@ -375,9 +367,8 @@
                 <div id="collapseFive" class="collapse" aria-labelledby="tableFour" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Printing Functions :</h6>
-                        <a class="collapse-item" href="">Add Printing Method</a>
+                        <a class="collapse-item" href="{{ route('admin.printingMethodAddPage') }}">Add Printing Method</a>
                         <a class="collapse-item" href="{{ route('admin.printingMethodList') }}">View Printing Method</a>
-                        <a class="collapse-item" href="#">Search Printing Method</a>
                     </div>
                 </div>
             </li>
@@ -392,9 +383,8 @@
                 <div id="collapseSix" class="collapse" aria-labelledby="tableFour" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Competition Functions :</h6>
-                        <a class="collapse-item" href="">Add Competition</a>
-                        <a class="collapse-item" href="">View Competition</a>
-                        <a class="collapse-item" href="#">Search Competition</a>
+                        <a class="collapse-item" href="{{ route('admin.competitionAddPage') }}">Add Competition</a>
+                        <a class="collapse-item" href="{{ route('admin.competitionList') }}">View Competition</a>
                     </div>
                 </div>
             </li>
@@ -441,10 +431,24 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{{ route('admin.profile') }}">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
+                                <a class="dropdown-item" href="{{ route('admin.update') }}">
+                                    <i class="fas fa-address-card fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Update Profile
+                                </a>
+                                <a class="dropdown-item" href="{{ route('admin.change') }}">
+                                    <i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Change Password
+                                </a>
+                                @if($staffInfo->role == "Super Admin")
+                                <a class="dropdown-item" href="{{ route('admin.add') }}">
+                                    <i class="fas fa-user-plus fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Add Admin
+                                </a>
+                                @endif
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{{ route('admin.logout') }}">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>

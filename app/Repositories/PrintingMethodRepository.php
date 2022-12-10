@@ -16,6 +16,10 @@ class PrintingMethodRepository implements PrintingMethodRepositoryInterface {
         ->first();
     }
 
+    public function searchByName($name){
+        return DB::select("SELECT * FROM printing_methods WHERE name LIKE '%$name%'");
+    }
+
     public function getByIdSort($sort){
         if ($sort == 'ASC'){
             $sort == 'DESC';
@@ -66,17 +70,12 @@ class PrintingMethodRepository implements PrintingMethodRepositoryInterface {
     }
 
     public function update($id, $name, $price, $minimumOrder, $status){
-        return DB::update("UPDATE printing_methods SET name='$name', price='$price', minimum_order='$minimumOrder', status='$status' WHERE staff_id='$id'");
+        return DB::update("UPDATE printing_methods SET name='$name', price='$price', minimum_order='$minimumOrder', status='$status' WHERE p_method_id='$id'");
     }
 
     public function deleteById($id){
-        return DB::delete("DELETE staff WHERE id=$id");
+        return DB::delete("DELETE FROM printing_methods WHERE p_method_id='$id'");
     }
-
-
-
-
-
 }
 
 ?>

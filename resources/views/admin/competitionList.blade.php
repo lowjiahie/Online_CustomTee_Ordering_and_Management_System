@@ -4,20 +4,20 @@
     <div>
         <div style="margin: 0 auto; padding: 10px 10px 10px 10px;">
             <div>
-                <h1 style="float: left; font-size:24px; margin-left: 10%;">Printing Method List</h1>
-                <a href="{{ route('admin.printingMethodAddPage') }}">
+                <h1 style="float: left; font-size:24px; margin-left: 10%;">Competition List</h1>
+                <a href="{{ route('admin.competitionAddPage') }}">
                     <i class="fas fa-plus"
                         style="float: left; padding: 2px 2px 2px 2px; margin: 0px 10px 5px 5px;
                         font-size:24px; color:grey; margin-right:10%;"></i>
                 </a>
-                <form action="{{ route('admin.printingMethodSearch') }}" method="POST">
+                <form action="{{ route('admin.competitionSearch') }}" method="POST">
                     @csrf
                     <input type="submit" name="search" value="Search"
                         style="float: right; border-style:none; border-radius:5px; color:white; background-color:black; padding:8px 50px;
                         font-family:'system-ui'; text-transform:uppercase; letter-spacing:.8px; display:block;
                         margin-right:10%; box-shadow:2px 2px 5px rgb(0, 0, 0, 0.2); cursor:pointer;" />
-                    <input type="text" name="searchPrintingMethod" placeholder="Search printing method name" style="width:35%; float: right; margin-right:2%;"; />
-                </form>
+                    <input type="text" name="searchCompetition" placeholder="Search topic" style="width:35%; float: right; margin-right:2%;"; />
+                    </form>
             </div>
             <br /><br />
             <div class="shadow p-3 mb-5 bg-white rounded" style="width:80%; margin: 0 auto;">
@@ -27,7 +27,7 @@
                     if (isset($_GET['sortingDecision'])) {
                         $sortingDecision = $_GET['sortingDecision'];
                     } else {
-                        $sortingDecision = 'p_method_id';
+                        $sortingDecision = 'competition_id';
                     }
 
                     // Set Ascending Sort
@@ -41,7 +41,7 @@
                     $sort == 'ASC' ? ($sort = 'DESC') : ($sort = 'ASC');
 
                     //Query
-                    $sql = "SELECT * FROM printing_methods ORDER BY $sortingDecision $sort";
+                    $sql = "SELECT * FROM competitions ORDER BY $sortingDecision $sort";
 
                     // Count all the records inside database
                     $recordCount = 0;
@@ -62,19 +62,19 @@
                     echo "
                         <div class='row' style='background-color: rgb(200, 197, 197); margin: 10px 10px 10px 10px; padding: 20px 10px 20px 10px;'>
                             <div class='col'>
-                                <a href='/admin/printingMethodList?sortingDecision=p_method_id&sort=$sort' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>Printing Method ID</a>
+                                <a href='/admin/competitionList?sortingDecision=competition_id&sort=$sort' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>Competition ID</a>
                             </div>
                             <div class='col'>
-                                <a href='/admin/printingMethodList?sortingDecision=name&sort=$sort' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>Name</a>
+                                <a href='/admin/competitionList?sortingDecision=topic&sort=$sort' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>Topic</a>
                             </div>
                             <div class='col'>
-                                <a href='/admin/printingMethodList?sortingDecision=price&sort=$sort' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>Price(RM)</a>
+                                <a href='/admin/competitionList?sortingDecision=start_date_time&sort=$sort' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>Start Date</a>
                             </div>
                             <div class='col'>
-                                <a href='/admin/printingMethodList?sortingDecision=minimum_order&sort=$sort' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>Minimum Order</a>
+                                <a href='/admin/competitionList?sortingDecision=end_date_time&sort=$sort' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>End Date</a>
                             </div>
                             <div class='col'>
-                                <a href='/admin/printingMethodList?sortingDecision=status&sort=$sort' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>Status</a>
+                                <a href='/admin/competitionList?sortingDecision=winner&sort=$sort' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>Winner</a>
                             </div>
                             <div class='col'>
 
@@ -92,22 +92,22 @@
                                 echo "
                                     <div class='row' style='background-color: white; margin: 10px 10px 10px 10px; padding: 10px 10px 10px 10px;'>
                                         <div class='col' style='color:rgb(0, 0, 0);'>".
-                                            $row["p_method_id"]."
+                                            $row["competition_id"]."
                                         </div>
                                         <div class='col' style='color:rgb(0, 0, 0);'>".
-                                            $row["name"]."
+                                            $row["topic"]."
                                         </div>
                                         <div class='col' style='color:rgb(0, 0, 0);'>".
-                                            $row["price"]."
+                                            $row["start_date_time"]."
                                         </div>
                                         <div class='col' style='color:rgb(0, 0, 0);'>".
-                                            $row["minimum_order"]."
+                                            $row["end_date_time"]."
                                         </div>
                                         <div class='col' style='color:rgb(0, 0, 0);'>".
-                                            $row["status"]."
+                                            $row["winner"]."
                                         </div>
                                         <div class='col' style='color:rgb(0, 0, 0);'>
-                                            <a href='/admin/printingMethodDetailInfo/".$row["p_method_id"]."' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>View Detail</a>
+                                            <a href='/admin/competitionDetailInfo/".$row["competition_id"]."' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>View Detail</a>
                                         </div>
                                     </div>
                                 ";
@@ -116,22 +116,22 @@
                                 echo "
                                     <div class='row' style='background-color: rgb(200, 197, 197); color:rgb(0, 0, 0); margin: 10px 10px 10px 10px; padding: 20px 10px 20px 10px;'>
                                         <div class='col' style='color:rgb(0, 0, 0);'>".
-                                            $row["p_method_id"]."
+                                            $row["competition_id"]."
                                         </div>
                                         <div class='col' style='color:rgb(0, 0, 0);'>".
-                                            $row["name"]."
+                                            $row["topic"]."
                                         </div>
                                         <div class='col' style='color:rgb(0, 0, 0);'>".
-                                            $row["price"]."
+                                            $row["start_date_time"]."
                                         </div>
                                         <div class='col' style='color:rgb(0, 0, 0);'>".
-                                            $row["minimum_order"]."
+                                            $row["end_date_time"]."
                                         </div>
                                         <div class='col' style='color:rgb(0, 0, 0);'>".
-                                            $row["status"]."
+                                            $row["winner"]."
                                         </div>
                                         <div class='col' style='color:rgb(0, 0, 0);'>
-                                            <a href='/admin/printingMethodDetailInfo/".$row["p_method_id"]."' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>View Detail</a>
+                                            <a href='/admin/competitionDetailInfo/".$row["competition_id"]."' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>View Detail</a>
                                         </div>
                                     </div>
                                 ";
@@ -141,27 +141,27 @@
                     }
                 }else{
                     ?>
-                    @foreach ($printingMethodList as $printingMethod)
+                    @foreach ($competitionList as $competition)
                         @if ($rowColor == 1)
                             <div class='row'
                                 style='background-color: white; margin: 10px 10px 10px 10px; padding: 10px 10px 10px 10px;'>
                                 <div class='col' style='color:rgb(0, 0, 0);'>
-                                    {{ $printingMethod->p_method_id }}
+                                    {{ $competition->competition_id }}
                                 </div>
                                 <div class='col' style='color:rgb(0, 0, 0);'>
-                                    {{ $printingMethod->name }}
+                                    {{ $competition->topic }}
                                 </div>
                                 <div class='col' style='color:rgb(0, 0, 0);'>
-                                    {{ $printingMethod->price }}
+                                    {{ $competition->start_date_time }}
                                 </div>
                                 <div class='col' style='color:rgb(0, 0, 0);'>
-                                    {{ $printingMethod->minimum_order }}
+                                    {{ $competition->end_date_time }}
                                 </div>
                                 <div class='col' style='color:rgb(0, 0, 0);'>
-                                    {{ $printingMethod->status }}
+                                    {{ $competition->winner }}
                                 </div>
                                 <div class='col' style='color:rgb(0, 0, 0);'>
-                                    <a href="{{ '/admin/printingMethodDetailInfo/' . $printingMethod->p_method_id }}"
+                                    <a href="{{ '/admin/competitionDetailInfo/' . $competition->competition_id }}"
                                         style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>View
                                         Detail</a>
                                 </div>
@@ -171,22 +171,22 @@
                             <div class='row'
                                 style='background-color: rgb(200, 197, 197); color:rgb(0, 0, 0); margin: 10px 10px 10px 10px; padding: 20px 10px 20px 10px;'>
                                 <div class='col' style='color:rgb(0, 0, 0);'>
-                                    {{ $printingMethod->p_method_id }}
+                                    {{ $competition->competition_id }}
                                 </div>
                                 <div class='col' style='color:rgb(0, 0, 0);'>
-                                    {{ $printingMethod->name }}
+                                    {{ $competition->topic }}
                                 </div>
                                 <div class='col' style='color:rgb(0, 0, 0);'>
-                                    {{ $printingMethod->price }}
+                                    {{ $competition->start_date_time }}
                                 </div>
                                 <div class='col' style='color:rgb(0, 0, 0);'>
-                                    {{ $printingMethod->minimum_order }}
+                                    {{ $competition->end_date_time }}
                                 </div>
                                 <div class='col' style='color:rgb(0, 0, 0);'>
-                                    {{ $printingMethod->status }}
+                                    {{ $competition->winner }}
                                 </div>
                                 <div class='col' style='color:rgb(0, 0, 0);'>
-                                    <a href="{{ '/admin/printingMethodDetailInfo/' . $printingMethod->p_method_id }}"
+                                    <a href="{{ '/admin/competitionDetailInfo/' . $competition->competition_id }}"
                                         style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>View
                                         Detail</a>
                                 </div>

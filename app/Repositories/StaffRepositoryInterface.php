@@ -11,7 +11,7 @@ interface StaffRepositoryInterface {
 
     public function create($contain);
 
-    public function updateProfile($id, $name, $email);
+    public function updateProfile($id, $name);
 
     public function changePassword($id, $password);
 

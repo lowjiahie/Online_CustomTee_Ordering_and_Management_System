@@ -7,6 +7,8 @@ interface PrintingMethodRepositoryInterface {
 
     public function getById($id);
 
+    public function searchByName($name);
+
     public function getByIdSort($sort);
 
     public function getByNameSort($sort);
