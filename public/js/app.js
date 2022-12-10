@@ -49396,6 +49396,16 @@ module.exports = "/images/black-shirt.jpg?4381beaba7e1ab7dcbaf408af73b7900";
 
 /***/ }),
 
+/***/ "./public/plainTee/crew_front.png":
+/*!****************************************!*\
+  !*** ./public/plainTee/crew_front.png ***!
+  \****************************************/
+/***/ ((module) => {
+
+module.exports = "/images/crew_front.png?cf6079bee0084c98d7b3eae9ab45a474";
+
+/***/ }),
+
 /***/ "./public/plainTee/lightGreen-shirt.jpg":
 /*!**********************************************!*\
   !*** ./public/plainTee/lightGreen-shirt.jpg ***!
@@ -49513,6 +49523,26 @@ module.exports = "/images/CS00002-human Design-back-published-zo6V1k4vO.jpg?ccc7
 /***/ ((module) => {
 
 module.exports = "/images/CS00002-human Design-front-published-GvHw3KqRa.jpg?ace6c014a5df2b056e6d6c516f4a4008";
+
+/***/ }),
+
+/***/ "./public/publishedDesign/crew_back.png":
+/*!**********************************************!*\
+  !*** ./public/publishedDesign/crew_back.png ***!
+  \**********************************************/
+/***/ ((module) => {
+
+module.exports = "/images/crew_back.png?2d5d0b81204dbe287fa430d45d07b107";
+
+/***/ }),
+
+/***/ "./public/publishedDesign/crew_front.png":
+/*!***********************************************!*\
+  !*** ./public/publishedDesign/crew_front.png ***!
+  \***********************************************/
+/***/ ((module) => {
+
+module.exports = "/images/crew_front.png?cf6079bee0084c98d7b3eae9ab45a474";
 
 /***/ }),
 
@@ -84531,6 +84561,7 @@ webpackContext.id = "./public/customTee sync recursive ^\\.\\/.*$";
 
 var map = {
 	"./black-shirt.jpg": "./public/plainTee/black-shirt.jpg",
+	"./crew_front.png": "./public/plainTee/crew_front.png",
 	"./lightGreen-shirt.jpg": "./public/plainTee/lightGreen-shirt.jpg",
 	"./pink-vshirt.jpg": "./public/plainTee/pink-vshirt.jpg",
 	"./red-vshirt.jpg": "./public/plainTee/red-vshirt.jpg",
@@ -84573,7 +84604,9 @@ var map = {
 	"./CS00002-1234 Design-back-published-v14z6kpu4.jpg": "./public/publishedDesign/CS00002-1234 Design-back-published-v14z6kpu4.jpg",
 	"./CS00002-1234 Design-front-published-GYXsFs5WN.jpg": "./public/publishedDesign/CS00002-1234 Design-front-published-GYXsFs5WN.jpg",
 	"./CS00002-human Design-back-published-zo6V1k4vO.jpg": "./public/publishedDesign/CS00002-human Design-back-published-zo6V1k4vO.jpg",
-	"./CS00002-human Design-front-published-GvHw3KqRa.jpg": "./public/publishedDesign/CS00002-human Design-front-published-GvHw3KqRa.jpg"
+	"./CS00002-human Design-front-published-GvHw3KqRa.jpg": "./public/publishedDesign/CS00002-human Design-front-published-GvHw3KqRa.jpg",
+	"./crew_back.png": "./public/publishedDesign/crew_back.png",
+	"./crew_front.png": "./public/publishedDesign/crew_front.png"
 };
 
 
