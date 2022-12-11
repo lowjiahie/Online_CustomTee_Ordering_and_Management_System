@@ -11,7 +11,7 @@
                     <div class='row'
                         style='background-color: white; color:rgb(0, 0, 0); margin: 10px 10px 10px 10px; padding: 20px 10px 20px 10px;'>
                         <div class='col' style='color:rgb(0, 0, 0); margin: 0 auto;'>
-                            <img src="{{ asset('publishedDesign/'.$plainTee->plain_tee_img) }}" alt="Plain Tee" width="200" height="200"
+                            <img src="{{ asset('plainTee/'.$plainTee->plain_tee_img) }}" alt="Plain Tee" width="200" height="200"
                             style="display: block; margin: 0 auto;" />
                         </div>
                     </div>

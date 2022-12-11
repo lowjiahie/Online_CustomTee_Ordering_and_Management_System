@@ -39,7 +39,6 @@ class CustomTeeDesignController extends Controller
         Image::make(file_get_contents($customTee['backDesignImg']))->save($backPath);
 
 
-
         $record = CustomTeeDesign::updateOrCreate(
             [
                 'name' => $customTee['name'],

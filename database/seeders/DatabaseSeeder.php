@@ -4,12 +4,13 @@ namespace Database\Seeders;
 
 use App\Models\Type;
 use App\Models\Color;
+use App\Models\Staff;
 use App\Models\Customer;
-use App\Models\CustomTeeDesign;
 use App\Models\PlainTeeSize;
+use App\Models\PrintingMethod;
+use App\Models\CustomTeeDesign;
 use Illuminate\Database\Seeder;
 use App\Models\PlainTeeTypeColor;
-use App\Models\PrintingMethod;
 use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
@@ -21,6 +22,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->createStaff();
         $this->createType();
         $this->createColor();
         $this->createPlainTeeTypeColor();
@@ -30,13 +32,45 @@ class DatabaseSeeder extends Seeder
         $this->createPrintingMethods();
     }
 
+    private function createStaff(){
+        Staff::create([
+            'name' => 'PANG JUN SHENG',
+            'email' => 'pangjs-wm19@student.tarc.edu.my',
+            'password'=> Hash::make('pang123'),
+            'gender' => 'Male',
+            'date_of_birth' => '2001-10-03',
+            'phone_no' => '0109883240',
+            'role' => 'Super Admin',
+        ])->save();
+
+        Staff::create([
+            'name' => 'Sam',
+            'email' => 'sampang1003@gmail.com',
+            'password'=> Hash::make('sam123'),
+            'gender' => 'Female',
+            'date_of_birth' => '2001-01-03',
+            'phone_no' => '0101234567',
+            'role' => 'Normal Admin',
+        ])->save();
+
+        Staff::create([
+            'name' => 'John',
+            'email' => 'john@gmail.com',
+            'password'=> Hash::make('john123'),
+            'gender' => 'Male',
+            'date_of_birth' => '2002-09-24',
+            'phone_no' => '0161234567',
+            'role' => 'Normal Admin',
+        ])->save();
+    }
+
     private function createType()
     {
         Type::create([
             'name' => 'Gildan',
             'material' => 'Cotton',
             'description' => 'Soft and comfortable',
-            'detail' => 'short T-shirt',
+            'detail' => 'short t-shirt',
             'price' => 10.00,
         ])->save();
 
@@ -45,6 +79,30 @@ class DatabaseSeeder extends Seeder
             'material' => 'Wood',
             'description' => 'Hard and comfortable',
             'detail' => 'short v-shirt',
+            'price' => 12.00,
+        ])->save();
+
+        Type::create([
+            'name' => 'Gildan',
+            'material' => 'Wood',
+            'description' => 'Gildan is a value-priced yet durable 100% wood',
+            'detail' => 'short t-shirt',
+            'price' => 12.00,
+        ])->save();
+
+        Type::create([
+            'name' => 'Canvas',
+            'material' => 'Fabric',
+            'description' => 'Canvas is a value-priced yet durable 100% fabric',
+            'detail' => 'short t-shirt',
+            'price' => 12.00,
+        ])->save();
+
+        Type::create([
+            'name' => 'Next Level',
+            'material' => 'Fabric',
+            'description' => 'The Premium CVC T-Shirt by Next Level is a modern t-shirt that features a super comfortable material',
+            'detail' => 'short t-shirt',
             'price' => 12.00,
         ])->save();
     }
@@ -258,6 +316,7 @@ class DatabaseSeeder extends Seeder
             'minimum_order' => 5,
             'status' => 'active',
         ])->save();
+
         PrintingMethod::create([
             'name' => 'One Screen Printing',
             'price' => '50.00',
@@ -272,4 +331,6 @@ class DatabaseSeeder extends Seeder
             'status' => 'active',
         ])->save();
     }
+
+
 }
