@@ -456,6 +456,7 @@ export default {
       if (to.name != "design-tool") {
         this.setEditStatus(false);
       }
+      
       console.log(this.editStatus);
       console.log(this.authStatus);
       this.resetErrors();

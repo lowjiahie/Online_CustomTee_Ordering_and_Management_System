@@ -473,7 +473,9 @@
             <p class="mt-3 mb-2">Below is the product information.</p>
 
             <div class="info">
-              <h4 class="mb-3 fw-bold">{{ presetDesign.type_name }} {{ presetDesign.material }} ({{ presetDesign.color_name }})</h4>
+              <h4
+                class="mb-3 fw-bold"
+              >{{ presetDesign.type_name }} {{ presetDesign.material }} ({{ presetDesign.color_name }})</h4>
               <p class="mb-1">
                 <b>Detail</b>
                 {{ presetDesign.detail }}
@@ -635,7 +637,6 @@ import { useAuthStore } from "../../store/auth";
 import { useLastDesignStore } from "../../store/lastDesign";
 import domtoimage from "dom-to-image-more";
 import swal from "sweetalert";
-import router from "../../routes";
 import Vue2Filters from "vue2-filters";
 
 let canvas1 = null;
@@ -1046,7 +1047,9 @@ export default {
             this.customTee.name = this.saveName;
             this.customTee.frontDesignImg = b64[0];
             this.customTee.backDesignImg = b64[1];
-            this.customTee.frontDesignJson = JSON.stringify(this.frontDesignJson);
+            this.customTee.frontDesignJson = JSON.stringify(
+              this.frontDesignJson
+            );
             this.customTee.backDesignJson = JSON.stringify(this.backDesignJson);
 
             axios
@@ -1096,7 +1099,7 @@ export default {
           } else {
             swal("Failed Save", "Unsuccessfully save design!!", "error");
           }
-          this.setPresetCustomTee(this.customTee);
+          this.setPresetCustomTee(data);
         })
         .catch((error) => {
           if (error.response.status === 422 || error.response.status === 500) {
@@ -1120,7 +1123,10 @@ export default {
       return true;
     },
     loadCanvas(canvas, jsonDesign) {
-      canvas.loadFromJSON(JSON.parse(jsonDesign), canvas.renderAll.bind(canvas));
+      canvas.loadFromJSON(
+        JSON.parse(jsonDesign),
+        canvas.renderAll.bind(canvas)
+      );
     },
     undo() {
       maincanvas.undo();

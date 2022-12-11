@@ -8,6 +8,7 @@ import CustomerRegisterComponent from "./components/customerMaintenance/Customer
 import CustomerPwdRecoveryComponent from "./components/customerMaintenance/CustomerPwdRecovery"
 import ViewMyDesignComponent from "./components/myDesign/ViewMyDesign"
 import PlainTeeSelectionComponent from "./components/plainTee/PlainTeeSelection"
+import OrderPresetCustomTeeComponent from "./components/order/OrderPresetCustomTee"
 
 const routes = [
     {
@@ -54,6 +55,11 @@ const routes = [
         path: "/customer/viewPlainTee",
         component: PlainTeeSelectionComponent,
         name: 'viewPlainTee'
+    },
+    {
+        path: "/customer/order/:id",
+        component: OrderPresetCustomTeeComponent,
+        name: 'order'
     },
 
 ]
