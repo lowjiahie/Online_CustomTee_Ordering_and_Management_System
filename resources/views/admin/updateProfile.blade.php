@@ -73,7 +73,7 @@
             </div>
             <div class='row' style='background-color: white; margin: 0 auto; padding: 10px 10px 10px 10px;'>
                 <div class='col' style='color:rgb(0, 0, 0);'>
-                    <input type="submit" name="updateCancel" value="Update" onclick="return confirm('Are you sure you want to change your password?')"
+                    <input type="submit" name="updateCancel" value="Update" onclick="return confirm('Are you sure you want to update your profile?')"
                     style="border-style:none; border-radius:5px; color:white; background-color:black; padding:8px 50px;
                     font-family:'system-ui'; text-transform:uppercase; letter-spacing:.8px; display:block;
                     margin: 0 auto; box-shadow:2px 2px 5px rgb(0, 0, 0, 0.2); cursor:pointer;" />

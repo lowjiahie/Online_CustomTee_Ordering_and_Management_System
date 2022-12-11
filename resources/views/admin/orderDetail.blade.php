@@ -89,7 +89,7 @@
                     <div class='row'
                         style='background-color: rgb(200, 197, 197); color:rgb(0, 0, 0); margin: 10px 10px 10px 10px; padding: 20px 10px 20px 10px;'>
                         <div class='col' style='color:rgb(0, 0, 0);'>
-                            Delivery Status:
+                            Delivery Service:
                         </div>
                         <div class='col' style='color:rgb(0, 0, 0);'>
                             {{ $deliveryDetail->delivery_service }}
@@ -97,6 +97,21 @@
                     </div>
                     <div class='row'
                         style='background-color: white; color:rgb(0, 0, 0); margin: 10px 10px 10px 10px; padding: 20px 10px 20px 10px;'>
+                        <div class='col' style='color:rgb(0, 0, 0);'>
+                            Delivery Status:
+                        </div>
+                        <div class='col' style='color:rgb(0, 0, 0);'>
+                            {{ $deliveryDetail->status }}
+                            @if ($deliveryDetail->status != 'completed')
+                                <input type="submit" name="orderFunction" value="Update Delivery Status" onclick="return confirm('Are you sure you want to update this delivery status?')"
+                                    style="float: right; border-style:none; border-radius:5px; color:white; background-color:black; padding:8px 50px;
+                            font-family:'system-ui'; text-transform:uppercase; letter-spacing:.8px; display:block;
+                            margin-right:10%; box-shadow:2px 2px 5px rgb(0, 0, 0, 0.2); cursor:pointer;" />
+                            @endif
+                        </div>
+                    </div>
+                    <div class='row'
+                        style='background-color: rgb(200, 197, 197); color:rgb(0, 0, 0); margin: 10px 10px 10px 10px; padding: 20px 10px 20px 10px;'>
                         <div class='col' style='color:rgb(0, 0, 0);'>
                             Delivery Reference Number:
                         </div>

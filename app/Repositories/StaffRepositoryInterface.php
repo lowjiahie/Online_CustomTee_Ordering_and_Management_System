@@ -11,11 +11,22 @@ interface StaffRepositoryInterface {
 
     public function create($contain);
 
-    public function updateProfile($id, $name);
+    public function updateProfile($id, $name, $gender, $date_of_birth, $phone_no);
 
     public function changePassword($id, $password);
 
     public function deleteById($id);
+
+    public function dashboardCurrentBannedDesign();
+
+    public function dashboardCurrentCompetition();
+
+    public function dashboardCurrentOrder();
+
+    public function dashboardCurrentDelivery();
+
+    public function dashboardOrderList();
+
 }
 
 ?>

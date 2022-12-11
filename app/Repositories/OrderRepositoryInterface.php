@@ -23,6 +23,8 @@ interface OrderRepositoryInterface {
 
     public function updateOrderItemStatus($id, $status);
 
+    public function updateDeliveryStatus($id, $status);
+
     public function deleteOrder($id);
 
     public function deleteAllOrderItem($id);

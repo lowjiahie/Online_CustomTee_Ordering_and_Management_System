@@ -112,7 +112,40 @@ class OrderController extends Controller
             $staffInfo = $this->staffRepository->getById($staffID);
             return view('admin.orderDetail', ['orderDetail'=>$orderDetail, 'cusName'=>$cusName, 'deliveryDetail'=>$deliveryDetail,
             'orderItem'=>$orderItem, 'publishedOrder'=>$publishedOrder, 'customTeeOrder'=>$customTeeOrder, 'customTeeSize'], ['staffInfo'=>$staffInfo]);
-        }else if(!strcmp($orderFunction, "Delete")){
+        }else if(!strcmp($orderFunction, "Update Delivery Status")){
+            $getSpecificOrder = $this->orderRepository->getSpecificOrder($order_id);
+            $getDeliveryDetail = $this->orderRepository->getDeliveryDetail($getSpecificOrder->delivery_detail_id);
+            $currentDeliveryStatus = $getDeliveryDetail->status;
+
+            if ($currentDeliveryStatus == "pending" || $currentDeliveryStatus == "Pending"){
+                $status = "processing";
+            }else if($currentDeliveryStatus == "processing" || $currentDeliveryStatus == "Processing"){
+                $status = "shipping";
+            }else if($currentDeliveryStatus == "shipping" || $currentDeliveryStatus == "Shipping"){
+                $status = "completed";
+            }
+            else{
+                $status = "pending";
+            }
+
+            // Update the order status
+            $this->orderRepository->updateDeliveryStatus($getDeliveryDetail->delivery_detail_id, $status);
+
+            echo "<script>alert('Delivery status update successfully!')</script>";
+            $orderDetail = $this->orderRepository->getSpecificOrder($order_id);
+            $cusName = $this->orderRepository->getCusName($orderDetail->cus_id);
+            $deliveryDetail = $this->orderRepository->getDeliveryDetail($orderDetail->delivery_detail_id);
+
+            $orderItem = $this->orderRepository->getOrderItems($order_id);
+            $publishedOrder = $this->orderRepository->getOrderItemsPublishedDesigns($order_id);
+            $customTeeOrder = $this->orderRepository->getOrderItemsOrderedCustomTees($order_id);
+
+            $staffID = $request->session()->get('StaffID');
+            $staffInfo = $this->staffRepository->getById($staffID);
+            return view('admin.orderDetail', ['orderDetail'=>$orderDetail, 'cusName'=>$cusName, 'deliveryDetail'=>$deliveryDetail,
+            'orderItem'=>$orderItem, 'publishedOrder'=>$publishedOrder, 'customTeeOrder'=>$customTeeOrder, 'customTeeSize'], ['staffInfo'=>$staffInfo]);
+        }
+        else if(!strcmp($orderFunction, "Delete")){
             // Delete - delete the data
             // Delete from database
             $this->orderRepository->deleteAllOrderItem($order_id);

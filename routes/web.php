@@ -90,7 +90,7 @@ Route::prefix('/admin')->group(function() {
     Route::post('/plainTeeAddTypeSubmit','App\Http\Controllers\PlainTeeTypeColorController@addTypeSubmit')->name('admin.plainTeeAddTypeSubmit');
 
     Route::get('/plainTeeTypeDetailInfo/{typeID}', 'App\Http\Controllers\PlainTeeTypeColorController@typeDetail')->name('admin.plainTeetypeDetailID');
-    Route::view('/plainTeeTypeDetail', 'admin.plainTeeColorDetail')->name('admin.plainTeeColorDetail');
+    Route::view('/plainTeeTypeDetail', 'admin.plainTeeTypeDetail')->name('admin.plainTeeTypeDetail');
     Route::post('/plainTeeTypeDetailFunction', 'App\Http\Controllers\PlainTeeTypeColorController@typeFunction')->name('admin.plainTeeTypeDetailFunction');
 
     Route::view('/plainTeeTypeUpdate', 'admin.plainTeeTypeUpdate')->name('admin.plainTeeTypeUpdate');
