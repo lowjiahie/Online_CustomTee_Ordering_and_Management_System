@@ -74,7 +74,7 @@
                             Price(RM):
                         </div>
                         <div class='col' style='color:rgb(0, 0, 0);'>
-                            {{ $typeDetail->Price }}
+                            {{ $typeDetail->price }}
                         </div>
                         <div class='col' style='color:rgb(0, 0, 0);'>
 

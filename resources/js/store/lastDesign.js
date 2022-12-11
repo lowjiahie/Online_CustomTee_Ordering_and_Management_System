@@ -4,10 +4,9 @@ import router from '../routes'
 
 export const useLastDesignStore = defineStore("lastDesign", {
     state: () => ({
-        presetDesign: null,
+        presetDesign:{},
         editStatus: false,
     }),
-    persist: true,
     getters: {
         design: (state) => state.presetDesign,
         status: (state) => state.editStatus,
@@ -44,4 +43,5 @@ export const useLastDesignStore = defineStore("lastDesign", {
             this.presetDesign.back_design_json =  data.backDesignJson;
         },
     },
+    persist: true,
 })

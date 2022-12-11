@@ -117,7 +117,11 @@
                       </div>
                     </div>
                     <div class="d-grid gap-2 col-11 mx-auto mt-2">
-                      <button type="button" class="btn btn-dark">Order Design</button>
+                      <button
+                        type="button"
+                        class="btn btn-dark"
+                        @click="redirectToOrderComponent(presetCustomTeeDesign.c_tee_design_id)"
+                      >Order this Custom-Tee</button>
                       <button
                         type="button"
                         class="btn btn-secondary"
@@ -189,6 +193,10 @@
                     {{ checkIsFree(publishedDesign.price) }}
                   </p>
                   <p class="card-text mb-1">
+                    <b class="text-dark">Publish Type:</b>
+                    {{ publishedDesign.type }}
+                  </p>
+                  <p class="card-text mb-1">
                     <b class="text-dark">Publish Status:</b>
                     <span
                       class="fw-bold text-uppercase text-decoration-underline"
@@ -198,10 +206,7 @@
                     <b class="text-dark">Published On:</b>
                     {{convertToLocalDateTime(publishedDesign.updated_at)}}
                   </p>
-                  <p
-                    class="card-text mb-1"
-                    v-if="publishedDesign.reason_banned_denied != null"
-                  >
+                  <p class="card-text mb-1" v-if="publishedDesign.reason_banned_denied != null">
                     <b class="text-dark">Reason Banned:</b>
                     {{ publishedDesign.reason_banned_denied }}
                   </p>
@@ -460,6 +465,7 @@ export default {
         backDesignJson: null,
         cusID: "",
       },
+      competition: "",
     };
   },
   mixins: [Vue2Filters.mixin],
@@ -633,6 +639,9 @@ export default {
         .then((response) => {
           this.savedOrPurchasedDesigns = response.data;
         });
+    },
+    redirectToOrderComponent(id) {
+      this.$router.push({ name: "order", params: { id } });
     },
   },
   computed: {

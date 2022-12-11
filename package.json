@@ -36,6 +36,7 @@
         "pinia-plugin-persistedstate": "^3.0.1",
         "sweetalert": "^2.1.2",
         "v-money": "^0.7.0",
+        "vue-numeric-input": "^2.0.0",
         "vue-router": "^3.5.4",
         "vue2-filters": "^0.14.0"
     }

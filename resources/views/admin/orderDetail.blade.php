@@ -126,7 +126,7 @@
                 <br />
 
                 @foreach ($publishedOrder as $published)
-                    @if ($published->orderItemable_type == ' App\Models\PublishedDesign')
+                    @if ($published->orderItemable_type == 'App\Models\PublishedDesign')
                         <div class="shadow p-3 mb-5 bg-white rounded" style="width:80%; margin: 0 auto;">
                             <div class='row'
                                 style='background-color: white; color:rgb(0, 0, 0); margin: 10px 10px 10px 10px; padding: 20px 10px 20px 10px;'>

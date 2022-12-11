@@ -23,13 +23,13 @@ class CustomTeeDesignController extends Controller
     public function saveDesign(Request $request)
     {
         $customTee =  $request->customTee;
+
         $customTeeName = $customTee['cusID'] . '-' . $customTee['name'];
         $pathPrefix = public_path('customTee/');
-        $front_jpg_name = $customTeeName . "-" . "front-" . "preset" . ".jpg";
+        $front_jpg_name = $customTeeName . "-" . $customTee['ptTypeColorID'] . "-" . "front-" . "preset" . ".jpg";
         $frontPath = $pathPrefix . '/' . $front_jpg_name;
-        $back_jpg_name = $customTeeName . "-" . "back-" . "preset" . ".jpg";
+        $back_jpg_name = $customTeeName . "-" . $customTee['ptTypeColorID'] . "-" . "back-" . "preset" . ".jpg";
         $backPath = $pathPrefix . '/' . $back_jpg_name;
-        $cus = Customer::find($customTee['cusID']);
 
         if (!File::exists($pathPrefix)) {
             File::makeDirectory($pathPrefix, 0777, true, true);
@@ -37,7 +37,6 @@ class CustomTeeDesignController extends Controller
 
         Image::make(file_get_contents($customTee['frontDesignImg']))->save($frontPath);
         Image::make(file_get_contents($customTee['backDesignImg']))->save($backPath);
-
 
 
         $record = CustomTeeDesign::updateOrCreate(
@@ -89,6 +88,28 @@ class CustomTeeDesignController extends Controller
             )
             ->get();
 
+        return response($response, 201);
+    }
+
+    public function getOnePresetDesign($id){
+        $response = CustomTeeDesign::join('plain_tee_type_colors', 'plain_tee_type_colors.pt_type_color_id', '=', 'custom_tee_designs.pt_type_color_id')
+        ->where('custom_tee_designs.c_tee_design_id', '=', $id)
+        ->join('types', 'types.type_id', '=', 'plain_tee_type_colors.type_id')
+        ->join('colors', 'colors.color_id', '=', 'plain_tee_type_colors.color_id')
+        ->select(
+            'custom_tee_designs.*',
+            'plain_tee_type_colors.plain_tee_img',
+            'plain_tee_type_colors.color_id',
+            'plain_tee_type_colors.type_id',
+            'types.name as type_name',
+            'types.material',
+            'types.description',
+            'types.detail',
+            'types.price',
+            'colors.color_name',
+            'colors.color_code'
+        )
+        ->get();
         return response($response, 201);
     }
 

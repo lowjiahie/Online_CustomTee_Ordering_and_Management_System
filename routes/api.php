@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Customer\CustomerController;
+use App\Http\Controllers\customer\PrintingMethodController;
 use App\Http\Controllers\Customer\CustomTeeDesignController;
 use App\Http\Controllers\customer\PublishedDesignController;
 use App\Http\Controllers\customer\PlainTeeTypeColorController;
@@ -35,10 +36,14 @@ Route::post("chkExstCusTeeDesign", [CustomTeeDesignController::class, 'chkExstCu
 Route::post("getPresetDesign", [CustomTeeDesignController::class, 'getPresetDesign']);
 Route::post("deletePresetDesign", [CustomTeeDesignController::class, 'deletePresetDesign']);
 Route::post("loadPresetDesign", [CustomTeeDesignController::class, 'loadPresetDesign']);
+Route::get("getOnePresetDesign/{id}", [CustomTeeDesignController::class, 'getOnePresetDesign']);
 
 //PlainTeeTypeColorController
 Route::post("getPlainTeeTypeColor", [PlainTeeTypeColorController::class, 'getPlainTeeTypeColor']);
+Route::get("getAvailableSize/{id}", [PlainTeeTypeColorController::class, 'getAvailableSize']);
 
+//PrintingMethodController
+Route::post("getAvailablePrintingMethods", [PrintingMethodController::class, 'getAvailablePrintingMethods']);
 
 //PublishedDesignController
 Route::post("publishDesign", [PublishedDesignController::class, 'publishDesign']);
