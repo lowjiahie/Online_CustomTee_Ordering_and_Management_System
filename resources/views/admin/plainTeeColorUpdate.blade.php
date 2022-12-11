@@ -25,7 +25,7 @@
                                 Color Name:
                             </div>
                             <div class='col' style='color:rgb(0, 0, 0);'>
-                                <input type="text" name="color_name" value="{{ $colorUpdate->color_name }}" />
+                                {{ $colorUpdate->color_name }}
                             </div>
                         </div>
 

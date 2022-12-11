@@ -16,7 +16,7 @@
                         style="float: right; border-style:none; border-radius:5px; color:white; background-color:black; padding:8px 50px;
                         font-family:'system-ui'; text-transform:uppercase; letter-spacing:.8px; display:block;
                         margin-right:10%; box-shadow:2px 2px 5px rgb(0, 0, 0, 0.2); cursor:pointer;" />
-                    <input type="text" name="searchColor" placeholder="Search plain tee color name" style="width:35%; float: right; margin-right:2%;"; />
+                    <input type="text" name="searchColor" placeholder="Search plain tee color name" style="width:25%; float: right; margin-right:2%;"; />
                     </form>
             </div>
             <br /><br />

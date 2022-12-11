@@ -59,6 +59,17 @@ class PlainTeeTypeColorController extends Controller
             $color_name = $request->input('color_name');
             $color_code = $request->input('color_code');
 
+            $allColor = $this->plainTeeRepository->getAllColor();
+
+            foreach($allColor as $color){
+                if($color->color_name == $color_name){
+                    echo "<script>alert('Color name existed!')</script>";
+                    $staffID = $request->session()->get('StaffID');
+                    $staffInfo = $this->staffRepository->getById($staffID);
+                    return view('admin.plainTeeAddColor', ['staffInfo'=>$staffInfo]);
+                }
+            }
+
             // Add data to database
             $data = ["color_name"=>$color_name, "color_code"=>$color_code];
             $this->plainTeeRepository->createColor($data);
@@ -124,16 +135,14 @@ class PlainTeeTypeColorController extends Controller
             // Update - update to database
             // Validate null input
             $request->validate([
-                "color_name" => "required",
                 "color_code" => "required"
             ]);
 
             // Get input data
-            $color_name = $request->input('color_name');
             $color_code = $request->input('color_code');
 
             // Update to database
-            $this->plainTeeRepository->updateColor($color_id, $color_name, $color_code);
+            $this->plainTeeRepository->updateColor($color_id, $color_code);
 
             // Redirect back to the color detail page
             echo "<script>alert('Update successfully!')</script>";
@@ -192,16 +201,34 @@ class PlainTeeTypeColorController extends Controller
             $detail = $request->input('detail');
             $price = $request->input('price');
 
-            // Add data to database
-            $data = ["name"=>$name, "material"=>$material, "description"=>$description, "detail"=>$detail, "price"=>$price];
-            $this->plainTeeRepository->createType($data);
+            $allType = $this->plainTeeRepository->getAllType();
 
-            // Redirect to printing method list
-            echo "<script>alert('Type add successfully!')</script>";
-            $typeList = $this->plainTeeRepository->getAllType();
-            $staffID = $request->session()->get('StaffID');
-            $staffInfo = $this->staffRepository->getById($staffID);
-            return view('admin.plainTeeTypeList', ['typeList'=>$typeList], ['staffInfo'=>$staffInfo]);
+            foreach($allType as $type){
+                if($type->name == $name && $type->material == $material && $type->detail == $detail){
+                    echo "<script>alert('This type name material and detail existed!')</script>";
+                    $staffID = $request->session()->get('StaffID');
+                    $staffInfo = $this->staffRepository->getById($staffID);
+                    return view('admin.plainTeeAddType', ['staffInfo'=>$staffInfo]);
+                }
+            }
+
+            if ($price > 0){
+                // Add data to database
+                $data = ["name"=>$name, "material"=>$material, "description"=>$description, "detail"=>$detail, "price"=>$price];
+                $this->plainTeeRepository->createType($data);
+
+                // Redirect to printing method list
+                echo "<script>alert('Type add successfully!')</script>";
+                $typeList = $this->plainTeeRepository->getAllType();
+                $staffID = $request->session()->get('StaffID');
+                $staffInfo = $this->staffRepository->getById($staffID);
+                return view('admin.plainTeeTypeList', ['typeList'=>$typeList], ['staffInfo'=>$staffInfo]);
+            }else{
+                echo "<script>alert('Price must be greater than 0!')</script>";
+                $staffID = $request->session()->get('StaffID');
+                $staffInfo = $this->staffRepository->getById($staffID);
+                return view('admin.plainTeeAddType', ['staffInfo'=>$staffInfo]);
+            }
         }else{
             // Redirect user to type list
             $typeList = $this->plainTeeRepository->getAllType();
@@ -257,29 +284,31 @@ class PlainTeeTypeColorController extends Controller
             // Update - update to database
             // Validate null input
             $request->validate([
-                "name" => "required",
-                "material" => "required",
                 "description" => "required",
-                "detail" => "required",
                 "price" => "required"
             ]);
 
             // Get input value
-            $name = $request->input('name');
-            $material = $request->input('material');
             $description = $request->input('description');
-            $detail = $request->input('detail');
             $price = $request->input('price');
 
-            // Update to database
-            $this->plainTeeRepository->updateType($type_id, $name, $material, $description, $detail, $price);
+            if($price > 0){
+                // Update to database
+                $this->plainTeeRepository->updateType($type_id, $description, $price);
 
-            // Redirect back to the color detail page
-            echo "<script>alert('Update successfully!')</script>";
-            $typeDetail = $this->plainTeeRepository->getByTypeId($type_id);
-            $staffID = $request->session()->get('StaffID');
-            $staffInfo = $this->staffRepository->getById($staffID);
-            return view('admin.plainTeeTypeDetail', ['typeDetail'=>$typeDetail], ['staffInfo'=>$staffInfo]);
+                // Redirect back to the color detail page
+                echo "<script>alert('Update successfully!')</script>";
+                $typeDetail = $this->plainTeeRepository->getByTypeId($type_id);
+                $staffID = $request->session()->get('StaffID');
+                $staffInfo = $this->staffRepository->getById($staffID);
+                return view('admin.plainTeeTypeDetail', ['typeDetail'=>$typeDetail], ['staffInfo'=>$staffInfo]);
+            }else{
+                echo "<script>alert('Price must be greater than 0!')</script>";
+                $typeUpdate = $this->plainTeeRepository->getByTypeId($type_id);
+                $staffID = $request->session()->get('StaffID');
+                $staffInfo = $this->staffRepository->getById($staffID);
+                return view('admin.plainTeeTypeUpdate', ['typeUpdate'=>$typeUpdate], ['staffInfo'=>$staffInfo]);
+            }
         }else{
             // Cancel - redirect to color detail page
             $typeDetail = $this->plainTeeRepository->getByTypeId($type_id);
@@ -298,11 +327,11 @@ class PlainTeeTypeColorController extends Controller
     }
 
     public function typeColorSearch(Request $request){
-        $sizeSearch = $request->input('searchSize');
-        $sizeList = $this->plainTeeRepository->searchBySize($sizeSearch);
+        $typeSearch = $request->input('searchDetail');
+        $typeColorList = $this->plainTeeRepository->searchByTypeColor($typeSearch);
         $staffID = $request->session()->get('StaffID');
         $staffInfo = $this->staffRepository->getById($staffID);
-        return view('admin.plainTeeTypeColorList', ['sizeList'=>$sizeList], ['staffInfo'=>$staffInfo]);
+        return view('admin.plainTeeTypeColorList', ['typeColorList'=>$typeColorList], ['staffInfo'=>$staffInfo]);
     }
 
     public function addTypeColor(Request $request){
@@ -324,15 +353,28 @@ class PlainTeeTypeColorController extends Controller
                 "type_id" => "required"
             ]);
 
+            $color_id = $request->input('color_id');
+            $type_id = $request->input('type_id');
+
+            $allTypeColor = $this->plainTeeRepository->getAllTypeColor();
+
+            foreach ($allTypeColor as $typeColor){
+                if($typeColor->color_id == $color_id && $typeColor->type_id == $type_id){
+                    echo "<script>alert('This pair of color and type existed!')</script>";
+                    $allType = $this->plainTeeRepository->getAllType();
+                    $allColor = $this->plainTeeRepository->getAllColor();
+                    $staffID = $request->session()->get('StaffID');
+                    $staffInfo = $this->staffRepository->getById($staffID);
+                    return view('admin.plainTeeAddTypeColor', ['allColor'=>$allColor, 'allType'=>$allType], ['staffInfo'=>$staffInfo]);
+                }
+            }
+
             // Get input value
             $path = $request->file('plain_tee_img');
             $plain_tee_img = $path->getClientOriginalName();
 
             //Stored to public file/plainTee
             $path->move(public_path('plainTee/'), $plain_tee_img);
-
-            $color_id = $request->input('color_id');
-            $type_id = $request->input('type_id');
 
             // Add data to database
             $data = ["plain_tee_img"=>$plain_tee_img, "color_id"=>$color_id, "type_id"=>$type_id];
@@ -372,7 +414,8 @@ class PlainTeeTypeColorController extends Controller
             $allColor = $this->plainTeeRepository->getAllColor();
             $staffID = $request->session()->get('StaffID');
             $staffInfo = $this->staffRepository->getById($staffID);
-            return view('admin.plainTeeTypeColorUpdate', ['typeColorUpdate'=>$typeColorUpdate, 'allColor'=>$allColor, 'allType'=>$allType], ['staffInfo'=>$staffInfo]);
+            return view('admin.plainTeeTypeColorUpdate', ['typeColorUpdate'=>$typeColorUpdate,
+            'allColor'=>$allColor, 'allType'=>$allType], ['staffInfo'=>$staffInfo]);
         }else if(!strcmp($updateDeleteCancel, "Delete")){
             // Delete from database
             $this->plainTeeRepository->deleteTypeColor($pt_type_color_id);
@@ -408,6 +451,23 @@ class PlainTeeTypeColorController extends Controller
                 "color_id" => "required",
                 "type_id" => "required"
             ]);
+            $color_id = $request->input('color_id');
+            $type_id = $request->input('type_id');
+
+            $allTypeColor = $this->plainTeeRepository->getAllTypeColor();
+
+            foreach ($allTypeColor as $typeColor){
+                if($typeColor->color_id == $color_id && $typeColor->type_id == $type_id){
+                    echo "<script>alert('This pair of color and type existed!')</script>";
+                    $typeColorUpdate = $this->plainTeeRepository->getByTypeColorId($pt_type_color_id);
+                    $allType = $this->plainTeeRepository->getAllType();
+                    $allColor = $this->plainTeeRepository->getAllColor();
+                    $staffID = $request->session()->get('StaffID');
+                    $staffInfo = $this->staffRepository->getById($staffID);
+                    return view('admin.plainTeeTypeColorUpdate', ['typeColorUpdate'=>$typeColorUpdate, 'allColor'=>$allColor,
+                    'allType'=>$allType], ['staffInfo'=>$staffInfo]);
+                }
+            }
 
             // Get input value
             $path = $request->file('plain_tee_img');
@@ -418,8 +478,6 @@ class PlainTeeTypeColorController extends Controller
             $oldImgPath = $request->input('deleteImg');
             unlink(public_path("plainTee/$oldImgPath"));
             $path->move(public_path('plainTee/'), $plain_tee_img);
-            $color_id = $request->input('color_id');
-            $type_id = $request->input('type_id');
             $pt_type_color_id = $request->input('pt_type_color_id');
 
             // Update to database
@@ -479,16 +537,37 @@ class PlainTeeTypeColorController extends Controller
             $size_name = $request->input('size_name');
             $pt_type_color_id = $request->input('pt_type_color_id');
 
-            // Add data to database
-            $data = ["stocks"=>$stocks, "size_name"=>$size_name, "pt_type_color_id"=>$pt_type_color_id];
-            $this->plainTeeRepository->createSize($data);
+            $allSize = $this->plainTeeRepository->getAllSize();
 
-            // Redirect to printing method list
-            echo "<script>alert('Plain tee add successfully!')</script>";
-            $sizeList = $this->plainTeeRepository->listForPlainTee();
-            $staffID = $request->session()->get('StaffID');
-            $staffInfo = $this->staffRepository->getById($staffID);
-            return view('admin.plainTeeList', ['sizeList'=>$sizeList], ['staffInfo'=>$staffInfo]);
+            foreach ($allSize as $size){
+                if($size->size_name == $size_name && $size->pt_type_color_id == $pt_type_color_id){
+                    echo "<script>alert('This size and type existed!')</script>";
+                    $allTypeColor = $this->plainTeeRepository->listForTypeColor();
+                    $staffID = $request->session()->get('StaffID');
+                    $staffInfo = $this->staffRepository->getById($staffID);
+                    return view('admin.plainTeeAddShirt', ['allTypeColor'=>$allTypeColor], ['staffInfo'=>$staffInfo]);
+                }
+            }
+
+            if($stocks > 0){
+                // Add data to database
+                $data = ["stocks"=>$stocks, "size_name"=>$size_name, "pt_type_color_id"=>$pt_type_color_id];
+                $this->plainTeeRepository->createSize($data);
+
+                // Redirect to printing method list
+                echo "<script>alert('Plain tee add successfully!')</script>";
+                $sizeList = $this->plainTeeRepository->listForPlainTee();
+                $staffID = $request->session()->get('StaffID');
+                $staffInfo = $this->staffRepository->getById($staffID);
+                return view('admin.plainTeeList', ['sizeList'=>$sizeList], ['staffInfo'=>$staffInfo]);
+            }else{
+                echo "<script>alert('Stocks must be greater than 0!')</script>";
+                $allTypeColor = $this->plainTeeRepository->listForTypeColor();
+                $staffID = $request->session()->get('StaffID');
+                $staffInfo = $this->staffRepository->getById($staffID);
+                return view('admin.plainTeeAddShirt', ['allTypeColor'=>$allTypeColor], ['staffInfo'=>$staffInfo]);
+            }
+
         }else{
             // Redirect user to type list
             $sizeList = $this->plainTeeRepository->listForPlainTee();
@@ -512,11 +591,10 @@ class PlainTeeTypeColorController extends Controller
         $plain_tee_size_id = $request->input('plain_tee_size_id');
         if(!strcmp($updateDeleteCancel, "Update")){
             // Update - redirect to update form
-            $plainTeeUpdate = $this->plainTeeRepository->getBySizeId($plain_tee_size_id);
-            $allTypeColor = $this->plainTeeRepository->listForTypeColor();
+            $plainTeeUpdate = $this->plainTeeRepository->getFullDetailBySizeId($plain_tee_size_id);
             $staffID = $request->session()->get('StaffID');
             $staffInfo = $this->staffRepository->getById($staffID);
-            return view('admin.plainTeeUpdateShirt', ['plainTeeUpdate'=>$plainTeeUpdate, "allTypeColor"=>$allTypeColor], ['staffInfo'=>$staffInfo]);
+            return view('admin.plainTeeUpdateShirt', ['plainTeeUpdate'=>$plainTeeUpdate], ['staffInfo'=>$staffInfo]);
         }else if(!strcmp($updateDeleteCancel, "Delete")){
             // Delete from database
             $this->plainTeeRepository->deleteSize($plain_tee_size_id);
@@ -546,24 +624,28 @@ class PlainTeeTypeColorController extends Controller
             // Validate null input
             $request->validate([
                 "stocks" => "required",
-                "size_name" => "required",
-                "pt_type_color_id" => "required"
             ]);
 
             // Get input value
             $stocks = $request->input('stocks');
-            $size_name = $request->input('size_name');
-            $pt_type_color_id = $request->input('pt_type_color_id');
 
-            // Update to database
-            $this->plainTeeRepository->updateSize($plain_tee_size_id, $stocks, $size_name, $pt_type_color_id);
+            if($stocks > 0){
+                // Update to database
+                $this->plainTeeRepository->updateSize($plain_tee_size_id, $stocks);
 
-            // Redirect back to the color detail page
-            echo "<script>alert('Update successfully!')</script>";
-            $plainTeeDetail = $this->plainTeeRepository->getFullDetailBySizeId($plain_tee_size_id);
-            $staffID = $request->session()->get('StaffID');
-            $staffInfo = $this->staffRepository->getById($staffID);
-            return view('admin.plainTeeDetail', ['plainTeeDetail'=>$plainTeeDetail], ['staffInfo'=>$staffInfo]);
+                // Redirect back to the color detail page
+                echo "<script>alert('Update successfully!')</script>";
+                $plainTeeDetail = $this->plainTeeRepository->getFullDetailBySizeId($plain_tee_size_id);
+                $staffID = $request->session()->get('StaffID');
+                $staffInfo = $this->staffRepository->getById($staffID);
+                return view('admin.plainTeeDetail', ['plainTeeDetail'=>$plainTeeDetail], ['staffInfo'=>$staffInfo]);
+            }else{
+                echo "<script>alert('Stocks must be greater than 0!')</script>";
+                $plainTeeDetail = $this->plainTeeRepository->getFullDetailBySizeId($plain_tee_size_id);
+                $staffID = $request->session()->get('StaffID');
+                $staffInfo = $this->staffRepository->getById($staffID);
+                return view('admin.plainTeeDetail', ['plainTeeDetail'=>$plainTeeDetail], ['staffInfo'=>$staffInfo]);
+            }
         }else{
             // Cancel - redirect to color detail page
             $plainTeeDetail = $this->plainTeeRepository->getFullDetailBySizeId($plain_tee_size_id);

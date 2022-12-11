@@ -23,7 +23,7 @@
                             Printing Method Name:
                         </div>
                         <div class='col' style='color:rgb(0, 0, 0);'>
-                            <input type="text" name="name" value="{{ $printingMethodUpdate->name }}" />
+                            {{ $printingMethodUpdate->name }}
                         </div>
                     </div>
                     <div class='row'

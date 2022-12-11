@@ -21,7 +21,7 @@ interface PrintingMethodRepositoryInterface {
 
     public function create($contain);
 
-    public function update($id, $name, $price, $minimumOrder, $status);
+    public function update($id, $price, $minimumOrder, $status);
 
     public function deleteById($id);
 }

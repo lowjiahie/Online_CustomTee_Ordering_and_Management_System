@@ -301,6 +301,17 @@ class StaffController extends Controller
 
             $phone_regex = "/^(01)[0-46-9]*[0-9]{7,8}$/";
 
+            $allAdmin = $this->repository->getAll();
+
+            foreach($allAdmin as $admin){
+                if($admin->email == $email){
+                    echo "<script>alert('Email existed!')</script>";
+                    $staffID = $request->session()->get('StaffID');
+                    $staffInfo = $this->repository->getById($staffID);
+                    return view('admin.addAdmin', ['staffInfo' => $staffInfo]);
+                }
+            }
+
             if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 if(preg_match($phone_regex, $phone_no)){
                     // Add data to database
