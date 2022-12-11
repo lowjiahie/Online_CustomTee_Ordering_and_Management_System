@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Staff;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\Repositories\StaffRepositoryInterface;
 
 class StaffController extends Controller
@@ -36,16 +37,25 @@ class StaffController extends Controller
 
             if (isset($staff)) {
                 // If password are same with database
-                if ($password == $staff->password) {
+                if (Hash::check($password, $staff->password)) {
                     // Set session
                     $request->session()->put('User', 'Admin');
                     $request->session()->put('Username', $staff->name);
                     $request->session()->put('Status', "Login");
                     $request->session()->put('StaffID', $staff->staff_id);
                     echo "<script>alert('Login success!')</script>";
+
+                    $currentBannedDesign = $this->repository->dashboardCurrentBannedDesign();
+                    $currentCompetition = $this->repository->dashboardCurrentCompetition();
+                    $currentOrder = $this->repository->dashboardCurrentOrder();
+                    $currentDelivery = $this->repository->dashboardCurrentDelivery();
+
+                    $orderList = $this->repository->dashboardOrderList();
                     $staffID = $request->session()->get('StaffID');
                     $staffInfo = $this->repository->getById($staffID);
-                    return view('admin.dashboard', ['staffInfo' => $staffInfo]);
+                    return view('admin.dashboard', ['orderList'=>$orderList, 'currentBannedDesign'=>$currentBannedDesign,
+                    'currentCompetition'=>$currentCompetition, 'currentOrder'=>$currentOrder, 'currentDelivery'=>$currentDelivery]
+                    , ['staffInfo' => $staffInfo]);
                 } else {
                     echo "<script>alert('Password incorrect!')</script>";
                     return view('admin.login');
@@ -86,26 +96,48 @@ class StaffController extends Controller
         if (!strcmp($updateCancel, "Update")) {
             $request->validate([
                 "name" => "required",
-                "email" => "required"
+                "gender" => "required",
+                "date_of_birth" => "required",
+                "phone_no" => "required"
             ]);
 
             // Get staff_id from session, name and email from input
             $staffID = $request->session()->get('StaffID');
             $name = $request->input("name");
+            $gender = $request->input("gender");
+            $date_of_birth = $request->input("date_of_birth");
+            $phone_no = $request->input("phone_no");
 
-            // Update to database
-            $this->repository->updateProfile($staffID, $name);
+            $phone_regex = "/^(01)[0-46-9]*[0-9]{7,8}$/";
 
-            // Redirect back to the update profile page
-            echo "<script>alert('User profile update successfully!')</script>";
-            $staffID = $request->session()->get('StaffID');
-            $staffInfo = $this->repository->getById($staffID);
-            return view('admin.updateProfile', ['staffInfo' => $staffInfo]);
+            if(preg_match($phone_regex, $phone_no)){
+                // Update to database
+                $this->repository->updateProfile($staffID, $name, $gender, $date_of_birth, $phone_no);
+
+                // Redirect back to the update profile page
+                echo "<script>alert('User profile update successfully!')</script>";
+                $staffID = $request->session()->get('StaffID');
+                $staffInfo = $this->repository->getById($staffID);
+                return view('admin.updateProfile', ['staffInfo' => $staffInfo]);
+            }else{
+                echo "<script>alert('Phone number is invalid!')</script>";
+                $staffID = $request->session()->get('StaffID');
+                $staffInfo = $this->repository->getById($staffID);
+                return view('admin.updateProfile', ['staffInfo' => $staffInfo]);
+            }
         }else{
             // Redirect user to dashboard page
+            $currentBannedDesign = $this->repository->dashboardCurrentBannedDesign();
+            $currentCompetition = $this->repository->dashboardCurrentCompetition();
+            $currentOrder = $this->repository->dashboardCurrentOrder();
+            $currentDelivery = $this->repository->dashboardCurrentDelivery();
+
+            $orderList = $this->repository->dashboardOrderList();
             $staffID = $request->session()->get('StaffID');
             $staffInfo = $this->repository->getById($staffID);
-            return view('admin.dashboard', ['staffInfo' => $staffInfo]);
+            return view('admin.dashboard', ['orderList'=>$orderList, 'currentBannedDesign'=>$currentBannedDesign,
+            'currentCompetition'=>$currentCompetition, 'currentOrder'=>$currentOrder, 'currentDelivery'=>$currentDelivery]
+            , ['staffInfo' => $staffInfo]);
         }
     }
 
@@ -136,21 +168,37 @@ class StaffController extends Controller
             $staffID = $request->session()->get('StaffID');
             $staffData = $this->repository->getById($staffID);
 
-            if($oldPassword == $staffData->password){
+            if(Hash::check($oldPassword, $staffData->password)){
                 if($newPassword == $confirmPassword){
                     echo "<script>alert('Your password change successfully!')</script>";
-                    $this->repository->changePassword($staffID, $newPassword);
+                    $this->repository->changePassword($staffID, Hash::make($newPassword));
                     // Get the latest data from database
+                    $currentBannedDesign = $this->repository->dashboardCurrentBannedDesign();
+                    $currentCompetition = $this->repository->dashboardCurrentCompetition();
+                    $currentOrder = $this->repository->dashboardCurrentOrder();
+                    $currentDelivery = $this->repository->dashboardCurrentDelivery();
+
+                    $orderList = $this->repository->dashboardOrderList();
                     $staffID = $request->session()->get('StaffID');
                     $staffInfo = $this->repository->getById($staffID);
-                    return view('admin.dashboard', ['staffInfo' => $staffInfo]);
+                    return view('admin.dashboard', ['orderList'=>$orderList, 'currentBannedDesign'=>$currentBannedDesign,
+                    'currentCompetition'=>$currentCompetition, 'currentOrder'=>$currentOrder, 'currentDelivery'=>$currentDelivery]
+                    , ['staffInfo' => $staffInfo]);
                 }else{
                     // Display error message
                     echo "<script>alert('Your new password is different with confirm password!')</script>";
                     // Get staff info from database
+                    $currentBannedDesign = $this->repository->dashboardCurrentBannedDesign();
+                    $currentCompetition = $this->repository->dashboardCurrentCompetition();
+                    $currentOrder = $this->repository->dashboardCurrentOrder();
+                    $currentDelivery = $this->repository->dashboardCurrentDelivery();
+
+                    $orderList = $this->repository->dashboardOrderList();
                     $staffID = $request->session()->get('StaffID');
                     $staffInfo = $this->repository->getById($staffID);
-                    return view('admin.changePassword', ['staffInfo' => $staffInfo]);
+                    return view('admin.dashboard', ['orderList'=>$orderList, 'currentBannedDesign'=>$currentBannedDesign,
+                    'currentCompetition'=>$currentCompetition, 'currentOrder'=>$currentOrder, 'currentDelivery'=>$currentDelivery]
+                    , ['staffInfo' => $staffInfo]);
                 }
             }else{
                 // Display error message
@@ -162,24 +210,48 @@ class StaffController extends Controller
             }
         }else{
             // Redirect user to dashboard page
+            $currentBannedDesign = $this->repository->dashboardCurrentBannedDesign();
+            $currentCompetition = $this->repository->dashboardCurrentCompetition();
+            $currentOrder = $this->repository->dashboardCurrentOrder();
+            $currentDelivery = $this->repository->dashboardCurrentDelivery();
+
+            $orderList = $this->repository->dashboardOrderList();
             $staffID = $request->session()->get('StaffID');
             $staffInfo = $this->repository->getById($staffID);
-            return view('admin.dashboard', ['staffInfo' => $staffInfo]);
+            return view('admin.dashboard', ['orderList'=>$orderList, 'currentBannedDesign'=>$currentBannedDesign,
+            'currentCompetition'=>$currentCompetition, 'currentOrder'=>$currentOrder, 'currentDelivery'=>$currentDelivery]
+            , ['staffInfo' => $staffInfo]);
         }
     }
 
     public function dashboardStaffInfo(Request $request){
         // Get staff info from database
+        $currentBannedDesign = $this->repository->dashboardCurrentBannedDesign();
+        $currentCompetition = $this->repository->dashboardCurrentCompetition();
+        $currentOrder = $this->repository->dashboardCurrentOrder();
+        $currentDelivery = $this->repository->dashboardCurrentDelivery();
+
+        $orderList = $this->repository->dashboardOrderList();
         $staffID = $request->session()->get('StaffID');
         $staffInfo = $this->repository->getById($staffID);
-        return view('admin.dashboard', ['staffInfo' => $staffInfo]);
+        return view('admin.dashboard', ['orderList'=>$orderList, 'currentBannedDesign'=>$currentBannedDesign,
+        'currentCompetition'=>$currentCompetition, 'currentOrder'=>$currentOrder, 'currentDelivery'=>$currentDelivery]
+        , ['staffInfo' => $staffInfo]);
     }
 
     public function dashboardBack(Request $request){
         // Get staff info from database
+        $currentBannedDesign = $this->repository->dashboardCurrentBannedDesign();
+        $currentCompetition = $this->repository->dashboardCurrentCompetition();
+        $currentOrder = $this->repository->dashboardCurrentOrder();
+        $currentDelivery = $this->repository->dashboardCurrentDelivery();
+
+        $orderList = $this->repository->dashboardOrderList();
         $staffID = $request->session()->get('StaffID');
         $staffInfo = $this->repository->getById($staffID);
-        return view('admin.dashboard', ['staffInfo' => $staffInfo]);
+        return view('admin.dashboard', ['orderList'=>$orderList, 'currentBannedDesign'=>$currentBannedDesign,
+        'currentCompetition'=>$currentCompetition, 'currentOrder'=>$currentOrder, 'currentDelivery'=>$currentDelivery]
+        , ['staffInfo' => $staffInfo]);
     }
 
     public function profile(Request $request){
@@ -227,17 +299,34 @@ class StaffController extends Controller
             $phone_no = $request->input('phone_no');
             $role = $request->input('role');
 
-            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                // Add data to database
-                $data = ["name"=>$name, "email"=>$email, "password"=>$password, "gender"=>$gender,
-                "date_of_birth"=>$date_of_birth, "phone_no"=>$phone_no, "role"=>$role];
-                $this->repository->create($data);
+            $phone_regex = "/^(01)[0-46-9]*[0-9]{7,8}$/";
 
-                // Redirect to printing method list
-                echo "<script>alert('Add successfully! You can login to the new account now!')</script>";
-                $staffID = $request->session()->get('StaffID');
-                $staffInfo = $this->repository->getById($staffID);
-                return view('admin.dashboard', ['staffInfo'=>$staffInfo]);
+            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                if(preg_match($phone_regex, $phone_no)){
+                    // Add data to database
+                    $data = ["name"=>$name, "email"=>$email, "password"=>$password, "gender"=>$gender,
+                    "date_of_birth"=>$date_of_birth, "phone_no"=>$phone_no, "role"=>$role];
+                    $this->repository->create($data);
+
+                    // Redirect to printing method list
+                    echo "<script>alert('Add successfully! You can login to the new account now!')</script>";
+                    $currentBannedDesign = $this->repository->dashboardCurrentBannedDesign();
+                    $currentCompetition = $this->repository->dashboardCurrentCompetition();
+                    $currentOrder = $this->repository->dashboardCurrentOrder();
+                    $currentDelivery = $this->repository->dashboardCurrentDelivery();
+
+                    $orderList = $this->repository->dashboardOrderList();
+                    $staffID = $request->session()->get('StaffID');
+                    $staffInfo = $this->repository->getById($staffID);
+                    return view('admin.dashboard', ['orderList'=>$orderList, 'currentBannedDesign'=>$currentBannedDesign,
+                    'currentCompetition'=>$currentCompetition, 'currentOrder'=>$currentOrder, 'currentDelivery'=>$currentDelivery]
+                    , ['staffInfo' => $staffInfo]);
+                }else{
+                    echo "<script>alert('Phone number is not valid!')</script>";
+                    $staffID = $request->session()->get('StaffID');
+                    $staffInfo = $this->repository->getById($staffID);
+                    return view('admin.addAdmin', ['staffInfo'=>$staffInfo]);
+                }
             } else {
                 echo "<script>alert('Email is not valid!')</script>";
                 $staffID = $request->session()->get('StaffID');
@@ -246,9 +335,17 @@ class StaffController extends Controller
             }
         }else{
             // Redirect user to dashboard page
+            $currentBannedDesign = $this->repository->dashboardCurrentBannedDesign();
+            $currentCompetition = $this->repository->dashboardCurrentCompetition();
+            $currentOrder = $this->repository->dashboardCurrentOrder();
+            $currentDelivery = $this->repository->dashboardCurrentDelivery();
+
+            $orderList = $this->repository->dashboardOrderList();
             $staffID = $request->session()->get('StaffID');
             $staffInfo = $this->repository->getById($staffID);
-            return view('admin.dashboard', ['staffInfo' => $staffInfo]);
+            return view('admin.dashboard', ['orderList'=>$orderList, 'currentBannedDesign'=>$currentBannedDesign,
+            'currentCompetition'=>$currentCompetition, 'currentOrder'=>$currentOrder, 'currentDelivery'=>$currentDelivery]
+            , ['staffInfo' => $staffInfo]);
         }
     }
 

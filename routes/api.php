@@ -7,6 +7,8 @@ use App\Http\Controllers\customer\PrintingMethodController;
 use App\Http\Controllers\Customer\CustomTeeDesignController;
 use App\Http\Controllers\customer\PublishedDesignController;
 use App\Http\Controllers\customer\PlainTeeTypeColorController;
+use App\Http\Controllers\customer\CompetitionController;
+use App\Models\Competition;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,6 +54,9 @@ Route::post("reportPublishedDesign", [PublishedDesignController::class, 'reportP
 Route::post("saveToMyDesign", [PublishedDesignController::class, 'saveToMyDesign']);
 Route::post("getSavedPurchasedDesigns", [PublishedDesignController::class, 'getSavedPurchasedDesigns']);
 
+
+// Competition
+Route::post("getCompetitionList", [Competition::class, 'competititonList']);
 
 // Route::group(['middleware' => 'auth:sanctum'], function () {
 //     //All secure URL's
