@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\PublishedDesign;
 use App\Http\Controllers\Controller;
+use App\Models\OrderedCustomTee;
 use App\Models\PublishedDesignReport;
 use App\Models\SavedPurchasedDesign;
 use Illuminate\Support\Facades\File;
@@ -197,4 +198,6 @@ class PublishedDesignController extends Controller
     {
         return SavedPurchasedDesign::where('p_design_id', $pDesignID)->where('cus_id', $cusID)->exists();
     }
+
+
 }
