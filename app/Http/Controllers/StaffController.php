@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Staff;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use App\Repositories\StaffRepositoryInterface;
 
 class StaffController extends Controller
@@ -80,6 +81,44 @@ class StaffController extends Controller
             // Redirect user to index page
             echo "<script>alert('Redirecting to index page!')</script>";
             return view('welcome');
+        }
+    }
+
+    public function forgotPassword(Request $request){
+
+        $passwordRecovery = $request->input('passwordRecovery');
+
+        if(!strcmp($passwordRecovery, "Recover")){
+            $email = $request->input('email');
+            $recoverToken = random_int(100000, 999999);
+
+            $this->repository->forgotPasswordAdd($email, $recoverToken);
+
+            Mail::send('admin.tokenDisplay', ['token' => $recoverToken], function($message) use($request){
+                $message->to($request->email);
+                $message->subject('Reset Password');
+            });
+
+            return view('admin.passwordRecovery');
+
+        }else{
+            return view('admin.login');
+        }
+    }
+
+    public function passwordRecovery(Request $request){
+        $passwordRecovery = $request->input('passwordRecovery');
+
+        if(!strcmp($passwordRecovery, "Confirm")){
+            $pincode = $request->input('pincode');
+
+
+
+
+            return view('admin.passwordRecovery');
+
+        }else{
+            return view('admin.login');
         }
     }
 

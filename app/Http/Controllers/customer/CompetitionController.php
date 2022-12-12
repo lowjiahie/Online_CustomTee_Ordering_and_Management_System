@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Customer;
+namespace App\Http\Controllers\Competition;
 
 use App\Models\Competition;
 use Illuminate\Http\Request;

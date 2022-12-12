@@ -27,6 +27,12 @@ interface StaffRepositoryInterface {
 
     public function dashboardOrderList();
 
+    public function forgotPasswordAdd($email, $token);
+
+    public function getPasswordRecoveryEmail($email);
+
+    public function forgotPasswordDelete($email);
+
 }
 
 ?>

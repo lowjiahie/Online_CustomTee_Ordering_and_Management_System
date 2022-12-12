@@ -133,7 +133,7 @@
                 <input type="password" class="field_class" name="password" id="password" size="60%"
                     placeholder="Please fill in your password here" />
 
-                <a href="#">
+                <a href="{{ route('admin.forgotPassword') }}">
                     Forgot Password
                 </a>
                 <table>

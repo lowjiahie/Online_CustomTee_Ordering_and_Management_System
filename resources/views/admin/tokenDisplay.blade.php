@@ -122,24 +122,11 @@
         <h1><b>Forgot Password</b></h1>
     </header>
     <main>
-        <form action="{{ route('admin.passwordRecoverySubmit') }}" method="POST" id="login_form" class="form_class">
+        <form action="" method="POST" id="login_form" class="form_class">
             @csrf
             <div class="form_div">
-                <label>Pincode: </label>
-                <input type="number" class="field_class" name="pincode" id="pincode" size="60%"
-                    placeholder="Please fill in the token you receive from your email here" />
-                <table>
-                    <tr>
-                        <td>
-                            <input type="submit" class="submit_class" name="passwordRecovery" value="Confirm"
-                                id="login" />
-                        </td>
-                        <td>
-                            <input type="submit" class="submit_class" name="passwordRecovery" value="Cancel"
-                                id="cancel" />
-                        </td>
-                    </tr>
-                </table>
+                <label>Pincode:</label>
+                <h3>{{ $token }}</h3>
             </div>
         </form>
     </main>
