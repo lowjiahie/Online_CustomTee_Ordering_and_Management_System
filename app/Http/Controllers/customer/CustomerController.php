@@ -104,13 +104,13 @@ class CustomerController extends Controller
         $request->validate([
             'first_name' => 'required|max:30',
             'last_name' => 'required|max:30',
-            'paypal_email' => 'required|email',
+            'paypal_email' => 'required|email|unique:paypal_accounts',
         ]);
 
         $paypalAcc = PaypalAccount::where('cus_id',$request->cus_id)->get();
-
+        
         $response ="";
-        if(!$paypalAcc){
+        if(count($paypalAcc)>0){
             $paypalAcc->first_name =$request->first_name;
             $paypalAcc->last_name =$request->last_name;
             $paypalAcc->paypal_email =$request->paypal_email;
@@ -120,6 +120,7 @@ class CustomerController extends Controller
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'paypal_email' => $request->paypal_email,
+                'cus_id' => $request->cus_id,
             ]);
         }
 

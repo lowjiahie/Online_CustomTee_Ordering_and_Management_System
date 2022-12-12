@@ -11,7 +11,7 @@ class PaypalAccount extends Model
     use HasFactory;
 
     protected $fillable = [
-        'paypal_acc_id', 'first_name', 'last_name', 'email_id', 'phone_num', 'cus_id'
+        'paypal_acc_id', 'first_name', 'last_name', 'paypal_email', 'cus_id'
     ];
 
     public $timestamps = true;
