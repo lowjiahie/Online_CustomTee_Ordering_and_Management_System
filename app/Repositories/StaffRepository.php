@@ -62,6 +62,23 @@ class StaffRepository implements StaffRepositoryInterface {
         ORDER BY O.order_date DESC LIMIT 10");
     }
 
+    public function forgotPasswordAdd($email, $token){
+        return DB::table('password_resets')->insert([
+            'email' => $email,
+            'token' => $token
+        ]);
+    }
+
+    public function getPasswordRecoveryEmail($email){
+        return DB::table('password_resets')
+        ->select("password_resets.*")
+        ->where("password_resets.email", $email)
+        ->first();
+    }
+
+    public function forgotPasswordDelete($email){
+        return DB::select("DELETE password_resets WHERE email=$email");
+    }
 
 }
 
