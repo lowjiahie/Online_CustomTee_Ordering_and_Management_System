@@ -81,7 +81,7 @@ class PublishedDesignController extends Controller
             $status = $request->input('status');
             $reason_banned_denied = $request->input('reason_banned_denied');
 
-            if ($status == "Banned" && $reason_banned_denied == null){
+            if ($status == "banned" && $reason_banned_denied == null){
                 // Tell user if status banned cannot leave reason null and refresh the page
                 echo "<script>alert('If status banned, reason must be filled in!')</script>";
                 $designUpdate = $this->designRepository->getById($p_design_id);

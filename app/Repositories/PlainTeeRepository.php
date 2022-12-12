@@ -98,7 +98,8 @@ class PlainTeeRepository implements PlainTeeRepositoryInterface {
     }
 
     public function getFullDetailBySizeId($id){
-        return DB::select("SELECT * FROM plain_tee_sizes AS S, plain_tee_type_colors AS TC, types AS T, colors AS C
+        return DB::select("SELECT S.plain_tee_size_id, S.stocks, S.size_name, T.name, C.color_name, T.detail, TC.plain_tee_img,
+        T.material, T.description, T.price, C.color_code FROM plain_tee_sizes AS S, plain_tee_type_colors AS TC, types AS T, colors AS C
         WHERE S.pt_type_color_id=TC.pt_type_color_id AND TC.type_id=T.type_id AND TC.color_id=C.color_id AND S.plain_tee_size_id='$id'");
     }
 
@@ -107,16 +108,16 @@ class PlainTeeRepository implements PlainTeeRepositoryInterface {
         WHERE TC.type_id=T.type_id AND TC.color_id=C.color_id AND TC.pt_type_color_id='$id'");
     }
 
-    public function updateColor($id, $color_name, $color_code){
-        return DB::update("UPDATE colors SET color_name='$color_name', color_code='$color_code' WHERE color_id='$id'");
+    public function updateColor($id, $color_code){
+        return DB::update("UPDATE colors SET color_code='$color_code' WHERE color_id='$id'");
     }
 
-    public function updateType($id, $name, $material, $description, $detail, $price){
-        return DB::update("UPDATE types SET name='$name', material='$material', description='$description', detail='$detail' WHERE type_id='$id'");
+    public function updateType($id, $description, $price){
+        return DB::update("UPDATE types SET description='$description', price='$price' WHERE type_id='$id'");
     }
 
-    public function updateSize($id, $stocks, $size_name, $pt_type_color_id){
-        return DB::update("UPDATE plain_tee_sizes SET stocks='$stocks', size_name='$size_name', pt_type_color_id='$pt_type_color_id' WHERE plain_tee_size_id='$id'");
+    public function updateSize($id, $stocks){
+        return DB::update("UPDATE plain_tee_sizes SET stocks='$stocks' WHERE plain_tee_size_id='$id'");
     }
 
     public function updateTypeColor($id, $plain_tee_img, $color_id, $type_id){

@@ -43,11 +43,11 @@ interface PlainTeeRepositoryInterface {
 
     public function getFullDetailByTypeColor($id);
 
-    public function updateColor($id, $color_name, $color_code);
+    public function updateColor($id, $color_code);
 
-    public function updateType($id, $name, $material, $description, $detail, $price);
+    public function updateType($id, $description, $price);
 
-    public function updateSize($id, $stocks, $size_name, $pt_type_color_id);
+    public function updateSize($id, $stocks);
 
     public function updateTypeColor($id, $plain_tee_img, $color_id, $type_id);
 

@@ -9,6 +9,8 @@ use App\Models\Customer;
 use App\Models\PlainTeeSize;
 use App\Models\PrintingMethod;
 use App\Models\CustomTeeDesign;
+use App\Models\Competition;
+use App\Models\Participant;
 use Illuminate\Database\Seeder;
 use App\Models\PlainTeeTypeColor;
 use Illuminate\Support\Facades\Hash;
@@ -27,6 +29,8 @@ class DatabaseSeeder extends Seeder
         $this->createColor();
         $this->createPlainTeeTypeColor();
         $this->createCustomer();
+        $this->createCompetition();
+        $this->createParticipant();
         $this->createCustomTee();
         $this->createPlainTeeSizes();
         $this->createPrintingMethods();
@@ -182,6 +186,90 @@ class DatabaseSeeder extends Seeder
             'name' => 'Wei Jia',
             'email' => 'weijia@gmail.com',
             'password' => Hash::make('password')
+        ])->save();
+    }
+
+    private function createCompetition()
+    {
+        Competition::create([
+            'topic' => 'Ocean',
+            'description' => 'A design of deep ocean feel',
+            'rules' => 'No plagiarism can be done',
+            'start_date_time' => '2022-11-1 00:00:00',
+            'end_date_time' => '2022-11-14 00:00:00',
+            'winner' => 'John Doe',
+            'staff_id' => 'SF00001'
+        ])->save();
+
+        Competition::create([
+            'topic' => 'Farm',
+            'description' => 'A design of farm feel',
+            'rules' => 'No plagiarism can be done',
+            'start_date_time' => '2022-12-1 00:00:00',
+            'end_date_time' => '2022-12-14 00:00:00',
+            'winner' => '',
+            'staff_id' => 'SF00001'
+        ])->save();
+
+        Competition::create([
+            'topic' => 'Recycle',
+            'description' => 'A design of recycle feel',
+            'rules' => 'No plagiarism can be done',
+            'start_date_time' => '2022-12-8 00:00:00',
+            'end_date_time' => '2022-12-15 00:00:00',
+            'winner' => '',
+            'staff_id' => 'SF00001'
+        ])->save();
+    }
+
+    private function createParticipant()
+    {
+        Participant::create([
+            'competition_id' => 'CN00001',
+            'cus_id' => 'CS00001',
+            'status' => 'participated',
+            'front_design_img' => 'crew_front.png',
+            'back_design_img' => 'crew_back.png'
+        ])->save();
+
+        Participant::create([
+            'competition_id' => 'CN00001',
+            'cus_id' => 'CS00002',
+            'status' => 'withdraw',
+            'front_design_img' => 'crew_front.png',
+            'back_design_img' => 'crew_back.png'
+        ])->save();
+
+        Participant::create([
+            'competition_id' => 'CN00002',
+            'cus_id' => 'CS00001',
+            'status' => 'participated',
+            'front_design_img' => 'crew_front.png',
+            'back_design_img' => 'crew_back.png'
+        ])->save();
+
+        Participant::create([
+            'competition_id' => 'CN00002',
+            'cus_id' => 'CS00002',
+            'status' => 'participated',
+            'front_design_img' => 'crew_front.png',
+            'back_design_img' => 'crew_back.png'
+        ])->save();
+
+        Participant::create([
+            'competition_id' => 'CN00003',
+            'cus_id' => 'CS00001',
+            'status' => 'withdraw',
+            'front_design_img' => 'crew_front.png',
+            'back_design_img' => 'crew_back.png'
+        ])->save();
+
+        Participant::create([
+            'competition_id' => 'CN00003',
+            'cus_id' => 'CS00002',
+            'status' => 'participated',
+            'front_design_img' => 'crew_front.png',
+            'back_design_img' => 'crew_back.png'
         ])->save();
     }
 
