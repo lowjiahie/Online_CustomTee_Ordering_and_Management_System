@@ -4,9 +4,10 @@
       <h3>Forgot Password</h3>
       <div class="form-group">
         <label class="fw-bold">Email address</label>
-        <input type="email" class="form-control form-control-lg" />
+        <input type="email" v-model="email" class="form-control form-control-lg" />
+        <span class="text-danger" v-if="errors.email">{{ errors.email[0] }}</span>
       </div>
-      <button type="submit" class="btn btn-dark btn-lg btn-block mt-3">Send Email</button>
+      <button type="button" @click.prevent="sendToken" class="btn btn-dark btn-lg btn-block mt-3">Send Email</button>
       <p class="forgot-password text-right">
         Back to
         <router-link :to="{name: 'login'}">Login Page?</router-link>
@@ -17,7 +18,33 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      email: "",
+      errors: [],
+    };
+  },
+  methods: {
+    sendToken() {
+      this.errors = [];
+      axios
+        .post("/api/sendToken", {
+          email: this.email,
+        })
+        .then((response) => {
+          console.log(response);
+          swal(
+            "Success",
+            "Password recovery email has been successfully send to your email",
+            "success"
+          );
+        })
+        .catch((error) => {
+          if (error.response.status === 422) {
+            this.errors = error.response.data.errors;
+            console.log(this.errors);
+          }
+        });
+    },
   },
 };
 </script>

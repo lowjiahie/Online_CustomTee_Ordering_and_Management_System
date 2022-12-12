@@ -6558,7 +6558,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
-    return {};
+    return {
+      email: "",
+      errors: []
+    };
+  },
+  methods: {
+    sendToken: function sendToken() {
+      var _this = this;
+
+      this.errors = [];
+      axios.post("/api/sendToken", {
+        email: this.email
+      }).then(function (response) {
+        console.log(response);
+        swal("Success", "Password recovery email has been successfully send to your email", "success");
+      })["catch"](function (error) {
+        if (error.response.status === 422) {
+          _this.errors = error.response.data.errors;
+          console.log(_this.errors);
+        }
+      });
+    }
   }
 });
 
@@ -8752,10 +8773,42 @@ var render = function render() {
     staticClass: "vue-tempalte"
   }, [_c("form", {
     staticClass: "vertical-center inner-block"
-  }, [_c("h3", [_vm._v("Forgot Password")]), _vm._v(" "), _vm._m(0), _vm._v(" "), _c("button", {
+  }, [_c("h3", [_vm._v("Forgot Password")]), _vm._v(" "), _c("div", {
+    staticClass: "form-group"
+  }, [_c("label", {
+    staticClass: "fw-bold"
+  }, [_vm._v("Email address")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.email,
+      expression: "email"
+    }],
+    staticClass: "form-control form-control-lg",
+    attrs: {
+      type: "email"
+    },
+    domProps: {
+      value: _vm.email
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.email = $event.target.value;
+      }
+    }
+  }), _vm._v(" "), _vm.errors.email ? _c("span", {
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.errors.email[0]))]) : _vm._e()]), _vm._v(" "), _c("button", {
     staticClass: "btn btn-dark btn-lg btn-block mt-3",
     attrs: {
-      type: "submit"
+      type: "button"
+    },
+    on: {
+      click: function click($event) {
+        $event.preventDefault();
+        return _vm.sendToken.apply(null, arguments);
+      }
     }
   }, [_vm._v("Send Email")]), _vm._v(" "), _c("p", {
     staticClass: "forgot-password text-right"
@@ -8768,21 +8821,7 @@ var render = function render() {
   }, [_vm._v("Login Page?")])], 1)])]);
 };
 
-var staticRenderFns = [function () {
-  var _vm = this,
-      _c = _vm._self._c;
-
-  return _c("div", {
-    staticClass: "form-group"
-  }, [_c("label", {
-    staticClass: "fw-bold"
-  }, [_vm._v("Email address")]), _vm._v(" "), _c("input", {
-    staticClass: "form-control form-control-lg",
-    attrs: {
-      type: "email"
-    }
-  })]);
-}];
+var staticRenderFns = [];
 render._withStripped = true;
 
 
