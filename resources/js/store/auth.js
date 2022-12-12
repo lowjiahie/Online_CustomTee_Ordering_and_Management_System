@@ -35,7 +35,7 @@ export const useAuthStore = defineStore("auth", {
                 this.authCus = response.data.cus
                 localStorage.setItem("authToken", response.data.token);
                 this.authStatus = true;
-                router.push("/customer/");
+                router.push("/customer/viewPlainTee");
             }).catch((error) => {
                 if (error.response.status === 422) {
                     this.authErrors = error.response.data.errors;
@@ -88,5 +88,8 @@ export const useAuthStore = defineStore("auth", {
             console.log("reset data");
             this.authErrors = [];
         },
+        setAuthCusName(data){
+            this.authCus.name = data;
+        }
     },
 })

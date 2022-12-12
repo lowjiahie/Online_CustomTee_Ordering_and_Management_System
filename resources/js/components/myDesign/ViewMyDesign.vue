@@ -206,7 +206,7 @@
                     <b class="text-dark">Published On:</b>
                     {{convertToLocalDateTime(publishedDesign.updated_at)}}
                   </p>
-                  <p class="card-text mb-1" v-if="publishedDesign.reason_banned_denied != null">
+                  <p class="card-text mb-1" v-if="publishedDesign.status == 'banned'">
                     <b class="text-dark">Reason Banned:</b>
                     {{ publishedDesign.reason_banned_denied }}
                   </p>

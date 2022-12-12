@@ -358,7 +358,7 @@
               <router-link class="nav-link" :to="{name:'viewPlainTee'}">Create Design</router-link>
             </li>
             <li class="nav-item">
-               <router-link class="nav-link" :to="{name:'design-price'}">Sharing Section</router-link>
+              <router-link class="nav-link" :to="{name:'design-price'}">Sharing Section</router-link>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Competition</a>
@@ -419,7 +419,7 @@
                   </svg>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end">
-                  <a class="dropdown-item" href="#">Profile</a>
+                  <router-link class="dropdown-item" :to="{name:'profileNav'}">My Profile</router-link>
                   <a class="dropdown-item" href="#">My Order</a>
                   <router-link class="dropdown-item" :to="{name:'myDesign'}">My Design</router-link>
                   <div class="dropdown-divider"></div>
@@ -456,7 +456,7 @@ export default {
       if (to.name != "design-tool") {
         this.setEditStatus(false);
       }
-      
+
       console.log(this.editStatus);
       console.log(this.authStatus);
       this.resetErrors();

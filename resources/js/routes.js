@@ -9,6 +9,10 @@ import CustomerPwdRecoveryComponent from "./components/customerMaintenance/Custo
 import ViewMyDesignComponent from "./components/myDesign/ViewMyDesign"
 import PlainTeeSelectionComponent from "./components/plainTee/PlainTeeSelection"
 import OrderPresetCustomTeeComponent from "./components/order/OrderPresetCustomTee"
+import CustomerProfileNavComponent from "./components/customerMaintenance/CustomerProfileNav"
+import CustomerEditProfileComponent from "./components/customerMaintenance/CustomerEditProfile"
+import CustomerEditPaypalAccComponent from "./components/customerMaintenance/CustomerEditPaypalAcc"
+import CustomerChangePasswordComponent from "./components/customerMaintenance/CustomerChangePassword"
 
 const routes = [
     {
@@ -60,6 +64,26 @@ const routes = [
         path: "/customer/order/:id",
         component: OrderPresetCustomTeeComponent,
         name: 'order'
+    },
+    {
+        path: "/customer/profileNav",
+        component: CustomerProfileNavComponent,
+        name: 'profileNav'
+    },
+    {
+        path: "/customer/editProfile",
+        component: CustomerEditProfileComponent,
+        name: 'editProfile'
+    },
+    {
+        path: "/customer/editPaypalProfile",
+        component: CustomerEditPaypalAccComponent,
+        name: 'editPaypalProfile'
+    },
+    {
+        path: "/customer/changePassword",
+        component: CustomerChangePasswordComponent,
+        name: 'changePassword'
     },
 
 ]
