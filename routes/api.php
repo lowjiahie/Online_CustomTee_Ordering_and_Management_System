@@ -34,6 +34,9 @@ Route::post("editAuthCusProfile", [CustomerController::class, 'editAuthCusProfil
 Route::post("getAuthPaypalProfile", [CustomerController::class, 'getAuthPaypalProfile']);
 Route::post("editAuthPaypalProfile", [CustomerController::class, 'editAuthPaypalProfile']);
 Route::post("changePassword", [CustomerController::class, 'changePassword']);
+Route::post("sendToken", [CustomerController::class, 'sendToken']);
+Route::get("validateToken/{token}", [CustomerController::class, 'validateToken']);
+Route::post("passwordRecovery", [CustomerController::class, 'passwordRecovery']);
 
 //CustomTeeDesignController
 Route::post("saveDesign", [CustomTeeDesignController::class, 'saveDesign']);

@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Models\Customer;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\PaypalAccount;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\CusPasswordRecoveryMailable;
 use Illuminate\Validation\ValidationException;
+use App\Models\PasswordReset;
 
 class CustomerController extends Controller
 {
@@ -93,7 +97,7 @@ class CustomerController extends Controller
     {
         $cusID = $request->cus_id;
 
-        $response = PaypalAccount::where('cus_id',$cusID)->get();
+        $response = PaypalAccount::where('cus_id', $cusID)->get();
 
         return response($response, 201);
     }
@@ -107,15 +111,15 @@ class CustomerController extends Controller
             'paypal_email' => 'required|email|unique:paypal_accounts',
         ]);
 
-        $paypalAcc = PaypalAccount::where('cus_id',$request->cus_id)->get();
-        
-        $response ="";
-        if(count($paypalAcc)>0){
-            $paypalAcc->first_name =$request->first_name;
-            $paypalAcc->last_name =$request->last_name;
-            $paypalAcc->paypal_email =$request->paypal_email;
+        $paypalAcc = PaypalAccount::where('cus_id', $request->cus_id)->get();
+
+        $response = "";
+        if (count($paypalAcc) > 0) {
+            $paypalAcc->first_name = $request->first_name;
+            $paypalAcc->last_name = $request->last_name;
+            $paypalAcc->paypal_email = $request->paypal_email;
             $response = $paypalAcc->update();
-        }else{
+        } else {
             $response = PaypalAccount::create([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
@@ -153,5 +157,61 @@ class CustomerController extends Controller
         $response = $cus->update();
 
         return response($response, 201);
+    }
+
+    public function sendToken(Request $request)
+    {
+        $request->validate([
+            'email' => 'required',
+        ]);
+
+        $cus = Customer::where('email', $request->email)->first();
+
+        if($cus == null){
+            throw ValidationException::withMessages([
+                'email' => ['This email does not exist.']
+            ]);
+        }
+
+        $token = Str::random(32);
+        Mail::to($cus)->send(new CusPasswordRecoveryMailable($token));
+
+        $response = PasswordReset::updateOrCreate([
+            'email' => $cus->email,
+            'token' => $token,
+        ], [
+            'token' => $token,
+        ]);
+
+        return response($response, 201);
+    }
+
+    public function validateToken($token)
+    {
+        $passRecovery = PasswordReset::where('token', $token)->first();
+
+        if ($passRecovery == null) {
+            return response()->json(['errors' => 'Invalid token', 401]);
+        }
+
+        $cus = Customer::where('email', $passRecovery->email)->first();
+
+        return response($cus, 201);
+    }
+
+    public function passwordRecovery(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/|confirmed',
+            'password_confirmation' => 'required',
+        ]);
+
+        $cus = Customer::find($request->cus_id);
+
+        $passRecovery = PasswordReset::where('email', $cus->email)->first();
+        $passRecovery->delete();
+
+        $cus->password = Hash::make($request->password);
+        $cus->update();
     }
 }
