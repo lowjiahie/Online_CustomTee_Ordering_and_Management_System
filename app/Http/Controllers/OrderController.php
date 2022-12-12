@@ -144,8 +144,25 @@ class OrderController extends Controller
             $staffInfo = $this->staffRepository->getById($staffID);
             return view('admin.orderDetail', ['orderDetail'=>$orderDetail, 'cusName'=>$cusName, 'deliveryDetail'=>$deliveryDetail,
             'orderItem'=>$orderItem, 'publishedOrder'=>$publishedOrder, 'customTeeOrder'=>$customTeeOrder, 'customTeeSize'], ['staffInfo'=>$staffInfo]);
-        }
-        else if(!strcmp($orderFunction, "Delete")){
+        }else if(!strcmp($orderFunction, "Update")){
+            $delivery_detail_id = $request->input('delivery_detail_id');
+            $delivery_tracking_num = $request->input('delivery_tracking_num');
+            $this->orderRepository->updateDeliveryTrackingNumber($delivery_detail_id, $delivery_tracking_num);
+
+            echo "<script>alert('Delivery tracking number update successfully!')</script>";
+            $orderDetail = $this->orderRepository->getSpecificOrder($order_id);
+            $cusName = $this->orderRepository->getCusName($orderDetail->cus_id);
+            $deliveryDetail = $this->orderRepository->getDeliveryDetail($orderDetail->delivery_detail_id);
+
+            $orderItem = $this->orderRepository->getOrderItems($order_id);
+            $publishedOrder = $this->orderRepository->getOrderItemsPublishedDesigns($order_id);
+            $customTeeOrder = $this->orderRepository->getOrderItemsOrderedCustomTees($order_id);
+
+            $staffID = $request->session()->get('StaffID');
+            $staffInfo = $this->staffRepository->getById($staffID);
+            return view('admin.orderDetail', ['orderDetail'=>$orderDetail, 'cusName'=>$cusName, 'deliveryDetail'=>$deliveryDetail,
+            'orderItem'=>$orderItem, 'publishedOrder'=>$publishedOrder, 'customTeeOrder'=>$customTeeOrder, 'customTeeSize'], ['staffInfo'=>$staffInfo]);
+        }else if(!strcmp($orderFunction, "Delete")){
             // Delete - delete the data
             // Delete from database
             $this->orderRepository->deleteAllOrderItem($order_id);

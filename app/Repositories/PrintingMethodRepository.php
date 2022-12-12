@@ -69,8 +69,8 @@ class PrintingMethodRepository implements PrintingMethodRepositoryInterface {
         return PrintingMethod::create($contain);
     }
 
-    public function update($id, $name, $price, $minimumOrder, $status){
-        return DB::update("UPDATE printing_methods SET name='$name', price='$price', minimum_order='$minimumOrder', status='$status' WHERE p_method_id='$id'");
+    public function update($id, $price, $minimumOrder, $status){
+        return DB::update("UPDATE printing_methods SET price='$price', minimum_order='$minimumOrder', status='$status' WHERE p_method_id='$id'");
     }
 
     public function deleteById($id){

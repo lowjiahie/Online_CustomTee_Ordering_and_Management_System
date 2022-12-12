@@ -25,7 +25,7 @@
                                 Type Name:
                             </div>
                             <div class='col' style='color:rgb(0, 0, 0);'>
-                                <input type="text" name="name" value="{{ $typeUpdate->name }}" />
+                                {{ $typeUpdate->name }}
                             </div>
                         </div>
 
@@ -35,7 +35,7 @@
                                 Material:
                             </div>
                             <div class='col' style='color:rgb(0, 0, 0);'>
-                                <input type="text" name="material" value="{{ $typeUpdate->material }}" />
+                                {{ $typeUpdate->material }}
                             </div>
                         </div>
 
@@ -55,7 +55,7 @@
                                 Detail:
                             </div>
                             <div class='col' style='color:rgb(0, 0, 0);'>
-                                <input type="text" name="detail" value="{{ $typeUpdate->detail }}" />
+                                {{ $typeUpdate->detail }}
                             </div>
                         </div>
 

@@ -25,6 +25,8 @@ interface OrderRepositoryInterface {
 
     public function updateDeliveryStatus($id, $status);
 
+    public function updateDeliveryTrackingNumber($id, $delivery_tracking_num);
+
     public function deleteOrder($id);
 
     public function deleteAllOrderItem($id);

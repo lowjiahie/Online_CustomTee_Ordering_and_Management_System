@@ -29,6 +29,11 @@ use App\Models\Competition;
 Route::post("login", [CustomerController::class, 'login']);
 Route::post("register", [CustomerController::class, 'register']);
 Route::post("logout", [CustomerController::class, 'logout']);
+Route::post("getAuthCusProfile", [CustomerController::class, 'getAuthCusProfile']);
+Route::post("editAuthCusProfile", [CustomerController::class, 'editAuthCusProfile']);
+Route::post("getAuthPaypalProfile", [CustomerController::class, 'getAuthPaypalProfile']);
+Route::post("editAuthPaypalProfile", [CustomerController::class, 'editAuthPaypalProfile']);
+Route::post("changePassword", [CustomerController::class, 'changePassword']);
 
 //CustomTeeDesignController
 Route::post("saveDesign", [CustomTeeDesignController::class, 'saveDesign']);

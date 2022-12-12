@@ -16,7 +16,6 @@ class CreateOrderItemsTable extends Migration
         Schema::create('order_items', function (Blueprint $table) {
             $table->string('order_item_id');
             $table->integer('total_qty');
-            $table->string('status');
             $table->string('orderItemable_id');
             $table->string("orderItemable_type");
 

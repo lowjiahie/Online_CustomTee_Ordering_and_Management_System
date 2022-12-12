@@ -77,6 +77,11 @@ class OrderRepository implements OrderRepositoryInterface {
         return DB::update("UPDATE delivery_details SET status='$status' WHERE delivery_detail_id='$id'");
     }
 
+    public function updateDeliveryTrackingNumber($id, $delivery_tracking_num){
+        return DB::update("UPDATE delivery_details SET delivery_tracking_num='$delivery_tracking_num' WHERE delivery_detail_id='$id'");
+    }
+
+
     public function deleteOrder($id){
         return DB::delete("DELETE FROM orders WHERE order_id='$id'");
     }
