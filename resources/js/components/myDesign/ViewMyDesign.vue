@@ -290,7 +290,7 @@
           role="tabpanel"
           aria-labelledby="v-pills-competition-design"
         >
-        <h4 class="fw-bold">Competition-design</h4>
+          <h4 class="fw-bold">Competition-design</h4>
           <div
             class="card mb-3"
             style="max-width: 900px;"
@@ -323,9 +323,7 @@
                   </p>
                   <p class="text-muted">
                     <b class="text-dark">Competition Time:</b>
-                    {{ competitionDesign.start_date_time }}
-                    &nbsp to &nbsp
-                    {{ competitionDesign.end_date_time }}
+                    {{ competitionDesign.start_date_time }}  to  {{ competitionDesign.end_date_time }}
                   </p>
                   <div class="d-grid gap-2 col-11 mx-auto mt-2">
                     <button
@@ -484,7 +482,8 @@
           <div class="modal-body">
             <div class="container">
               <label for="formPublish" class="form-label">
-                Select a competition to <b>submit</b> your design
+                Select a competition to
+                <b>submit</b> your design
               </label>
               <div class="row mb-3">
                 <div class="col-auto">
@@ -492,20 +491,18 @@
                 </div>
                 <div class="col-auto">
                   <select v-model="selected">
-                    <option v-for="competition in currentCompetitions" :key="competition.competition_id" :value="competition.competition_id">
-                      {{ competition.topic }}
-                    </option>
+                    <option
+                      v-for="competition in currentCompetitions"
+                      :key="competition.competition_id"
+                      :value="competition.competition_id"
+                    >{{ competition.topic }}</option>
                   </select>
                 </div>
               </div>
             </div>
           </div>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-primary"
-              @click="submitCompetition"
-            >Submit</button>
+            <button type="button" class="btn btn-primary" @click="submitCompetition">Submit</button>
           </div>
         </div>
       </div>
@@ -577,7 +574,7 @@ export default {
       competitionForm: {
         competition_id: null,
         cus_id: null,
-        status: 'participated',
+        status: "participated",
         front_design_img: null,
         back_design_img: null,
       },
@@ -772,8 +769,10 @@ export default {
     submitCompetition() {
       this.competitionForm.competition_id = competition.competition_id;
       this.competitionForm.cus_id = this.authCus.cus_id;
-      this.competitionForm.front_design_img = publishedDesignForm.front_design_img;
-      this.competitionForm.back_design_img = publishedDesignForm.back_design_img;
+      this.competitionForm.front_design_img =
+        publishedDesignForm.front_design_img;
+      this.competitionForm.back_design_img =
+        publishedDesignForm.back_design_img;
 
       axios
         .post("/api/submitCompetition", {
@@ -794,7 +793,7 @@ export default {
             swal(
               "Failed submit",
               "Unsuccessfully submit design to the competition " +
-              competition.competition_id ,
+                competition.competition_id,
               "error"
             );
           }
@@ -813,27 +812,24 @@ export default {
       return require("@assets/competition/" + img);
     },
     withdraw(competition_id) {
-      axios.post("/api/withdrawCompetition",{
-        cusID: this.authCus.cus_id,
-        competitionID: competition_id,
-      }).then((response) => {
-        if(response.data.isValid){
-          swal(
-            "Withdraw success",
-            "You have successfully withdraw from competition",
-            "success"
-          )
-        }else{
-          swal(
-            "Withdraw failed",
-            "The competition have ended",
-            "error"
-          )
-        }
+      axios
+        .post("/api/withdrawCompetition", {
+          cusID: this.authCus.cus_id,
+          competitionID: competition_id,
+        })
+        .then((response) => {
+          if (response.data.isValid) {
+            swal(
+              "Withdraw success",
+              "You have successfully withdraw from competition",
+              "success"
+            );
+          } else {
+            swal("Withdraw failed", "The competition have ended", "error");
+          }
 
-
-        location.reload();
-      });
+          location.reload();
+        });
     },
   },
   computed: {

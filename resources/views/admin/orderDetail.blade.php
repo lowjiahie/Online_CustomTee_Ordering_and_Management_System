@@ -199,10 +199,10 @@
                             <div class='row'
                                 style='background-color: white; color:rgb(0, 0, 0); margin: 10px 10px 10px 10px; padding: 20px 10px 20px 10px;'>
                                 <div class='col' style='color:rgb(0, 0, 0);'>
-                                    <img src="{{ asset('orderDesign/' . $customTee->front_design_img) }}"
+                                    <img src="{{ asset('customTee/' . $customTee->front_design_img) }}"
                                         alt="Front Design" width="200" height="200"
                                         style="display: block; margin-left: 25%; float: left;" />
-                                    <img src="{{ asset('orderDesign/' . $customTee->back_design_img) }}"
+                                    <img src="{{ asset('customTee/' . $customTee->back_design_img) }}"
                                         alt="Back Design" width="200" height="200"
                                         style="display: block; margin-right: 25%; float: right;" />
                                 </div>

@@ -5591,17 +5591,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! pinia */ "./node_modules/pinia/dist/pinia.mjs");
+/* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! pinia */ "./node_modules/pinia/dist/pinia.mjs");
 /* harmony import */ var _store_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../store/auth */ "./resources/js/store/auth.js");
 /* harmony import */ var vue2_filters__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue2-filters */ "./node_modules/vue2-filters/dist/vue2-filters.js");
 /* harmony import */ var vue2_filters__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue2_filters__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _store_lastDesign__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../store/lastDesign */ "./resources/js/store/lastDesign.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 
@@ -5616,7 +5614,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   mounted: function mounted() {
     this.getAllCompetition();
   },
-  methods: _objectSpread(_objectSpread({}, (0,pinia__WEBPACK_IMPORTED_MODULE_3__.mapActions)(_store_lastDesign__WEBPACK_IMPORTED_MODULE_2__.useLastDesignStore, ["editEmptyCustomTeeDesign"])), {}, {
+  methods: {
     getAllCompetition: function getAllCompetition() {
       var _this = this;
 
@@ -5629,8 +5627,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         name: "myDesign"
       });
     }
-  }),
-  computed: _objectSpread({}, (0,pinia__WEBPACK_IMPORTED_MODULE_3__.mapState)(_store_auth__WEBPACK_IMPORTED_MODULE_0__.useAuthStore, ["authStatus"]))
+  },
+  computed: _objectSpread({}, (0,pinia__WEBPACK_IMPORTED_MODULE_2__.mapState)(_store_auth__WEBPACK_IMPORTED_MODULE_0__.useAuthStore, ["authCus"]))
 });
 
 /***/ }),
@@ -6827,7 +6825,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       competitionForm: {
         competition_id: null,
         cus_id: null,
-        status: 'participated',
+        status: "participated",
         front_design_img: null,
         back_design_img: null
       }
@@ -7877,11 +7875,11 @@ var render = function render() {
       staticClass: "fw-bold"
     }, [_vm._v(_vm._s(competition.topic))]), _vm._v(" "), _c("em", {
       staticClass: "text-muted"
-    }, [_vm._v(_vm._s(competition.description))]), _vm._v(" "), _c("br"), _c("br"), _vm._v("\n              Rules:\n              "), _c("em", {
+    }, [_vm._v(_vm._s(competition.description))]), _vm._v(" "), _c("br"), _vm._v(" "), _c("br"), _vm._v("Rules:\n              "), _c("em", {
       staticClass: "text-muted"
-    }, [_vm._v(_vm._s(competition.rules))]), _vm._v(" "), _c("br"), _c("br"), _vm._v(" "), _c("em", {
+    }, [_vm._v(_vm._s(competition.rules))]), _vm._v(" "), _c("br"), _vm._v(" "), _c("br"), _vm._v(" "), _c("em", {
       staticClass: "text-muted"
-    }, [_vm._v("\n                " + _vm._s(competition.start_date_time) + "\n                  to  \n                " + _vm._s(competition.end_date_time) + "\n              ")]), _vm._v(" "), _c("br"), _c("br"), _vm._v(" "), competition.winner != null ? _c("p", [_vm._v("\n                Winner:\n                "), _c("em", {
+    }, [_vm._v("\n                " + _vm._s(competition.start_date_time) + "\n                  to  \n                " + _vm._s(competition.end_date_time) + "\n              ")]), _vm._v(" "), _c("br"), _vm._v(" "), _c("br"), _vm._v(" "), competition.winner != null ? _c("p", [_vm._v("\n                Winner:\n                "), _c("em", {
       staticClass: "text-muted"
     }, [_vm._v(_vm._s(competition.winner))])]) : _c("p", [_c("button", {
       staticClass: "btn btn-dark",
@@ -10168,7 +10166,7 @@ var render = function render() {
       staticClass: "text-muted"
     }, [_c("b", {
       staticClass: "text-dark"
-    }, [_vm._v("Competition Time:")]), _vm._v("\n                  " + _vm._s(competitionDesign.start_date_time) + "\n                    to  \n                  " + _vm._s(competitionDesign.end_date_time) + "\n                ")]), _vm._v(" "), _c("div", {
+    }, [_vm._v("Competition Time:")]), _vm._v("\n                  " + _vm._s(competitionDesign.start_date_time) + "  to  " + _vm._s(competitionDesign.end_date_time) + "\n                ")]), _vm._v(" "), _c("div", {
       staticClass: "d-grid gap-2 col-11 mx-auto mt-2"
     }, [_c("button", {
       staticClass: "btn btn-primary",
@@ -10399,7 +10397,7 @@ var render = function render() {
       domProps: {
         value: competition.competition_id
       }
-    }, [_vm._v("\n                    " + _vm._s(competition.topic) + "\n                  ")]);
+    }, [_vm._v(_vm._s(competition.topic))]);
   }), 0)])])])]), _vm._v(" "), _c("div", {
     staticClass: "modal-footer"
   }, [_c("button", {
@@ -10504,7 +10502,7 @@ var staticRenderFns = [function () {
     attrs: {
       "for": "formPublish"
     }
-  }, [_vm._v("\n              Select a competition to "), _c("b", [_vm._v("submit")]), _vm._v(" your design\n            ")]);
+  }, [_vm._v("\n              Select a competition to\n              "), _c("b", [_vm._v("submit")]), _vm._v(" your design\n            ")]);
 }, function () {
   var _vm = this,
       _c = _vm._self._c;
@@ -52642,6 +52640,26 @@ module.exports = "/images/CS00001-dawdqwd-TC00006-front-preset.jpg?dfd8c9390c9bf
 
 /***/ }),
 
+/***/ "./public/customTee/CS00001-dqwdqwd-TC00005-back-preset.jpg":
+/*!******************************************************************!*\
+  !*** ./public/customTee/CS00001-dqwdqwd-TC00005-back-preset.jpg ***!
+  \******************************************************************/
+/***/ ((module) => {
+
+module.exports = "/images/CS00001-dqwdqwd-TC00005-back-preset.jpg?224221807c3511605b68126c7728a59f";
+
+/***/ }),
+
+/***/ "./public/customTee/CS00001-dqwdqwd-TC00005-front-preset.jpg":
+/*!*******************************************************************!*\
+  !*** ./public/customTee/CS00001-dqwdqwd-TC00005-front-preset.jpg ***!
+  \*******************************************************************/
+/***/ ((module) => {
+
+module.exports = "/images/CS00001-dqwdqwd-TC00005-front-preset.jpg?14e6fbfec68a045c8e0cdb8fd140705f";
+
+/***/ }),
+
 /***/ "./public/customTee/CS00001-dwdqd-TC00004-back-preset.jpg":
 /*!****************************************************************!*\
   !*** ./public/customTee/CS00001-dwdqd-TC00004-back-preset.jpg ***!
@@ -52882,6 +52900,46 @@ module.exports = "/images/CS00001-123QWE-front-published-6r4WtaNOY.jpg?c91d5c8e7
 
 /***/ }),
 
+/***/ "./public/publishedDesign/CS00001-Design 1-back-published-Qd1FDmubI.jpg":
+/*!******************************************************************************!*\
+  !*** ./public/publishedDesign/CS00001-Design 1-back-published-Qd1FDmubI.jpg ***!
+  \******************************************************************************/
+/***/ ((module) => {
+
+module.exports = "/images/CS00001-Design 1-back-published-Qd1FDmubI.jpg?968d66f43417a75abf2bcd3ed00a1f3a";
+
+/***/ }),
+
+/***/ "./public/publishedDesign/CS00001-Design 1-front-published-5t8qMlFqY.jpg":
+/*!*******************************************************************************!*\
+  !*** ./public/publishedDesign/CS00001-Design 1-front-published-5t8qMlFqY.jpg ***!
+  \*******************************************************************************/
+/***/ ((module) => {
+
+module.exports = "/images/CS00001-Design 1-front-published-5t8qMlFqY.jpg?c91d5c8e7eec55858a6ee1e7cfa60a63";
+
+/***/ }),
+
+/***/ "./public/publishedDesign/CS00001-Design 2-back-published-Q7kq2oiyD.jpg":
+/*!******************************************************************************!*\
+  !*** ./public/publishedDesign/CS00001-Design 2-back-published-Q7kq2oiyD.jpg ***!
+  \******************************************************************************/
+/***/ ((module) => {
+
+module.exports = "/images/CS00001-Design 2-back-published-Q7kq2oiyD.jpg?3fb59c954ab71b25b873505146455b76";
+
+/***/ }),
+
+/***/ "./public/publishedDesign/CS00001-Design 2-front-published-z4Ijk4GQB.jpg":
+/*!*******************************************************************************!*\
+  !*** ./public/publishedDesign/CS00001-Design 2-front-published-z4Ijk4GQB.jpg ***!
+  \*******************************************************************************/
+/***/ ((module) => {
+
+module.exports = "/images/CS00001-Design 2-front-published-z4Ijk4GQB.jpg?ec173a39832fed58cca836c0260faa38";
+
+/***/ }),
+
 /***/ "./public/publishedDesign/CS00001-qwdqwd-back-published-2yF5pfpcX.jpg":
 /*!****************************************************************************!*\
   !*** ./public/publishedDesign/CS00001-qwdqwd-back-published-2yF5pfpcX.jpg ***!
@@ -52919,6 +52977,46 @@ module.exports = "/images/CS00002-1234 Design-back-published-v14z6kpu4.jpg?ce6b1
 /***/ ((module) => {
 
 module.exports = "/images/CS00002-1234 Design-front-published-GYXsFs5WN.jpg?72e1a8bed79d68b8e3209b903313f552";
+
+/***/ }),
+
+/***/ "./public/publishedDesign/CS00002-Go Green-back-published-HV9HOMn90.jpg":
+/*!******************************************************************************!*\
+  !*** ./public/publishedDesign/CS00002-Go Green-back-published-HV9HOMn90.jpg ***!
+  \******************************************************************************/
+/***/ ((module) => {
+
+module.exports = "/images/CS00002-Go Green-back-published-HV9HOMn90.jpg?ce6b17cbee43338d90526cda3b4980ea";
+
+/***/ }),
+
+/***/ "./public/publishedDesign/CS00002-Go Green-front-published-HeFd3vSfT.jpg":
+/*!*******************************************************************************!*\
+  !*** ./public/publishedDesign/CS00002-Go Green-front-published-HeFd3vSfT.jpg ***!
+  \*******************************************************************************/
+/***/ ((module) => {
+
+module.exports = "/images/CS00002-Go Green-front-published-HeFd3vSfT.jpg?98c20790b008a4667777fa4a6aaa3ad5";
+
+/***/ }),
+
+/***/ "./public/publishedDesign/CS00002-Human Design-back-published-vsXsbHBxL.jpg":
+/*!**********************************************************************************!*\
+  !*** ./public/publishedDesign/CS00002-Human Design-back-published-vsXsbHBxL.jpg ***!
+  \**********************************************************************************/
+/***/ ((module) => {
+
+module.exports = "/images/CS00002-Human Design-back-published-vsXsbHBxL.jpg?ccc717fc8bf6e54369a18a05cefa5a58";
+
+/***/ }),
+
+/***/ "./public/publishedDesign/CS00002-Human Design-front-published-fpkwOwK11.jpg":
+/*!***********************************************************************************!*\
+  !*** ./public/publishedDesign/CS00002-Human Design-front-published-fpkwOwK11.jpg ***!
+  \***********************************************************************************/
+/***/ ((module) => {
+
+module.exports = "/images/CS00002-Human Design-front-published-fpkwOwK11.jpg?ace6c014a5df2b056e6d6c516f4a4008";
 
 /***/ }),
 
@@ -92172,6 +92270,8 @@ var map = {
 	"./CS00001-cqcqwfcqw-TC00004-front-preset.jpg": "./public/customTee/CS00001-cqcqwfcqw-TC00004-front-preset.jpg",
 	"./CS00001-dawdqwd-TC00006-back-preset.jpg": "./public/customTee/CS00001-dawdqwd-TC00006-back-preset.jpg",
 	"./CS00001-dawdqwd-TC00006-front-preset.jpg": "./public/customTee/CS00001-dawdqwd-TC00006-front-preset.jpg",
+	"./CS00001-dqwdqwd-TC00005-back-preset.jpg": "./public/customTee/CS00001-dqwdqwd-TC00005-back-preset.jpg",
+	"./CS00001-dqwdqwd-TC00005-front-preset.jpg": "./public/customTee/CS00001-dqwdqwd-TC00005-front-preset.jpg",
 	"./CS00001-dwdqd-TC00004-back-preset.jpg": "./public/customTee/CS00001-dwdqd-TC00004-back-preset.jpg",
 	"./CS00001-dwdqd-TC00004-front-preset.jpg": "./public/customTee/CS00001-dwdqd-TC00004-front-preset.jpg",
 	"./CS00002-1234-TC00001-back-preset.jpg": "./public/customTee/CS00002-1234-TC00001-back-preset.jpg",
@@ -92256,10 +92356,18 @@ var map = {
 	"./CS00001-1234 Design-front-published-6XoABaxDi.jpg": "./public/publishedDesign/CS00001-1234 Design-front-published-6XoABaxDi.jpg",
 	"./CS00001-123QWE-back-published-2zBGtKIZb.jpg": "./public/publishedDesign/CS00001-123QWE-back-published-2zBGtKIZb.jpg",
 	"./CS00001-123QWE-front-published-6r4WtaNOY.jpg": "./public/publishedDesign/CS00001-123QWE-front-published-6r4WtaNOY.jpg",
+	"./CS00001-Design 1-back-published-Qd1FDmubI.jpg": "./public/publishedDesign/CS00001-Design 1-back-published-Qd1FDmubI.jpg",
+	"./CS00001-Design 1-front-published-5t8qMlFqY.jpg": "./public/publishedDesign/CS00001-Design 1-front-published-5t8qMlFqY.jpg",
+	"./CS00001-Design 2-back-published-Q7kq2oiyD.jpg": "./public/publishedDesign/CS00001-Design 2-back-published-Q7kq2oiyD.jpg",
+	"./CS00001-Design 2-front-published-z4Ijk4GQB.jpg": "./public/publishedDesign/CS00001-Design 2-front-published-z4Ijk4GQB.jpg",
 	"./CS00001-qwdqwd-back-published-2yF5pfpcX.jpg": "./public/publishedDesign/CS00001-qwdqwd-back-published-2yF5pfpcX.jpg",
 	"./CS00001-qwdqwd-front-published-0i5OBUQH1.jpg": "./public/publishedDesign/CS00001-qwdqwd-front-published-0i5OBUQH1.jpg",
 	"./CS00002-1234 Design-back-published-v14z6kpu4.jpg": "./public/publishedDesign/CS00002-1234 Design-back-published-v14z6kpu4.jpg",
 	"./CS00002-1234 Design-front-published-GYXsFs5WN.jpg": "./public/publishedDesign/CS00002-1234 Design-front-published-GYXsFs5WN.jpg",
+	"./CS00002-Go Green-back-published-HV9HOMn90.jpg": "./public/publishedDesign/CS00002-Go Green-back-published-HV9HOMn90.jpg",
+	"./CS00002-Go Green-front-published-HeFd3vSfT.jpg": "./public/publishedDesign/CS00002-Go Green-front-published-HeFd3vSfT.jpg",
+	"./CS00002-Human Design-back-published-vsXsbHBxL.jpg": "./public/publishedDesign/CS00002-Human Design-back-published-vsXsbHBxL.jpg",
+	"./CS00002-Human Design-front-published-fpkwOwK11.jpg": "./public/publishedDesign/CS00002-Human Design-front-published-fpkwOwK11.jpg",
 	"./CS00002-grren-back-published-AvsYykBiH.jpg": "./public/publishedDesign/CS00002-grren-back-published-AvsYykBiH.jpg",
 	"./CS00002-grren-front-published-KaFhNGMrE.jpg": "./public/publishedDesign/CS00002-grren-front-published-KaFhNGMrE.jpg",
 	"./CS00002-human Design-back-published-zo6V1k4vO.jpg": "./public/publishedDesign/CS00002-human Design-back-published-zo6V1k4vO.jpg",

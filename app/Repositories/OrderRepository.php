@@ -38,7 +38,7 @@ class OrderRepository implements OrderRepositoryInterface {
     }
 
     public function getOrderItemsPublishedDesigns($order_id){
-        return DB::select("SELECT OI.order_item_id, OI.total_qty, OI.status AS item_status, OI.orderItemable_type,
+        return DB::select("SELECT OI.order_item_id, OI.total_qty, OI.orderItemable_type,
         PD.name AS published_design_name, PD.price AS published_design_price, PD.type AS published_design_type,
         PD.front_design_img, PD.back_design_img
         FROM orders AS O, order_items AS OI, published_designs AS PD
@@ -46,7 +46,7 @@ class OrderRepository implements OrderRepositoryInterface {
     }
 
     public function getOrderItemsOrderedCustomTees($order_id){
-        return DB::select("SELECT OI.order_item_id, OI.total_qty, OI.status AS item_status, OI.orderItemable_type, S.size_name,
+        return DB::select("SELECT OI.order_item_id, OI.total_qty, OI.orderItemable_type, S.size_name,
         T.name AS type_name, C.color_name, PM.name AS printing_method_name, OD.front_design_img, OD.back_design_img FROM orders AS O, order_items AS OI,
         ordered_custom_tees AS OCT, plain_tee_sizes AS S, plain_tee_type_colors AS TC, colors AS C, types AS T,
         printing_methods AS PM, ordered_designs AS OD WHERE O.order_id=OI.order_id

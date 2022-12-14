@@ -36,7 +36,7 @@ class CompetitionController extends Controller
 
     }
 
-    public function getCompetitionList(Request $request){
+    public function getCompetitionList(){
         $response = Competition::all();
         return response($response, 201);
     }
