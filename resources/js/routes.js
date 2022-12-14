@@ -13,6 +13,7 @@ import CustomerProfileNavComponent from "./components/customerMaintenance/Custom
 import CustomerEditProfileComponent from "./components/customerMaintenance/CustomerEditProfile"
 import CustomerEditPaypalAccComponent from "./components/customerMaintenance/CustomerEditPaypalAcc"
 import CustomerChangePasswordComponent from "./components/customerMaintenance/CustomerChangePassword"
+import CompetitionListComponent from "./components/competition/competitionList"
 
 const routes = [
     {
@@ -84,6 +85,11 @@ const routes = [
         path: "/customer/changePassword",
         component: CustomerChangePasswordComponent,
         name: 'changePassword'
+    },
+    {
+        path: "/customer/viewCompetitionList",
+        component: CompetitionListComponent,
+        name: 'viewCompetitionList'
     },
 
 ]

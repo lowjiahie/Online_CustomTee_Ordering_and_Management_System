@@ -76,8 +76,12 @@ class StaffRepository implements StaffRepositoryInterface {
         ->first();
     }
 
-    public function forgotPasswordDelete($email){
-        return DB::select("DELETE password_resets WHERE email=$email");
+    public function forgotPasswordDelete(){
+        return DB::select("DELETE FROM password_resets");
+    }
+
+    public function updateByEmail($email, $password){
+        return DB::update("UPDATE staff SET password='$password' WHERE email='$email'");
     }
 
 }

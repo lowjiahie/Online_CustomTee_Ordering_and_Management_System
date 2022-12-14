@@ -361,7 +361,7 @@
               <router-link class="nav-link" :to="{name:'design-price'}">Sharing Section</router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Competition</a>
+              <router-link class="nav-link" :to="{name:'viewCompetitionList'}">Competition</router-link>
             </li>
           </ul>
           <!--End Left side nav-bar - nav-link -->

@@ -89,6 +89,11 @@ class StaffController extends Controller
         $passwordRecovery = $request->input('passwordRecovery');
 
         if(!strcmp($passwordRecovery, "Recover")){
+
+            $request->validate([
+                "email" => "required|email|exists:staff"
+            ]);
+
             $email = $request->input('email');
             $recoverToken = random_int(100000, 999999);
 
@@ -99,7 +104,7 @@ class StaffController extends Controller
                 $message->subject('Reset Password');
             });
 
-            return view('admin.passwordRecovery');
+            return view('admin.passwordRecovery', ["email"=>$email]);
 
         }else{
             return view('admin.login');
@@ -110,14 +115,41 @@ class StaffController extends Controller
         $passwordRecovery = $request->input('passwordRecovery');
 
         if(!strcmp($passwordRecovery, "Confirm")){
+            $email = $request->input('email');
             $pincode = $request->input('pincode');
+            $recoverEmailToken = $this->repository->getPasswordRecoveryEmail($email);
+            if($recoverEmailToken->token == $pincode){
+                return view('admin.passwordRecoveryForm', ["email"=>$email]);
+            }else{
+                echo "<script>alert('Pincode invalid!')</script>";
+                return view('admin.passwordRecovery', ["email"=>$email]);
+            }
+        }else{
+            $this->repository->forgotPasswordDelete();
+            return view('admin.login');
+        }
+    }
 
+    public function passwordRecoverySubmit(Request $request){
+        $updateCancel = $request->input('updateCancel');
 
+        if(!strcmp($updateCancel, "Update")){
+            $email = $request->input('email');
+            $password = $request->input('password');
+            $confirmPassword = $request->input('confirmPassword');
 
-
-            return view('admin.passwordRecovery');
+            if($password == $confirmPassword){
+                $this->repository->updateByEmail($email, Hash::make($password));
+                $this->repository->forgotPasswordDelete();
+                echo "<script>alert('Update successfully!')</script>";
+                return view('admin.login', ["email"=>$email]);
+            }else{
+                echo "<script>alert('Password and confirm password are different!')</script>";
+                return view('admin.passwordRecoveryForm', ["email"=>$email]);
+            }
 
         }else{
+            $this->repository->forgotPasswordDelete();
             return view('admin.login');
         }
     }

@@ -8,8 +8,6 @@ use App\Http\Controllers\Customer\CustomTeeDesignController;
 use App\Http\Controllers\customer\PublishedDesignController;
 use App\Http\Controllers\customer\PlainTeeTypeColorController;
 use App\Http\Controllers\customer\CompetitionController;
-use App\Models\Competition;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -64,7 +62,11 @@ Route::post("getSavedPurchasedDesigns", [PublishedDesignController::class, 'getS
 
 
 // Competition
-Route::post("getCompetitionList", [Competition::class, 'competititonList']);
+Route::post("getCurrentCompetition", [CompetitionController::class, 'getCurrentCompetition']);
+Route::post("getMyCompetitionDesign", [CompetitionController::class, 'getMyCompetitionDesign']);
+Route::post("getCompetitionList", [CompetitionController::class, 'getCompetitionList']);
+Route::post("submitCompetition", [CompetitionController::class, 'submitCompetition']);
+Route::post("withdrawCompetition", [CompetitionController::class, 'withdrawCompetition']);
 
 // Route::group(['middleware' => 'auth:sanctum'], function () {
 //     //All secure URL's

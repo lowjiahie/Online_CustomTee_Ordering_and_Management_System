@@ -31,7 +31,9 @@ interface StaffRepositoryInterface {
 
     public function getPasswordRecoveryEmail($email);
 
-    public function forgotPasswordDelete($email);
+    public function forgotPasswordDelete();
+
+    public function updateByEmail($email, $password);
 
 }
 

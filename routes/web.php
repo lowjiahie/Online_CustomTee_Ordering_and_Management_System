@@ -22,6 +22,9 @@ Route::prefix('/admin')->group(function() {
     Route::view('/passwordRecovery','admin.passwordRecovery')->name('admin.passwordRecovery');
     Route::post('/passwordRecoverySubmit','App\Http\Controllers\StaffController@passwordRecovery')->name('admin.passwordRecoverySubmit');
 
+    Route::view('/passwordRecoveryForm','admin.passwordRecoveryForm')->name('admin.passwordRecoveryForm');
+    Route::post('/passwordRecoveryFormSubmit','App\Http\Controllers\StaffController@passwordRecoverySubmit')->name('admin.passwordRecoveryFormSubmit');
+
     Route::get('/profile', 'App\Http\Controllers\StaffController@profile')->name('admin.profile');
     Route::get('/logout', 'App\Http\Controllers\StaffController@logout')->name('admin.logout');
 
