@@ -6,13 +6,13 @@
       <div class="row g-0">
         <div class="col-md-3">
           <img
-            :src="require('@assets/customTee/'+presetCustomTee.front_design_img)"
+            :src="require(`@assets/customTee/${presetCustomTee.front_design_img}`)"
             class="img-fluid rounded-start"
           />
         </div>
         <div class="col-md-3">
           <img
-            :src="require('@assets/customTee/'+presetCustomTee.back_design_img)"
+            :src="require(`@assets/customTee/${presetCustomTee.back_design_img}`)"
             class="img-fluid rounded-start"
           />
         </div>
@@ -33,7 +33,6 @@
             </p>
             <p class="card-text mb-2">
               <b class="text-dark">Printing Method:</b>
-              {{ minimumOrder }}
               <select
                 class="form-select mt-2"
                 v-model="selectedPrintingMethod"
@@ -43,9 +42,13 @@
                 <option
                   v-for="availablePrintingMethod in availablePrintingMethods"
                   :key="availablePrintingMethod.p_method_id"
-                  :value="availablePrintingMethod.p_method_id"
+                  :value="availablePrintingMethod"
                 >{{ availablePrintingMethod.name }}-{{ availablePrintingMethod.price | currency('RM') }}</option>
               </select>
+            </p>
+            <p class="card-text mb-3">
+              <b class="text-dark">Minimum Order:</b>
+              {{ minimumOrder }}
             </p>
             <p class="card-text mb-4">
               <b class="text-dark">PlainTee Size:</b>
@@ -53,13 +56,19 @@
                 <option
                   v-for="availableSize in availableSizes"
                   :key="availableSize.plain_tee_size_id"
-                  :value="availableSize.plain_tee_size_id"
+                  :value="availableSize"
                 >{{ availableSize.size_name }}</option>
               </select>
             </p>
             <p class="card-text mb-4">
               <b class="text-dark">Order Quantity:</b>
-              <vue-numeric-input v-model="orderQty" :min="1" :mousewheel="true" align="center" @input="checkOrder"></vue-numeric-input>
+              <vue-numeric-input
+                v-model="orderQty"
+                :min="1"
+                :mousewheel="true"
+                align="center"
+                @input="checkOrder"
+              ></vue-numeric-input>
             </p>
             <div class="d-grid gap-2 d-md-flex">
               <h5>Total Price = [{{ this.printingMethodPrice | currency('RM') }}+{{ this.presetCustomTee.price | currency('RM') }}]*{{ this.orderQty }} = {{ ((parseFloat(this.printingMethodPrice)+parseFloat(this.presetCustomTee.price))*this.orderQty) | currency('RM') }}</h5>
@@ -68,7 +77,7 @@
               <li class="text-danger" v-for="error in orderErrors" :key="error">{{ error }}</li>
             </ul>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-              <button class="btn btn-dark me-4" type="button">Add to cart</button>
+              <button class="btn btn-dark me-4" type="button" @click.prevent="addToCart">Add to cart</button>
             </div>
           </div>
         </div>
@@ -79,6 +88,9 @@
 <script>
 import Vue2Filters from "vue2-filters";
 import VueNumericInput from "vue-numeric-input";
+import { mapState, mapActions } from "pinia";
+import { useCartStore } from "../../store/cart";
+import { useAuthStore } from "../../store/auth";
 
 export default {
   components: {
@@ -89,7 +101,7 @@ export default {
       selectedSize: "",
       selectedPrintingMethod: "",
       displayMinimumOrder: "",
-      minimumOrder: "",
+      minimumOrder: 0,
       presetCustomTee: "",
       orderQty: 1,
       ttlPrice: 0.0,
@@ -97,6 +109,18 @@ export default {
       availableSizes: [],
       availablePrintingMethods: [],
       orderErrors: [],
+      orderCustomTee: {
+        customtee: {},
+        printingMethodID: "",
+        printingMethodName: "",
+        sizeID: "",
+        printingPrice: 0.0,
+        sizeName: "",
+        qty: 0,
+        subtotal:0,
+        cusID:"",
+      },
+      tempCustomTeeCart: [],
     };
   },
   mixins: [Vue2Filters.mixin],
@@ -119,9 +143,10 @@ export default {
   mounted() {},
 
   methods: {
+    ...mapActions(useCartStore, ["setCustomTeeCart"]),
     showMinimumOrder() {
       this.availablePrintingMethods.forEach((item) => {
-        if (item.p_method_id === this.selectedPrintingMethod) {
+        if (item.p_method_id === this.selectedPrintingMethod.p_method_id) {
           this.displayMinimumOrder = "minimum order- " + item.minimum_order;
           this.minimumOrder = item.minimum_order;
           this.printingMethodPrice = item.price;
@@ -138,12 +163,33 @@ export default {
         this.orderErrors.push("Please select a size");
       }
 
-      if(this.orderQty < this.minimumOrder){
-        this.orderErrors.push("Order quantity cannot smaller than minimum order");
+      if (this.orderQty < this.minimumOrder) {
+        this.orderErrors.push(
+          "Order quantity cannot smaller than minimum order"
+        );
       }
+    },
 
+    addToCart() {
+      this.checkOrder();
+      if (this.orderErrors.length == 0) {
+        this.orderCustomTee.customtee = this.presetCustomTee;
+        this.orderCustomTee.printingMethodName =
+          this.selectedPrintingMethod.name;
+        this.orderCustomTee.printingMethodID =
+          this.selectedPrintingMethod.p_method_id;
+        this.orderCustomTee.printingPrice = this.printingMethodPrice;
+        this.orderCustomTee.sizeID = this.selectedSize.plain_tee_size_id;
+        this.orderCustomTee.qty = this.orderQty;
+        this.orderCustomTee.sizeName = this.selectedSize.size_name;
+        this.orderCustomTee.cusID=this.authCus.cus_id
+        this.setCustomTeeCart(this.orderCustomTee);
+      }
     },
   },
-  computed: {},
+  computed: {
+    ...mapState(useCartStore, ["customTeeCart"]),
+    ...mapState(useAuthStore, ["authCus"]),
+  },
 };
 </script>

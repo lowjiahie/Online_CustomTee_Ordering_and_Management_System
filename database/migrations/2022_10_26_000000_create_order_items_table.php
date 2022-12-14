@@ -18,7 +18,7 @@ class CreateOrderItemsTable extends Migration
             $table->integer('total_qty');
             $table->string('orderItemable_id');
             $table->string("orderItemable_type");
-
+            $table->decimal('sub_total', 10, 2);
             $table->string('order_id');
             $table->foreign('order_id')->references('order_id')
                 ->on('orders')

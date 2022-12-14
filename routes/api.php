@@ -8,6 +8,7 @@ use App\Http\Controllers\Customer\CustomTeeDesignController;
 use App\Http\Controllers\customer\PublishedDesignController;
 use App\Http\Controllers\customer\PlainTeeTypeColorController;
 use App\Http\Controllers\customer\CompetitionController;
+use App\Http\Controllers\customer\OrderController;
 use App\Models\Competition;
 
 /*
@@ -48,6 +49,7 @@ Route::get("getOnePresetDesign/{id}", [CustomTeeDesignController::class, 'getOne
 
 //PlainTeeTypeColorController
 Route::post("getPlainTeeTypeColor", [PlainTeeTypeColorController::class, 'getPlainTeeTypeColor']);
+Route::post("checkStock", [PlainTeeTypeColorController::class, 'checkStock']);
 Route::get("getAvailableSize/{id}", [PlainTeeTypeColorController::class, 'getAvailableSize']);
 
 //PrintingMethodController
@@ -61,6 +63,14 @@ Route::post("getPublishedDesignsOnSharing", [PublishedDesignController::class, '
 Route::post("reportPublishedDesign", [PublishedDesignController::class, 'reportPublishedDesign']);
 Route::post("saveToMyDesign", [PublishedDesignController::class, 'saveToMyDesign']);
 Route::post("getSavedPurchasedDesigns", [PublishedDesignController::class, 'getSavedPurchasedDesigns']);
+
+
+//OrderController
+Route::post("checkOut", [OrderController::class, 'checkOut']);
+Route::post("getOrderWithStatus", [OrderController::class, 'getOrderWithStatus']);
+Route::post("cancelOrder", [OrderController::class, 'cancelOrder']);
+Route::post("searchOrderByID", [OrderController::class, 'searchOrderByID']);
+Route::get("getOrderDetails/{id}", [OrderController::class, 'getOrderDetails']);
 
 
 // Competition

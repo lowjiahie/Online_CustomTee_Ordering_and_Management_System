@@ -6,7 +6,12 @@
         <p class="h2">All Plain-Tee</p>
       </div>
     </div>
-    <div class="pt-2 pb-5">
+    <div v-if="loading" class="text-center">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    <div v-else class="pt-2 pb-5">
       <div class="container p-2">
         <div class="row mb-md-2">
           <div
@@ -34,7 +39,11 @@
                     >{{ presetCustomTeeDesign.price | currency('RM') }}</span>
                   </div>
                   <div class="col-7 text-center pt-4">
-                    <button type="button" class="btn btn-dark" @click="createDesign(presetCustomTeeDesign)">Create Design</button>
+                    <button
+                      type="button"
+                      class="btn btn-dark"
+                      @click="createDesign(presetCustomTeeDesign)"
+                    >Create Design</button>
                   </div>
                 </div>
               </div>
@@ -47,7 +56,7 @@
 </template>
 
 <script>
-import { mapState,mapActions } from "pinia";
+import { mapState, mapActions } from "pinia";
 import { useAuthStore } from "../../store/auth";
 import Vue2Filters from "vue2-filters";
 import { useLastDesignStore } from "../../store/lastDesign";
@@ -55,6 +64,7 @@ export default {
   data() {
     return {
       presetCustomTeeDesigns: [],
+      loading:false,
     };
   },
   mixins: [Vue2Filters.mixin],
@@ -64,7 +74,9 @@ export default {
   methods: {
     ...mapActions(useLastDesignStore, ["editEmptyCustomTeeDesign"]),
     getPlainTeeTypeColor() {
+      this.loading = true;
       axios.post("/api/getPlainTeeTypeColor").then((response) => {
+        this.loading = false;
         this.presetCustomTeeDesigns = response.data;
       });
     },

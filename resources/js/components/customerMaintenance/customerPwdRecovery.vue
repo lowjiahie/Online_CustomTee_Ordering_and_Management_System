@@ -6,9 +6,21 @@
         <label class="fw-bold">Email address</label>
         <input type="email" v-model="email" class="form-control form-control-lg" />
         <span class="text-danger" v-if="errors.email">{{ errors.email[0] }}</span>
+        <span class="text-success" v-if="validMsg">{{ validMsg }}</span>
       </div>
-      <button type="button" @click.prevent="sendToken" class="btn btn-dark btn-lg btn-block mt-3">Send Email</button>
-      <p class="forgot-password text-right">
+      <button
+        type="button"
+        @click.prevent="sendToken"
+        class="btn btn-dark btn-lg btn-block mt-3"
+        v-if="!loading"
+      >Send Email</button>
+      <div v-else class="d-flex justify-content-center mt-2">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden" role="status">Loading...</span>
+        </div>
+        <p class="fw-bold p-2">Sending Email......</p>
+      </div>
+      <p v-if="!loading" class="forgot-password text-right">
         Back to
         <router-link :to="{name: 'login'}">Login Page?</router-link>
       </p>
@@ -20,25 +32,26 @@ export default {
   data() {
     return {
       email: "",
+      validMsg: "",
       errors: [],
+      loading: false,
     };
   },
   methods: {
     sendToken() {
       this.errors = [];
+      this.validMsg = "";
+      this.loading = true;
       axios
         .post("/api/sendToken", {
           email: this.email,
         })
         .then((response) => {
-          console.log(response);
-          swal(
-            "Success",
-            "Password recovery email has been successfully send to your email",
-            "success"
-          );
+          this.loading = false;
+          this.validMsg = "Email has been sent to " + response.data.email;
         })
         .catch((error) => {
+          this.loading = false;
           if (error.response.status === 422) {
             this.errors = error.response.data.errors;
             console.log(this.errors);

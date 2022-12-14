@@ -91,6 +91,9 @@
             </div>
           </div>
         </div>
+        <div class="ms-2" v-if="publishedDesignsFree.length == 0">
+          <span>Does not have any sharing design on publish</span>
+        </div>
       </div>
     </div>
     <!-- showDescDetails start modal -->

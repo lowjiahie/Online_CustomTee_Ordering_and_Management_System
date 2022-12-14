@@ -37,7 +37,8 @@ class PlainTeeTypeColorController extends Controller
 
         $response = [];
 
-        if ((int)$plainTeeSize->stocks > (int)$orderQty ) {
+
+        if ($orderQty <= $plainTeeSize->stocks) {
             $response = [
                 'isValid' => true,
                 'sizeName' => $plainTeeSize->size_name,

@@ -11,7 +11,7 @@ class OrderItem extends Model
     use HasFactory;
 
     protected $fillable = [
-        'order_item_id', 'total_qty', 'status', 'orderItemable_id', 'orderItemable_type',
+        'order_item_id', 'total_qty', 'status', 'orderItemable_id', 'orderItemable_type','sub_total',
         'order_id'
     ];
 

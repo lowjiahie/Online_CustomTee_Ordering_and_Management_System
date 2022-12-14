@@ -11,7 +11,7 @@ class OrderedCustomTee extends Model
     use HasFactory;
 
     protected $fillable = [
-        'o_custom_tee_id', 'plain_tee_size_id', 'p_method_id', 'o_design_id', 'cus_id'
+        'o_custom_tee_id', 'plain_tee_size_id', 'p_method_id', 'o_design_id', 'cus_id','printing_method_price','plain_tee_price'
     ];
 
     public $timestamps = true;

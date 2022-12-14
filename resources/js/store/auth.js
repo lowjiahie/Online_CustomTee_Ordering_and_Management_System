@@ -51,7 +51,6 @@ export const useAuthStore = defineStore("auth", {
                 password: data.password,
                 password_confirmation: data.password_confirmation,
             }).then((response) => {
-                console.log(response);
                 swal(
                     "Success",
                     "Successfully Register!!",
@@ -88,8 +87,10 @@ export const useAuthStore = defineStore("auth", {
             console.log("reset data");
             this.authErrors = [];
         },
-        setAuthCusName(data){
-            this.authCus.name = data;
+        setAuthCus(data){
+            this.authCus.name = data.name;
+            this.authCus.address = data.address;
+            this.authCus.phone_num = data.phone_num;
         }
     },
 })

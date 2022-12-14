@@ -64,7 +64,7 @@ export default {
       });
   },
   methods: {
-    ...mapActions(useAuthStore, ["setAuthCusName"]),
+    ...mapActions(useAuthStore, ["setAuthCus"]),
     updateProfile() {
       this.errors = [];
       axios
@@ -75,7 +75,7 @@ export default {
           cus_id: this.authCus.cus_id,
         })
         .then((response) => {
-          this.setAuthCusName(this.form.name);
+          this.setAuthCus(this.form);
           swal("Success", "Successfully update profile!!", "success").then(
             (value) => {
               this.$router.push("/customer/profileNav");

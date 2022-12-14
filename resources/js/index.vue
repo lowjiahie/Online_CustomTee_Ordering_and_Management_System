@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" v-if="!$route.meta.hideNavbar">
       <div class="container-fluid">
         <router-link class="navbar-brand mr-auto" :to="{name:'home'}">
           <svg
@@ -370,7 +370,7 @@
           <div class="set-right">
             <ul v-if="authStatus" class="navbar-nav me-auto">
               <li class="nav-item">
-                <a class="nav-link position-relative" href="#">
+                <router-link class="nav-link position-relative" :to="{name:'viewCart'}">
                   <svg
                     t="1646286316804"
                     class="icon"
@@ -389,8 +389,8 @@
                   </svg>
                   <span
                     class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger mt-3"
-                  >0</span>
-                </a>
+                  >{{cartCount}}</span>
+                </router-link>
               </li>
 
               <li class="nav-item dropdown">
@@ -420,7 +420,7 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-end">
                   <router-link class="dropdown-item" :to="{name:'profileNav'}">My Profile</router-link>
-                  <a class="dropdown-item" href="#">My Order</a>
+                  <router-link class="dropdown-item" :to="{name:'viewOrder'}">My Order</router-link>
                   <router-link class="dropdown-item" :to="{name:'myDesign'}">My Design</router-link>
                   <div class="dropdown-divider"></div>
                   <button class="dropdown-item" type="button" @click="logout">LogOut</button>
@@ -447,6 +447,7 @@
 import { mapState, mapActions } from "pinia";
 import { useAuthStore } from "./store/auth";
 import { useLastDesignStore } from "./store/lastDesign";
+import { useCartStore } from "./store/cart";
 export default {
   data() {
     return {};
@@ -457,6 +458,10 @@ export default {
         this.setEditStatus(false);
       }
 
+      // if(from.name == "orderConfirmation" && to.name=="viewOrder"){
+      //       this.removeCusCart();
+      // }
+      this.setCartCount();
       console.log(this.editStatus);
       console.log(this.authStatus);
       this.resetErrors();
@@ -465,10 +470,12 @@ export default {
   methods: {
     ...mapActions(useAuthStore, ["resetErrors", "logout"]),
     ...mapActions(useLastDesignStore, ["setEditStatus"]),
+    ...mapActions(useCartStore, ["setCartCount","removeCusCart"]),
   },
   computed: {
     ...mapState(useAuthStore, ["authStatus", "authCus"]),
     ...mapState(useLastDesignStore, ["editStatus"]),
+    ...mapState(useCartStore, ["cartCount"]),
   },
 };
 </script>

@@ -36,6 +36,9 @@ class CreateOrderedCustomTeesTable extends Migration
                 ->on('customers')
                 ->onDelete('cascade');
 
+            $table->decimal('printing_method_price', 10, 2);
+            $table->decimal('plain_tee_price', 10, 2);
+
             $table->timestamps();
             $table->primary('o_custom_tee_id');
         });

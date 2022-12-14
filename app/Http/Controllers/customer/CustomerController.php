@@ -173,12 +173,12 @@ class CustomerController extends Controller
             ]);
         }
 
+
         $token = Str::random(32);
         Mail::to($cus)->send(new CusPasswordRecoveryMailable($token));
 
         $response = PasswordReset::updateOrCreate([
             'email' => $cus->email,
-            'token' => $token,
         ], [
             'token' => $token,
         ]);
@@ -212,6 +212,8 @@ class CustomerController extends Controller
         $passRecovery->delete();
 
         $cus->password = Hash::make($request->password);
-        $cus->update();
+        $response = $cus->update();
+        
+        return response($response, 201);
     }
 }
