@@ -19,6 +19,7 @@ import OrderConfirmationComponent from "./components/order/OrderConfirmation"
 import TransactionStatusComponent from "./components/order/TransactionStatus"
 import ViewOrderComponent from "./components/order/ViewOrder"
 import ViewOrderDetailsComponent from "./components/order/ViewOrderDetails"
+import CompetitionListComponent from "./components/competition/competitionList"
 
 const routes = [
     {
@@ -126,6 +127,11 @@ const routes = [
         path:"/customer/viewOrderDetails/:id",
         component: ViewOrderDetailsComponent,
         name:'viewOrderDetails',
+    },
+    {
+        path: "/customer/viewCompetitionList",
+        component: CompetitionListComponent,
+        name: 'viewCompetitionList'
     },
 
 ]

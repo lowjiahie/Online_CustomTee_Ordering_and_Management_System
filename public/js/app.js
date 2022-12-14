@@ -5580,6 +5580,61 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/competition/competitionList.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/competition/competitionList.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! pinia */ "./node_modules/pinia/dist/pinia.mjs");
+/* harmony import */ var _store_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../store/auth */ "./resources/js/store/auth.js");
+/* harmony import */ var vue2_filters__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue2-filters */ "./node_modules/vue2-filters/dist/vue2-filters.js");
+/* harmony import */ var vue2_filters__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue2_filters__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _store_lastDesign__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../store/lastDesign */ "./resources/js/store/lastDesign.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      competitionList: []
+    };
+  },
+  mixins: [(vue2_filters__WEBPACK_IMPORTED_MODULE_1___default().mixin)],
+  mounted: function mounted() {
+    this.getAllCompetition();
+  },
+  methods: _objectSpread(_objectSpread({}, (0,pinia__WEBPACK_IMPORTED_MODULE_3__.mapActions)(_store_lastDesign__WEBPACK_IMPORTED_MODULE_2__.useLastDesignStore, ["editEmptyCustomTeeDesign"])), {}, {
+    getAllCompetition: function getAllCompetition() {
+      var _this = this;
+
+      axios.post("/api/getCompetitionList").then(function (response) {
+        _this.competitionList = response.data;
+      });
+    },
+    participate: function participate() {
+      this.$router.push({
+        name: "myDesign"
+      });
+    }
+  }),
+  computed: _objectSpread({}, (0,pinia__WEBPACK_IMPORTED_MODULE_3__.mapState)(_store_auth__WEBPACK_IMPORTED_MODULE_0__.useAuthStore, ["authStatus"]))
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue?vue&type=script&lang=js&":
 /*!**********************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue?vue&type=script&lang=js& ***!
@@ -6746,6 +6801,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       generalName: "",
       publishedErrors: [],
       status: "pending",
+      currentCompetitions: [],
+      myCompetitionDesigns: [],
       money: {
         decimal: ".",
         thousands: ",",
@@ -6767,12 +6824,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         backDesignJson: null,
         cusID: ""
       },
-      competition: ""
+      competitionForm: {
+        competition_id: null,
+        cus_id: null,
+        status: 'participated',
+        front_design_img: null,
+        back_design_img: null
+      }
     };
   },
   mixins: [(vue2_filters__WEBPACK_IMPORTED_MODULE_1___default().mixin)],
   mounted: function mounted() {
     this.getPresetDesigns();
+    this.getCurrentCompetition();
+    this.getMyCompetitionDesign();
   },
   methods: _objectSpread(_objectSpread({}, (0,pinia__WEBPACK_IMPORTED_MODULE_4__.mapActions)(_store_lastDesign__WEBPACK_IMPORTED_MODULE_2__.useLastDesignStore, ["editCustomTeeDesign"])), {}, {
     convertToLocalDateTime: function convertToLocalDateTime(datetime) {
@@ -6914,6 +6979,62 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         params: {
           id: id
         }
+      });
+    },
+    getCurrentCompetition: function getCurrentCompetition() {
+      var _this6 = this;
+
+      axios.post("/api/getCurrentCompetition", {
+        cusID: this.authCus.cus_id
+      }).then(function (response) {
+        _this6.currentCompetitions = response.data;
+      });
+    },
+    submitCompetition: function submitCompetition() {
+      var _this7 = this;
+
+      this.competitionForm.competition_id = competition.competition_id;
+      this.competitionForm.cus_id = this.authCus.cus_id;
+      this.competitionForm.front_design_img = publishedDesignForm.front_design_img;
+      this.competitionForm.back_design_img = publishedDesignForm.back_design_img;
+      axios.post("/api/submitCompetition", {
+        competitionForm: this.competitionForm
+      }).then(function (response) {
+        if (response.data.isValid) {
+          setTimeout(function () {
+            swal("Success submit", "Successfully submit design to competition!", "success").then(function () {
+              _this7.$refs.btnClose.click();
+            });
+          }, 500);
+        } else {
+          swal("Failed submit", "Unsuccessfully submit design to the competition " + competition.competition_id, "error");
+        }
+      });
+    },
+    getMyCompetitionDesign: function getMyCompetitionDesign() {
+      var _this8 = this;
+
+      axios.post("/api/getMyCompetitionDesign", {
+        cusID: this.authCus.cus_id
+      }).then(function (response) {
+        _this8.myCompetitionDesigns = response.data;
+      });
+    },
+    getMyDesign: function getMyDesign(img) {
+      return __webpack_require__("./public/competition sync recursive ^\\.\\/.*$")("./" + img);
+    },
+    withdraw: function withdraw(competition_id) {
+      axios.post("/api/withdrawCompetition", {
+        cusID: this.authCus.cus_id,
+        competitionID: competition_id
+      }).then(function (response) {
+        if (response.data.isValid) {
+          swal("Withdraw success", "You have successfully withdraw from competition", "success");
+        } else {
+          swal("Withdraw failed", "The competition have ended", "error");
+        }
+
+        location.reload();
       });
     }
   }),
@@ -7716,6 +7837,75 @@ var staticRenderFns = [function () {
       _c = _vm._self._c;
 
   return _c("div", [_c("h1", [_vm._v("Home Page")])]);
+}];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/competition/competitionList.vue?vue&type=template&id=e9f14d9c&":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/competition/competitionList.vue?vue&type=template&id=e9f14d9c& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+      _c = _vm._self._c;
+
+  return _c("div", [_vm._m(0), _vm._v(" "), _c("div", {
+    staticClass: "pt-2 pb-5"
+  }, [_c("div", {
+    staticClass: "container p-2"
+  }, [_c("div", {
+    staticClass: "row mb-md-2"
+  }, _vm._l(_vm.competitionList, function (competition) {
+    return _c("div", {
+      key: competition.competition_id,
+      staticClass: "col-md-6 col-lg-4"
+    }, [_c("div", {
+      staticClass: "card shadow p-3 mb-2 bg-body border-0 rounded"
+    }, [_c("div", {
+      staticClass: "card-body pb-0"
+    }, [_c("h5", {
+      staticClass: "fw-bold"
+    }, [_vm._v(_vm._s(competition.topic))]), _vm._v(" "), _c("em", {
+      staticClass: "text-muted"
+    }, [_vm._v(_vm._s(competition.description))]), _vm._v(" "), _c("br"), _c("br"), _vm._v("\n              Rules:\n              "), _c("em", {
+      staticClass: "text-muted"
+    }, [_vm._v(_vm._s(competition.rules))]), _vm._v(" "), _c("br"), _c("br"), _vm._v(" "), _c("em", {
+      staticClass: "text-muted"
+    }, [_vm._v("\n                " + _vm._s(competition.start_date_time) + "\n                  to  \n                " + _vm._s(competition.end_date_time) + "\n              ")]), _vm._v(" "), _c("br"), _c("br"), _vm._v(" "), competition.winner != null ? _c("p", [_vm._v("\n                Winner:\n                "), _c("em", {
+      staticClass: "text-muted"
+    }, [_vm._v(_vm._s(competition.winner))])]) : _c("p", [_c("button", {
+      staticClass: "btn btn-dark",
+      attrs: {
+        type: "button"
+      },
+      on: {
+        click: _vm.participate
+      }
+    }, [_vm._v("Participate")])])])])]);
+  }), 0)])])]);
+};
+
+var staticRenderFns = [function () {
+  var _vm = this,
+      _c = _vm._self._c;
+
+  return _c("div", {
+    staticClass: "container p-2 mb-1"
+  }, [_c("div", {
+    staticClass: "title-head"
+  }, [_c("p", {
+    staticClass: "h2"
+  }, [_vm._v("Competition List")])])]);
 }];
 render._withStripped = true;
 
@@ -9760,7 +9950,12 @@ var render = function render() {
     }, [_vm._v("Share/Sell Design")]), _vm._v(" "), _c("button", {
       staticClass: "btn btn-primary",
       attrs: {
-        type: "button"
+        type: "button",
+        "data-bs-toggle": "modal",
+        "data-bs-target": "#exampleCompetition"
+      },
+      on: {
+        click: _vm.submitCompetition
       }
     }, [_vm._v("Submit to Competition")])])])])])]);
   }), 0) : _vm._e()]), _vm._v(" "), _c("div", {
@@ -9930,7 +10125,63 @@ var render = function render() {
       role: "tabpanel",
       "aria-labelledby": "v-pills-competition-design"
     }
-  }, [_vm._v("Competition-design")])])]), _vm._v(" "), _c("div", {
+  }, [_c("h4", {
+    staticClass: "fw-bold"
+  }, [_vm._v("Competition-design")]), _vm._v(" "), _vm._l(_vm.myCompetitionDesigns, function (competitionDesign) {
+    return _c("div", {
+      key: competitionDesign.competition_id,
+      staticClass: "card mb-3",
+      staticStyle: {
+        "max-width": "900px"
+      }
+    }, [_c("div", {
+      staticClass: "row g-0"
+    }, [_c("div", {
+      staticClass: "col-md-4"
+    }, [_c("img", {
+      staticClass: "img-fluid rounded-start",
+      attrs: {
+        src: _vm.getMyDesign(competitionDesign.front_design_img)
+      }
+    })]), _vm._v(" "), _c("div", {
+      staticClass: "col-md-4"
+    }, [_c("img", {
+      staticClass: "img-fluid rounded-start",
+      attrs: {
+        src: _vm.getMyDesign(competitionDesign.back_design_img)
+      }
+    })]), _vm._v(" "), _c("div", {
+      staticClass: "col-md-4"
+    }, [_c("div", {
+      staticClass: "card-body pe-0"
+    }, [_c("h5", {
+      staticClass: "card-title fw-bold mb-3"
+    }, [_vm._v(_vm._s(competitionDesign.topic))]), _vm._v(" "), _c("p", {
+      staticClass: "card-text mb-1"
+    }, [_c("b", {
+      staticClass: "text-dark"
+    }, [_vm._v("Description:")]), _vm._v("\n                  " + _vm._s(competitionDesign.description) + "\n                ")]), _vm._v(" "), _c("p", {
+      staticClass: "card-text mb-1"
+    }, [_c("b", {
+      staticClass: "text-dark"
+    }, [_vm._v("Rules:")]), _vm._v("\n                  " + _vm._s(competitionDesign.rules) + "\n                ")]), _vm._v(" "), _c("p", {
+      staticClass: "text-muted"
+    }, [_c("b", {
+      staticClass: "text-dark"
+    }, [_vm._v("Competition Time:")]), _vm._v("\n                  " + _vm._s(competitionDesign.start_date_time) + "\n                    to  \n                  " + _vm._s(competitionDesign.end_date_time) + "\n                ")]), _vm._v(" "), _c("div", {
+      staticClass: "d-grid gap-2 col-11 mx-auto mt-2"
+    }, [_c("button", {
+      staticClass: "btn btn-primary",
+      attrs: {
+        type: "button"
+      },
+      on: {
+        click: function click($event) {
+          return _vm.withdraw(competitionDesign.competition_id);
+        }
+      }
+    }, [_vm._v("Withdraw")])])])])])]);
+  })], 2)])]), _vm._v(" "), _c("div", {
     staticClass: "modal fade",
     staticStyle: {
       display: "none"
@@ -10083,7 +10334,83 @@ var render = function render() {
     on: {
       click: _vm.publishDesignToSharingSection
     }
-  }, [_vm._v("Publish")])])])])])]);
+  }, [_vm._v("Publish")])])])])]), _vm._v(" "), _c("div", {
+    staticClass: "modal fade",
+    staticStyle: {
+      display: "none"
+    },
+    attrs: {
+      id: "exampleCompetition",
+      tabindex: "-1",
+      "aria-labelledby": "exampleCompetition",
+      "aria-hidden": "true"
+    }
+  }, [_c("div", {
+    staticClass: "modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg"
+  }, [_c("div", {
+    staticClass: "modal-content"
+  }, [_c("div", {
+    staticClass: "modal-header"
+  }, [_c("h5", {
+    staticClass: "modal-title",
+    attrs: {
+      id: "exampleCompetition"
+    }
+  }, [_vm._v("Submit To Competition")]), _vm._v(" "), _c("button", {
+    ref: "btnClose",
+    staticClass: "btn-close",
+    attrs: {
+      type: "button",
+      "data-bs-dismiss": "modal",
+      "aria-label": "Close"
+    },
+    on: {
+      click: _vm.getCurrentCompetition
+    }
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "modal-body"
+  }, [_c("div", {
+    staticClass: "container"
+  }, [_vm._m(7), _vm._v(" "), _c("div", {
+    staticClass: "row mb-3"
+  }, [_vm._m(8), _vm._v(" "), _c("div", {
+    staticClass: "col-auto"
+  }, [_c("select", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.selected,
+      expression: "selected"
+    }],
+    on: {
+      change: function change($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function (o) {
+          return o.selected;
+        }).map(function (o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val;
+        });
+        _vm.selected = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
+      }
+    }
+  }, _vm._l(_vm.currentCompetitions, function (competition) {
+    return _c("option", {
+      key: competition.competition_id,
+      domProps: {
+        value: competition.competition_id
+      }
+    }, [_vm._v("\n                    " + _vm._s(competition.topic) + "\n                  ")]);
+  }), 0)])])])]), _vm._v(" "), _c("div", {
+    staticClass: "modal-footer"
+  }, [_c("button", {
+    staticClass: "btn btn-primary",
+    attrs: {
+      type: "button"
+    },
+    on: {
+      click: _vm.submitCompetition
+    }
+  }, [_vm._v("Submit")])])])])])]);
 };
 
 var staticRenderFns = [function () {
@@ -10168,6 +10495,28 @@ var staticRenderFns = [function () {
       "for": "lbl-desc"
     }
   }, [_vm._v("Description")])]);
+}, function () {
+  var _vm = this,
+      _c = _vm._self._c;
+
+  return _c("label", {
+    staticClass: "form-label",
+    attrs: {
+      "for": "formPublish"
+    }
+  }, [_vm._v("\n              Select a competition to "), _c("b", [_vm._v("submit")]), _vm._v(" your design\n            ")]);
+}, function () {
+  var _vm = this,
+      _c = _vm._self._c;
+
+  return _c("div", {
+    staticClass: "col-auto"
+  }, [_c("label", {
+    staticClass: "col-form-label",
+    attrs: {
+      "for": "lbl-type"
+    }
+  }, [_vm._v("Select competition")])]);
 }];
 render._withStripped = true;
 
@@ -12598,7 +12947,16 @@ var render = function render() {
         name: "design-price"
       }
     }
-  }, [_vm._v("Sharing Section")])], 1), _vm._v(" "), _vm._m(1)]), _vm._v(" "), _c("div", {
+  }, [_vm._v("Sharing Section")])], 1), _vm._v(" "), _c("li", {
+    staticClass: "nav-item"
+  }, [_c("router-link", {
+    staticClass: "nav-link",
+    attrs: {
+      to: {
+        name: "viewCompetitionList"
+      }
+    }
+  }, [_vm._v("Competition")])], 1)]), _vm._v(" "), _c("div", {
     staticClass: "set-right"
   }, [_vm.authStatus ? _c("ul", {
     staticClass: "navbar-nav me-auto"
@@ -12724,18 +13082,6 @@ var staticRenderFns = [function () {
   }, [_c("span", {
     staticClass: "navbar-toggler-icon"
   })]);
-}, function () {
-  var _vm = this,
-      _c = _vm._self._c;
-
-  return _c("li", {
-    staticClass: "nav-item"
-  }, [_c("a", {
-    staticClass: "nav-link",
-    attrs: {
-      href: "#"
-    }
-  }, [_vm._v("Competition")])]);
 }];
 render._withStripped = true;
 
@@ -12837,7 +13183,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var _components_Home_Home__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Home/Home */ "./resources/js/components/Home/Home.vue");
 /* harmony import */ var _components_customTeeDesignTool_CustomTeeDesignTool__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/customTeeDesignTool/CustomTeeDesignTool */ "./resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue");
 /* harmony import */ var _components_sharingSection_ViewDesignWithPrice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/sharingSection/ViewDesignWithPrice */ "./resources/js/components/sharingSection/ViewDesignWithPrice.vue");
@@ -12858,6 +13204,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_order_TransactionStatus__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./components/order/TransactionStatus */ "./resources/js/components/order/TransactionStatus.vue");
 /* harmony import */ var _components_order_ViewOrder__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./components/order/ViewOrder */ "./resources/js/components/order/ViewOrder.vue");
 /* harmony import */ var _components_order_ViewOrderDetails__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./components/order/ViewOrderDetails */ "./resources/js/components/order/ViewOrderDetails.vue");
+/* harmony import */ var _components_competition_competitionList__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./components/competition/competitionList */ "./resources/js/components/competition/competitionList.vue");
+
 
 
 
@@ -12965,8 +13313,12 @@ var routes = [{
   path: "/customer/viewOrderDetails/:id",
   component: _components_order_ViewOrderDetails__WEBPACK_IMPORTED_MODULE_19__["default"],
   name: 'viewOrderDetails'
+}, {
+  path: "/customer/viewCompetitionList",
+  component: _components_competition_competitionList__WEBPACK_IMPORTED_MODULE_20__["default"],
+  name: 'viewCompetitionList'
 }];
-var router = new vue_router__WEBPACK_IMPORTED_MODULE_20__["default"]({
+var router = new vue_router__WEBPACK_IMPORTED_MODULE_21__["default"]({
   routes: routes,
   mode: 'history'
 });
@@ -52170,6 +52522,26 @@ fabric.util.object.extend(fabric.IText.prototype, /** @lends fabric.IText.protot
 
 /***/ }),
 
+/***/ "./public/competition/crew_back.png":
+/*!******************************************!*\
+  !*** ./public/competition/crew_back.png ***!
+  \******************************************/
+/***/ ((module) => {
+
+module.exports = "/images/crew_back.png?2d5d0b81204dbe287fa430d45d07b107";
+
+/***/ }),
+
+/***/ "./public/competition/crew_front.png":
+/*!*******************************************!*\
+  !*** ./public/competition/crew_front.png ***!
+  \*******************************************/
+/***/ ((module) => {
+
+module.exports = "/images/crew_front.png?cf6079bee0084c98d7b3eae9ab45a474";
+
+/***/ }),
+
 /***/ "./public/customTee/CS00001-123-TC00001-back-preset.jpg":
 /*!**************************************************************!*\
   !*** ./public/customTee/CS00001-123-TC00001-back-preset.jpg ***!
@@ -70968,6 +71340,45 @@ component.options.__file = "resources/js/components/Home/Home.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/competition/competitionList.vue":
+/*!*****************************************************************!*\
+  !*** ./resources/js/components/competition/competitionList.vue ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _competitionList_vue_vue_type_template_id_e9f14d9c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./competitionList.vue?vue&type=template&id=e9f14d9c& */ "./resources/js/components/competition/competitionList.vue?vue&type=template&id=e9f14d9c&");
+/* harmony import */ var _competitionList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./competitionList.vue?vue&type=script&lang=js& */ "./resources/js/components/competition/competitionList.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _competitionList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _competitionList_vue_vue_type_template_id_e9f14d9c___WEBPACK_IMPORTED_MODULE_0__.render,
+  _competitionList_vue_vue_type_template_id_e9f14d9c___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/competition/competitionList.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue":
 /*!*****************************************************************************!*\
   !*** ./resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue ***!
@@ -71783,6 +72194,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/competition/competitionList.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/components/competition/competitionList.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_competitionList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./competitionList.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/competition/competitionList.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_competitionList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue?vue&type=script&lang=js&":
 /*!******************************************************************************************************!*\
   !*** ./resources/js/components/customTeeDesignTool/CustomTeeDesignTool.vue?vue&type=script&lang=js& ***!
@@ -72100,6 +72527,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Home_vue_vue_type_template_id_4ec5f2d4___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Home_vue_vue_type_template_id_4ec5f2d4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Home.vue?vue&type=template&id=4ec5f2d4& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Home/Home.vue?vue&type=template&id=4ec5f2d4&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/competition/competitionList.vue?vue&type=template&id=e9f14d9c&":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/components/competition/competitionList.vue?vue&type=template&id=e9f14d9c& ***!
+  \************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_competitionList_vue_vue_type_template_id_e9f14d9c___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_competitionList_vue_vue_type_template_id_e9f14d9c___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_competitionList_vue_vue_type_template_id_e9f14d9c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./competitionList.vue?vue&type=template&id=e9f14d9c& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/competition/competitionList.vue?vue&type=template&id=e9f14d9c&");
 
 
 /***/ }),
@@ -91675,6 +92119,39 @@ Vue.compile = compileToFunctions;
 
 
 
+
+/***/ }),
+
+/***/ "./public/competition sync recursive ^\\.\\/.*$":
+/*!*******************************************!*\
+  !*** ./public/competition/ sync ^\.\/.*$ ***!
+  \*******************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var map = {
+	"./crew_back.png": "./public/competition/crew_back.png",
+	"./crew_front.png": "./public/competition/crew_front.png"
+};
+
+
+function webpackContext(req) {
+	var id = webpackContextResolve(req);
+	return __webpack_require__(id);
+}
+function webpackContextResolve(req) {
+	if(!__webpack_require__.o(map, req)) {
+		var e = new Error("Cannot find module '" + req + "'");
+		e.code = 'MODULE_NOT_FOUND';
+		throw e;
+	}
+	return map[req];
+}
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = "./public/competition sync recursive ^\\.\\/.*$";
 
 /***/ }),
 

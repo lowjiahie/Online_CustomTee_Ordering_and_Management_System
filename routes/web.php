@@ -13,7 +13,18 @@ Route::prefix('/admin')->group(function() {
     /* User Management */
     Route::view('/login','admin.login')->name('admin.login');
     Route::post('/login/submit', 'App\Http\Controllers\StaffController@login')->name('admin.loginSubmit');
+
+    Route::view('/forgotPassword','admin.forgotPassword')->name('admin.forgotPassword');
+    Route::post('/forgotPasswordSubmit','App\Http\Controllers\StaffController@forgotPassword')->name('admin.forgotPasswordSubmit');
+
+    Route::view('/tokenDisplay','admin.tokenDisplay')->name('admin.tokenDisplay');
+
     Route::view('/passwordRecovery','admin.passwordRecovery')->name('admin.passwordRecovery');
+    Route::post('/passwordRecoverySubmit','App\Http\Controllers\StaffController@passwordRecovery')->name('admin.passwordRecoverySubmit');
+
+    Route::view('/passwordRecoveryForm','admin.passwordRecoveryForm')->name('admin.passwordRecoveryForm');
+    Route::post('/passwordRecoveryFormSubmit','App\Http\Controllers\StaffController@passwordRecoverySubmit')->name('admin.passwordRecoveryFormSubmit');
+
     Route::get('/profile', 'App\Http\Controllers\StaffController@profile')->name('admin.profile');
     Route::get('/logout', 'App\Http\Controllers\StaffController@logout')->name('admin.logout');
 

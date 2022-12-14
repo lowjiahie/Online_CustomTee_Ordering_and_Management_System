@@ -119,35 +119,14 @@
 
 <body>
     <header>
-        <h1><b>Staff Login Form</b></h1>
+        <h1><b>Forgot Password</b></h1>
     </header>
     <main>
-        <form action="{{ route('admin.loginSubmit') }}" method="POST" id="login_form" class="form_class">
+        <form action="" method="POST" id="login_form" class="form_class">
             @csrf
             <div class="form_div">
-                <label>Email: </label>
-                <input type="text" class="field_class" name="email" id="email" size="60%"
-                    placeholder="Please fill in your email here" />
-
-                <label>Password: </label>
-                <input type="password" class="field_class" name="password" id="password" size="60%"
-                    placeholder="Please fill in your password here" />
-
-                <a href="{{ route('admin.forgotPassword') }}">
-                    Forgot Password
-                </a>
-                <table>
-                    <tr>
-                        <td>
-                            <input type="submit" class="submit_class" name="loginRecoverCancel" value="Login"
-                                id="login" />
-                        </td>
-                        <td>
-                            <input type="submit" class="submit_class" name="loginRecoverCancel" value="Cancel"
-                                id="cancel" />
-                        </td>
-                    </tr>
-                </table>
+                <label>Pincode:</label>
+                <h3>{{ $token }}</h3>
             </div>
         </form>
     </main>

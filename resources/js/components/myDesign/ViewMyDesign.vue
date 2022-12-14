@@ -129,7 +129,13 @@
                         data-bs-target="#exampleModalCenter"
                         @click="setAllInput(presetCustomTeeDesign)"
                       >Share/Sell Design</button>
-                      <button type="button" class="btn btn-primary">Submit to Competition</button>
+                      <button
+                        type="button"
+                        class="btn btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleCompetition"
+                        @click="submitCompetition"
+                      >Submit to Competition</button>
                     </div>
                   </div>
                 </div>
@@ -283,7 +289,56 @@
           id="v-pills-competition-design"
           role="tabpanel"
           aria-labelledby="v-pills-competition-design"
-        >Competition-design</div>
+        >
+        <h4 class="fw-bold">Competition-design</h4>
+          <div
+            class="card mb-3"
+            style="max-width: 900px;"
+            v-for="competitionDesign in myCompetitionDesigns"
+            :key="competitionDesign.competition_id"
+          >
+            <div class="row g-0">
+              <div class="col-md-4">
+                <img
+                  :src="getMyDesign(competitionDesign.front_design_img)"
+                  class="img-fluid rounded-start"
+                />
+              </div>
+              <div class="col-md-4">
+                <img
+                  :src="getMyDesign(competitionDesign.back_design_img)"
+                  class="img-fluid rounded-start"
+                />
+              </div>
+              <div class="col-md-4">
+                <div class="card-body pe-0">
+                  <h5 class="card-title fw-bold mb-3">{{competitionDesign.topic}}</h5>
+                  <p class="card-text mb-1">
+                    <b class="text-dark">Description:</b>
+                    {{competitionDesign.description}}
+                  </p>
+                  <p class="card-text mb-1">
+                    <b class="text-dark">Rules:</b>
+                    {{competitionDesign.rules}}
+                  </p>
+                  <p class="text-muted">
+                    <b class="text-dark">Competition Time:</b>
+                    {{ competitionDesign.start_date_time }}
+                    &nbsp to &nbsp
+                    {{ competitionDesign.end_date_time }}
+                  </p>
+                  <div class="d-grid gap-2 col-11 mx-auto mt-2">
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      @click="withdraw(competitionDesign.competition_id)"
+                    >Withdraw</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <!-- share/sell form start modal -->
@@ -403,8 +458,60 @@
       </div>
     </div>
     <!-- share/sell form end modal -->
+
+    <!-- submit to competition form start modal -->
+    <div
+      class="modal fade"
+      id="exampleCompetition"
+      tabindex="-1"
+      aria-labelledby="exampleCompetition"
+      style="display: none;"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleCompetition">Submit To Competition</h5>
+            <button
+              ref="btnClose"
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              @click="getCurrentCompetition"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <label for="formPublish" class="form-label">
+                Select a competition to <b>submit</b> your design
+              </label>
+              <div class="row mb-3">
+                <div class="col-auto">
+                  <label for="lbl-type" class="col-form-label">Select competition</label>
+                </div>
+                <div class="col-auto">
+                  <select v-model="selected">
+                    <option v-for="competition in currentCompetitions" :key="competition.competition_id" :value="competition.competition_id">
+                      {{ competition.topic }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary"
+              @click="submitCompetition"
+            >Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</template> 
+</template>
 <style scoped>
 .tab-pane {
   height: 400px;
@@ -444,6 +551,8 @@ export default {
       generalName: "",
       publishedErrors: [],
       status: "pending",
+      currentCompetitions: [],
+      myCompetitionDesigns: [],
       money: {
         decimal: ".",
         thousands: ",",
@@ -465,12 +574,20 @@ export default {
         backDesignJson: null,
         cusID: "",
       },
-      competition: "",
+      competitionForm: {
+        competition_id: null,
+        cus_id: null,
+        status: 'participated',
+        front_design_img: null,
+        back_design_img: null,
+      },
     };
   },
   mixins: [Vue2Filters.mixin],
   mounted() {
     this.getPresetDesigns();
+    this.getCurrentCompetition();
+    this.getMyCompetitionDesign();
   },
   methods: {
     ...mapActions(useLastDesignStore, ["editCustomTeeDesign"]),
@@ -642,6 +759,81 @@ export default {
     },
     redirectToOrderComponent(id) {
       this.$router.push({ name: "order", params: { id } });
+    },
+    getCurrentCompetition() {
+      axios
+        .post("/api/getCurrentCompetition", {
+          cusID: this.authCus.cus_id,
+        })
+        .then((response) => {
+          this.currentCompetitions = response.data;
+        });
+    },
+    submitCompetition() {
+      this.competitionForm.competition_id = competition.competition_id;
+      this.competitionForm.cus_id = this.authCus.cus_id;
+      this.competitionForm.front_design_img = publishedDesignForm.front_design_img;
+      this.competitionForm.back_design_img = publishedDesignForm.back_design_img;
+
+      axios
+        .post("/api/submitCompetition", {
+          competitionForm: this.competitionForm,
+        })
+        .then((response) => {
+          if (response.data.isValid) {
+            setTimeout(() => {
+              swal(
+                "Success submit",
+                "Successfully submit design to competition!",
+                "success"
+              ).then(() => {
+                this.$refs.btnClose.click();
+              });
+            }, 500);
+          } else {
+            swal(
+              "Failed submit",
+              "Unsuccessfully submit design to the competition " +
+              competition.competition_id ,
+              "error"
+            );
+          }
+        });
+    },
+    getMyCompetitionDesign() {
+      axios
+        .post("/api/getMyCompetitionDesign", {
+          cusID: this.authCus.cus_id,
+        })
+        .then((response) => {
+          this.myCompetitionDesigns = response.data;
+        });
+    },
+    getMyDesign(img) {
+      return require("@assets/competition/" + img);
+    },
+    withdraw(competition_id) {
+      axios.post("/api/withdrawCompetition",{
+        cusID: this.authCus.cus_id,
+        competitionID: competition_id,
+      }).then((response) => {
+        if(response.data.isValid){
+          swal(
+            "Withdraw success",
+            "You have successfully withdraw from competition",
+            "success"
+          )
+        }else{
+          swal(
+            "Withdraw failed",
+            "The competition have ended",
+            "error"
+          )
+        }
+
+
+        location.reload();
+      });
     },
   },
   computed: {
