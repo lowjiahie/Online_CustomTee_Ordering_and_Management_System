@@ -334,7 +334,9 @@ class StaffController extends Controller
     public function addAdminInfo(Request $request){
         $staffID = $request->session()->get('StaffID');
         $staffInfo = $this->repository->getById($staffID);
-        return view('admin.addAdmin', ['staffInfo' => $staffInfo]);
+        return view('admin.addAdmin',
+        ['name'=>'', 'email'=>'', 'password'=>'', 'gender'=>'', 'date_of_birth'=>'',
+        'phone_no'=>'', 'role'=>''], ['staffInfo' => $staffInfo]);
     }
 
     public function logout(Request $request)
@@ -374,19 +376,22 @@ class StaffController extends Controller
 
             $allAdmin = $this->repository->getAll();
 
+
             foreach($allAdmin as $admin){
                 if($admin->email == $email){
                     echo "<script>alert('Email existed!')</script>";
                     $staffID = $request->session()->get('StaffID');
                     $staffInfo = $this->repository->getById($staffID);
-                    return view('admin.addAdmin', ['staffInfo' => $staffInfo]);
+                    return view('admin.addAdmin',
+                    ['name'=>$name, 'email'=>$email, 'password'=>$password, 'gender'=>$gender, 'date_of_birth'=>$date_of_birth,
+                    'phone_no'=>$phone_no, 'role'=>$role] , ['staffInfo' => $staffInfo]);
                 }
             }
 
             if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 if(preg_match($phone_regex, $phone_no)){
                     // Add data to database
-                    $data = ["name"=>$name, "email"=>$email, "password"=>$password, "gender"=>$gender,
+                    $data = ["name"=>$name, "email"=>$email, "password"=>Hash::make($password), "gender"=>$gender,
                     "date_of_birth"=>$date_of_birth, "phone_no"=>$phone_no, "role"=>$role];
                     $this->repository->create($data);
 
@@ -407,13 +412,17 @@ class StaffController extends Controller
                     echo "<script>alert('Phone number is not valid!')</script>";
                     $staffID = $request->session()->get('StaffID');
                     $staffInfo = $this->repository->getById($staffID);
-                    return view('admin.addAdmin', ['staffInfo'=>$staffInfo]);
+                    return view('admin.addAdmin',
+                    ['name'=>$name, 'email'=>$email, 'password'=>$password, 'gender'=>$gender, 'date_of_birth'=>$date_of_birth,
+                    'phone_no'=>$phone_no, 'role'=>$role], ['staffInfo'=>$staffInfo]);
                 }
             } else {
                 echo "<script>alert('Email is not valid!')</script>";
                 $staffID = $request->session()->get('StaffID');
                 $staffInfo = $this->repository->getById($staffID);
-                return view('admin.addAdmin', ['staffInfo'=>$staffInfo]);
+                return view('admin.addAdmin',
+                ['name'=>$name, 'email'=>$email, 'password'=>$password, 'gender'=>$gender, 'date_of_birth'=>$date_of_birth,
+                'phone_no'=>$phone_no, 'role'=>$role], ['staffInfo'=>$staffInfo]);
             }
         }else{
             // Redirect user to dashboard page

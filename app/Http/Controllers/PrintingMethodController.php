@@ -39,7 +39,7 @@ class PrintingMethodController extends Controller
     public function printingMethodAddPage(Request $request){
         $staffID = $request->session()->get('StaffID');
         $staffInfo = $this->staffRepository->getById($staffID);
-        return view('admin.printingMethodAdd', ['staffInfo'=>$staffInfo]);
+        return view('admin.printingMethodAdd', ['name'=>'', 'price'=>'', 'minimum_order'=>'', 'status'=>''], ['staffInfo'=>$staffInfo]);
     }
 
     public function printingMethodAddData(Request $request){
@@ -68,7 +68,7 @@ class PrintingMethodController extends Controller
                     echo "<script>alert('Printing method name existed!')</script>";
                     $staffID = $request->session()->get('StaffID');
                     $staffInfo = $this->staffRepository->getById($staffID);
-                    return view('admin.printingMethodAdd', ['staffInfo'=>$staffInfo]);
+                    return view('admin.printingMethodAdd', ['name'=>$name, 'price'=>$price, 'minimum_order'=>$minimum_order, 'status'=>$status], ['staffInfo'=>$staffInfo]);
                 }
             }
             if($price > 0){
@@ -82,19 +82,19 @@ class PrintingMethodController extends Controller
                     $printingMethodList = $this->printingMethodRepository->getAll();
                     $staffID = $request->session()->get('StaffID');
                     $staffInfo = $this->staffRepository->getById($staffID);
-                    return view('admin.printingMethod', ['printingMethodList'=>$printingMethodList], ['staffInfo'=>$staffInfo]);
+                    return view('admin.printingMethod', ['printingMethodList'=>$printingMethodList, ], ['staffInfo'=>$staffInfo]);
                 }
                 else{
                     echo "<script>alert('Minimum order must be greater than 0!')</script>";
                     $staffID = $request->session()->get('StaffID');
                     $staffInfo = $this->staffRepository->getById($staffID);
-                    return view('admin.printingMethodAdd', ['staffInfo'=>$staffInfo]);
+                    return view('admin.printingMethodAdd', ['name'=>$name, 'price'=>$price, 'minimum_order'=>$minimum_order, 'status'=>$status], ['staffInfo'=>$staffInfo]);
                 }
             }else{
                 echo "<script>alert('Price must be greater than 0!')</script>";
                 $staffID = $request->session()->get('StaffID');
                 $staffInfo = $this->staffRepository->getById($staffID);
-                return view('admin.printingMethodAdd', ['staffInfo'=>$staffInfo]);
+                return view('admin.printingMethodAdd', ['name'=>$name, 'price'=>$price, 'minimum_order'=>$minimum_order, 'status'=>$status], ['staffInfo'=>$staffInfo]);
             }
         }else{
             // Cancel - redirect to printing method list

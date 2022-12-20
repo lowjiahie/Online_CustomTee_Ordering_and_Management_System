@@ -52,7 +52,13 @@
                     Date of birth:
                 </div>
                 <div class='col' style='color:rgb(0, 0, 0);'>
-                    <input type="date" name="date_of_birth" value="{{ $staffInfo->date_of_birth }}" />
+                    <?php
+                        $year=(int)date("Y");
+                        $year-=18;
+                        $year=(String)$year;
+                        $year=$year.'-'.date("m").'-'.date("d");
+                    ?>
+                    <input type="date" name="date_of_birth" max="<?php echo $year ?>" value="{{ $staffInfo->date_of_birth }}" />
                 </div>
             </div>
             <div class='row' style='background-color: white; color:rgb(0, 0, 0); margin: 10px 10px 10px 10px; padding: 20px 10px 20px 10px;'>

@@ -126,11 +126,11 @@
             @csrf
             <div class="form_div">
                 <input type="hidden" name="email" value="{{ $email }}" />
-                <label>Password: </label>
+                <label>New Password: </label>
                 <input type="password" class="field_class" name="password" id="email" size="60%"
                     placeholder="Please fill in your email here" />
 
-                <label>Confirm Password: </label>
+                <label>Confirm New Password: </label>
                 <input type="password" class="field_class" name="confirmPassword" id="password" size="60%"
                     placeholder="Please fill in your password here" />
 

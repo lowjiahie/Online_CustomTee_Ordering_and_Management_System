@@ -14,7 +14,7 @@
                                 Type Name:
                             </div>
                             <div class='col' style='color:rgb(0, 0, 0);'>
-                                <input type="text" name="name" />
+                                <input type="text" name="name" value="{{ $name }}" />
                             </div>
                         </div>
 
@@ -24,7 +24,7 @@
                                 Material:
                             </div>
                             <div class='col' style='color:rgb(0, 0, 0);'>
-                                <input type="text" name="material" />
+                                <input type="text" name="material" value="{{ $material }}" />
                             </div>
                         </div>
 
@@ -34,7 +34,7 @@
                                 Description:
                             </div>
                             <div class='col' style='color:rgb(0, 0, 0);'>
-                                <input type="text" name="description" />
+                                <input type="text" name="description" value="{{ $description }}" />
                             </div>
                         </div>
 
@@ -44,7 +44,7 @@
                                 Detail:
                             </div>
                             <div class='col' style='color:rgb(0, 0, 0);'>
-                                <input type="text" name="detail" />
+                                <input type="text" name="detail" value="{{ $detail }}" />
                             </div>
                         </div>
 
@@ -54,7 +54,7 @@
                                 Price(RM):
                             </div>
                             <div class='col' style='color:rgb(0, 0, 0);'>
-                                <input type="number" name="price" step="any"/>
+                                <input type="number" name="price" step="any" value="{{ $price }}" />
                             </div>
                         </div>
 

@@ -120,7 +120,11 @@ class PlainTeeRepository implements PlainTeeRepositoryInterface {
         return DB::update("UPDATE plain_tee_sizes SET stocks='$stocks' WHERE plain_tee_size_id='$id'");
     }
 
-    public function updateTypeColor($id, $plain_tee_img, $color_id, $type_id){
+    public function updateTypeColor($id, $color_id, $type_id){
+        return DB::update("UPDATE plain_tee_type_colors SET color_id='$color_id', type_id='$type_id' WHERE pt_type_color_id='$id'");
+    }
+
+    public function updateTypeColorImg($id, $plain_tee_img, $color_id, $type_id){
         return DB::update("UPDATE plain_tee_type_colors SET plain_tee_img='$plain_tee_img', color_id='$color_id', type_id='$type_id' WHERE pt_type_color_id='$id'");
     }
 
