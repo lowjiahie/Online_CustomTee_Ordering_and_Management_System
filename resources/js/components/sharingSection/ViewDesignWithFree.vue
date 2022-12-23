@@ -26,7 +26,7 @@
           <div
             v-for="publishedDesignFree in publishedDesignsFree"
             :key="publishedDesignFree.p_design_id"
-            class="col-md-6 col-lg-5"
+            class="col-md-4 col-lg-4"
           >
             <div class="card shadow p-3 mb-2 bg-body border-0 rounded">
               <div class="row">

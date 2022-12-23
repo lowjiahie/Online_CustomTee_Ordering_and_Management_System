@@ -17,7 +17,7 @@ class CreatePaypalAccountsTable extends Migration
             $table->string('paypal_acc_id');
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
-            $table->string('paypal_email')->unique();
+            $table->string('paypal_email')->nullable();
             
             $table->string('cus_id')->index();
             $table->foreign('cus_id')->references('cus_id')

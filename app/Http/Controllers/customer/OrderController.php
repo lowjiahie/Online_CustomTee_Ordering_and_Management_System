@@ -10,38 +10,16 @@ use Illuminate\Http\Request;
 use App\Models\OrderedDesign;
 use App\Models\DeliveryDetail;
 use App\Models\OrderedCustomTee;
+use Srmklive\PayPal\Facades\PayPal;
 use App\Http\Controllers\Controller;
 
 class OrderController extends Controller
 {
 
-    public function checkOut(Request $request)
+    public function create(Request $request)
     {
         $orderCustomTee = $request->cartData;
-        $request->validate([
-            'cartData.address' => 'required',
-            'cartData.deliveryMethod' => 'required',
-        ]);
-        //find printing method
-        //create order design for each order custom tee
-        //create ordered custom tee based on the printing method and orderdesign
-        //create each order item based on the ordered custom tee
-        //create delivery detail
-        //create order
 
-        // $customTeeName = $customTee['cusID'] . '-' . $customTee['name'];
-        // $pathPrefix = public_path('customTee/');
-        // $front_jpg_name = $customTeeName . "-" . $customTee['ptTypeColorID'] . "-" . "front-" . "preset" . ".jpg";
-        // $frontPath = $pathPrefix . '/' . $front_jpg_name;
-        // $back_jpg_name = $customTeeName . "-" . $customTee['ptTypeColorID'] . "-" . "back-" . "preset" . ".jpg";
-        // $backPath = $pathPrefix . '/' . $back_jpg_name;
-
-        // if (!File::exists($pathPrefix)) {
-        //     File::makeDirectory($pathPrefix, 0777, true, true);
-        // }
-
-        // Image::make(file_get_contents($customTee['frontDesignImg']))->save($frontPath);
-        // Image::make(file_get_contents($customTee['backDesignImg']))->save($backPath);
         $deliveryDetail = DeliveryDetail::create([
             'delivery_service' => $orderCustomTee["deliveryMethod"],
             'status' => 'pending',
@@ -53,7 +31,8 @@ class OrderController extends Controller
             'status' => 'pending',
             'totalPrice' => $orderCustomTee["orderSummary"]['total'],
             'delivery_detail_id' => $deliveryDetail->delivery_detail_id,
-            'cus_id'=>$orderCustomTee['cusID'],
+            'payment_rf_num' => $orderCustomTee["paypalOrderID"],
+            'cus_id' => $orderCustomTee['cusID'],
         ]);
 
         for ($i = 0; $i < count($orderCustomTee['cusTeeCart']); $i++) {
@@ -87,57 +66,72 @@ class OrderController extends Controller
         }
 
         return response($order, 201);
-
-        // dd($orderCustomTee['cusTeeCart'][$i]['customtee']['pt_type_color_id']);
-        // dd($orderCustomTee['cusTeeCart']);
-
-        // dd($orderCustomTee["orderSummary"]);
-        // dd($orderCustomTee["cusID"]);
-        // dd($orderCustomTee["address"]);
-        // dd($orderCustomTee["deliveryMethod"]);
-
-
-
     }
 
 
-    public function getOrderWithStatus(Request $request){
+    public function getOrderWithStatus(Request $request)
+    {
         $status = strtolower($request->status);
         $cusID = $request->cusID;
 
         $response = Order::all()->where('status', $status)->where('cus_id', $cusID);
 
         return response($response, 201);
-        
     }
 
-    public function cancelOrder(Request $request){
+    public function cancelOrder(Request $request)
+    {
         $orderID = $request->orderID;
         $order = Order::find($orderID);
         $order->status = 'cancelled';
         $response = $order->save();
 
-        return response($response,201);
-        
+        return response($response, 201);
     }
 
-    public function searchOrderByID(Request $request){
+    public function searchOrderByID(Request $request)
+    {
         $orderID = $request->orderID;
-        $order = Order::all()->where("order_id",$orderID);
+        $order = Order::all()->where("order_id", $orderID);
 
-        return response($order,201);
+        return response($order, 201);
     }
 
-    public function getOrderDetails($id){
-        $response = OrderItem::join('ordered_custom_tees', 'order_items.orderItemable_id', '=', 'ordered_custom_tees.o_custom_tee_id')
-        ->where('order_items.order_id','=',$id)
-        ->join('printing_methods', 'orders.order_id', '=', 'order_items.order_id')
-        ->join('ordered_designs', 'orders.order_id', '=', 'order_items.order_id')
-        ->join('plain_tee_sizes', 'orders.order_id', '=', 'order_items.order_id')
-        ->join('plain_tee_type_colors', 'orders.order_id', '=', 'order_items.order_id')
-        ->join('types', 'orders.order_id', '=', 'order_items.order_id')
-        ->join('colors', 'orders.order_id', '=', 'order_items.order_id')
+    public function getOrderDetails($id)
+    {
+
+        $response = Order::join('delivery_details', 'orders.delivery_detail_id', '=', 'delivery_details.delivery_detail_id')
+            ->join('order_items', 'order_items.order_id', '=', 'orders.order_id')
+            ->where('order_items.order_id', '=', $id)
+        ->join('ordered_custom_tees', 'order_items.orderItemable_id', '=', 'ordered_custom_tees.o_custom_tee_id')
+        ->join('printing_methods', 'ordered_custom_tees.p_method_id', '=', 'printing_methods.p_method_id')
+        ->join('ordered_designs', 'ordered_custom_tees.o_design_id', '=', 'ordered_designs.o_design_id')
+        ->join('plain_tee_sizes', 'ordered_custom_tees.plain_tee_size_id', '=', 'plain_tee_sizes.plain_tee_size_id')
+        ->join('plain_tee_type_colors', 'plain_tee_sizes.pt_type_color_id', '=', 'plain_tee_type_colors.pt_type_color_id')
+        ->join('types', 'plain_tee_type_colors.type_id', '=', 'types.type_id')
+        ->join('colors', 'plain_tee_type_colors.color_id', '=', 'colors.color_id')
         ->select(
+            'orders.shipping_address',
+            'orders.order_date',
+            'orders.payment_method',
+            'orders.status as order_status',
+            'orders.totalPrice',
+            'orders.payment_rf_num',
+            'delivery_details.delivery_tracking_num',
+            'delivery_details.delivery_service',
+            'delivery_details.status as delivery_status',
+            'order_items.order_item_id',
+            'order_items.total_qty',
+            'order_items.orderItemable_id',
+            'order_items.sub_total',
+            'order_items.order_id',
+            'ordered_custom_tees.printing_method_price',
+            'ordered_custom_tees.plain_tee_price',
+            'ordered_designs.front_design_img',
+            'ordered_designs.back_design_img',
+            'printing_methods.name as printing_name',
+            'printing_methods.price',
+            'plain_tee_sizes.size_name',
             'plain_tee_type_colors.pt_type_color_id',
             'plain_tee_type_colors.plain_tee_img',
             'plain_tee_type_colors.color_id',
@@ -148,7 +142,9 @@ class OrderController extends Controller
             'types.detail',
             'types.price',
             'colors.color_name',
-            'colors.color_code'
         )->get();
+
+
+        return response($response, 201);
     }
 }

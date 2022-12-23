@@ -364,7 +364,7 @@ class StaffController extends Controller
 
             $name = $request->input('name');
             $email = $request->input('email');
-            $password = $request->input('password');
+            $password = Hash::make($request->input('password'));
             $gender = $request->input('gender');
             $date_of_birth = $request->input('date_of_birth');
             $phone_no = $request->input('phone_no');

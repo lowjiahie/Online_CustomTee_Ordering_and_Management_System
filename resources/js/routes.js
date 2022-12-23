@@ -16,7 +16,6 @@ import CustomerChangePasswordComponent from "./components/customerMaintenance/Cu
 import CustomerPwdRecoveryFormComponent from "./components/customerMaintenance/CustomerPwdRecoveryForm"
 import CartComponent from "./components/order/Cart"
 import OrderConfirmationComponent from "./components/order/OrderConfirmation"
-import TransactionStatusComponent from "./components/order/TransactionStatus"
 import ViewOrderComponent from "./components/order/ViewOrder"
 import ViewOrderDetailsComponent from "./components/order/ViewOrderDetails"
 import CompetitionListComponent from "./components/competition/competitionList"
@@ -106,14 +105,6 @@ const routes = [
         path:"/customer/orderConfirmation",
         component: OrderConfirmationComponent,
         name:'orderConfirmation',
-        meta:{
-            hideNavbar:true,
-        }
-    },
-    {
-        path:"/customer/viewTransactionStatus",
-        component: TransactionStatusComponent,
-        name:'viewTransactionStatus',
         meta:{
             hideNavbar:true,
         }

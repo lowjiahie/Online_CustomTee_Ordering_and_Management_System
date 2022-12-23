@@ -79,6 +79,11 @@ Route::post("getCompetitionList", [CompetitionController::class, 'getCompetition
 Route::post("submitCompetition", [CompetitionController::class, 'submitCompetition']);
 Route::post("withdrawCompetition", [CompetitionController::class, 'withdrawCompetition']);
 
+
+//Paypal route
+Route::prefix('/paypal')->group(function() {
+    Route::post("/create", [OrderController::class, 'create']);
+});
 // Route::group(['middleware' => 'auth:sanctum'], function () {
 //     //All secure URL's
 

@@ -27,7 +27,7 @@
           <div
             v-for="publishedDesignSelling in publishedDesignsSelling"
             :key="publishedDesignSelling.p_design_id"
-            class="col-md-6 col-lg-5"
+            class="col-md-6 col-lg-4"
           >
             <div class="card shadow p-3 mb-2 bg-body border-0 rounded">
               <div class="row">

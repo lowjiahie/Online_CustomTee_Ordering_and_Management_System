@@ -26,6 +26,7 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "@paypal/paypal-js": "^5.1.4",
         "autoprefixer": "10.4.5",
         "dom-to-image-more": "^2.12.0",
         "fabric-history": "^1.7.0",

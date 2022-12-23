@@ -31,10 +31,7 @@
                   v-model="address"
                   placeholder="--enter your address here--"
                 ></textarea>
-                <span
-                  class="text-danger"
-                  v-if="errors['cartData.address']"
-                >{{ errors['cartData.address'][0] }}</span>
+                <span class="text-danger" v-if="addressErr">{{ addressErr }}</span>
               </p>
               <div class="form-check">
                 <input
@@ -83,10 +80,7 @@
                   <option value="J&T">J&T</option>
                   <option value="DHL">DHL</option>
                 </select>
-                <span
-                  class="text-danger"
-                  v-if="errors['cartData.deliveryMethod']"
-                >{{ errors['cartData.deliveryMethod'][0] }}</span>
+                <span class="text-danger" v-if="deliveryMethodErr">{{ deliveryMethodErr }}</span>
               </p>
             </div>
           </div>
@@ -114,7 +108,7 @@
                     <div class="col-md-6 pe-0">
                       <img
                         class="img-thumbnail border-0 pe-0"
-                        :src="require('@assets/customTee/'+item.customtee.back_design_img)"
+                        :src="require('@assets/customTee/'+item.customtee.front_design_img)"
                       />
                     </div>
                     <div class="col-md-6 ps-0">
@@ -227,18 +221,19 @@
       <div class="row">
         <div class="col-12">
           <router-link :to="{name:'viewCart'}" class="btn btn-dark">Back To Previous Page</router-link>
-          <button type="button" class="btn btn-dark" @click.prevent="checkOut">Confirm & Pay</button>
+          <!-- <button type="button" class="btn btn-dark" @click.prevent="checkOut">Confirm & Pay</button> -->
+          <div class="w-25 pt-2" id="paypal-button-container"></div>
         </div>
       </div>
     </div>
   </div>
 </template>
-
 <script>
 import { mapState, mapActions } from "pinia";
 import { useAuthStore } from "../../store/auth";
 import { useCartStore } from "../../store/cart";
 import Vue2Filters from "vue2-filters";
+import { loadScript } from "@paypal/paypal-js";
 
 export default {
   data() {
@@ -252,15 +247,118 @@ export default {
         orderSummary: {},
         address: "",
         cusID: "",
+        paypalOrderID: "",
         deliveryMethod: "",
       },
       order: {},
       errors: [],
+      items: [],
+      paypalOrderItem: {
+        name: "",
+        description: "",
+        unit_amount: {
+          currency_code: "MYR",
+          value: "",
+        },
+        quantity: "",
+      },
+      addressErr: "",
+      deliveryMethodErr: "",
     };
   },
   mixins: [Vue2Filters.mixin],
-  mounted() {
+  async mounted() {
     this.getDateTimeNow();
+    const paypalSdk = await loadScript({
+      "client-id":
+        "AXIK85_9Alr8g5RminX6gv4Sz5kuQ8HroDhFT7FNMvI7jVrJz3INB4ZHMctP5uhoV8KUn0s9U_wa_9X9",
+      currency: "MYR",
+    });
+    let fundingSources = [paypalSdk.FUNDING.PAYPAL];
+    for (const fundingSource of fundingSources) {
+      const paypalButtonsComponent = paypalSdk.Buttons({
+        fundingSource: fundingSource,
+        style: {
+          shape: "rect",
+          color: "gold",
+          shape: "rect",
+          label: "pay",
+          height: 40,
+        },
+
+        // set up the transaction
+        createOrder: (data, actions) => {
+          this.addressErr = "";
+          this.deliveryMethodErr = "";
+          if (!this.address) {
+            this.addressErr = "Please enter a address";
+          }
+          if (!this.deliveryMethod) {
+            this.deliveryMethodErr = "Please select a delivery address";
+          }
+          if (this.deliveryMethod && this.address) {
+            return actions.order.create({
+              purchase_units: [
+                {
+                  amount: {
+                    value: this.orderSummary.total,
+                  },
+                },
+              ],
+            });
+          }
+        },
+
+        // finalize the transaction
+        onApprove: (data, actions) => {
+          this.cartData.cusTeeCart = this.cusTeeCart;
+          this.cartData.orderSummary = this.orderSummary;
+          this.cartData.address = this.address;
+          this.cartData.paypalOrderID = data.orderID;
+          this.cartData.deliveryMethod = this.deliveryMethod;
+          this.cartData.cusID = this.authCus.cus_id;
+          axios
+            .post("/api/paypal/create", {
+              cartData: this.cartData,
+            })
+            .then((response) => {
+              this.order = response.data;
+              swal(
+                "Success",
+                `Successfully place an order!! This is your order id ${this.order.order_id}`,
+                "success"
+              ).then(() => {
+                return actions.order.capture().then((details) => {
+                  this.removeCusCart();
+                  this.$router.push("/customer/viewOrder");
+                });
+              });
+            })
+            .catch((error) => {
+              if (error.response.status === 422) {
+                this.errors = error.response.data.errors;
+              }
+            });
+        },
+
+        // handle unrecoverable errors
+        onError: (err) => {
+          console.error(
+            "An error prevented the buyer from checking out with PayPal"
+          );
+        },
+      });
+
+      if (paypalButtonsComponent.isEligible()) {
+        paypalButtonsComponent
+          .render("#paypal-button-container")
+          .catch((err) => {
+            console.error("PayPal Buttons failed to render");
+          });
+      } else {
+        console.log("The funding source is ineligible");
+      }
+    }
   },
   methods: {
     ...mapActions(useCartStore, ["removeCusCart"]),
@@ -311,6 +409,29 @@ export default {
             this.errors = error.response.data.errors;
           }
         });
+    },
+    assignPaypalOrderItems() {
+      this.cusTeeCart.forEach((item) => {
+        this.paypalOrderItem.name =
+          item.customtee.name +
+          " (Size->" +
+          item.sizeName +
+          "|" +
+          item.printingMethodName +
+          ")";
+        this.paypalOrderItem.description =
+          item.customtee.type_name +
+          item.customtee.material +
+          " | " +
+          item.customtee.detail +
+          " | " +
+          item.customtee.color_name;
+
+        this.paypalOrderItem.unit_amount.value = item.customtee.price;
+        this.paypalOrderItem.quantity = item.qty;
+        this.items.push(this.paypalOrderItem);
+      });
+      // console.log(this.total);
     },
   },
   computed: {

@@ -269,36 +269,6 @@
           <li class="nav-item" role="presentation">
             <button
               class="nav-link"
-              id="design-tab"
-              data-bs-toggle="tab"
-              data-bs-target="#design"
-              type="button"
-              role="tab"
-              aria-controls="design"
-              aria-selected="false"
-            >
-              <svg
-                t="1661732897637"
-                class="icon"
-                viewBox="0 0 1024 1024"
-                version="1.1"
-                xmlns="http://www.w3.org/2000/svg"
-                p-id="17707"
-                width="25"
-                height="25"
-              >
-                <path
-                  d="M691.26144 972.8h-409.6c-42.3424 0-76.8-34.4576-76.8-76.8V419.5328l-119.9104 39.9872a25.6 25.6 0 0 1-32.3584-16.1792l-51.2-153.6a25.5488 25.5488 0 0 1 12.8512-30.976l307.2-153.6A25.6 25.6 0 0 1 358.46144 128.0512c0 70.5536 57.4464 128 128 128s128-57.4464 128-128a25.6 25.6 0 0 1 37.0176-22.8864l307.2 153.6a25.6 25.6 0 0 1 12.8512 30.976l-51.2 153.6a25.5488 25.5488 0 0 1-32.3584 16.1792L768.06144 419.5328V896c0 42.3424-34.4576 76.8-76.8 76.8z m-460.8-614.4a25.4976 25.4976 0 0 1 25.6 25.6v512a25.6 25.6 0 0 0 25.6 25.6h409.6a25.6 25.6 0 0 0 25.6-25.6v-512a25.5488 25.5488 0 0 1 33.6896-24.32l129.3312 43.1104 36.096-108.2368-254.6176-127.3344c-17.9712 79.9744-89.5488 139.9296-174.848 139.9296S329.58464 247.1936 311.66464 167.2192L57.04704 294.5536l36.096 108.2368 129.3312-43.1104a26.0096 26.0096 0 0 1 8.0896-1.3312z"
-                  fill
-                  p-id="17708"
-                />
-              </svg>
-              <br />Add Design
-            </button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button
-              class="nav-link"
               id="save-tab"
               data-bs-toggle="tab"
               data-bs-target="#save"
@@ -348,17 +318,93 @@
             </div>
             <div v-show="showEditText" class="edit-text-block">
               <!-- 
-              - size
-              - text style
-              - text color
-              - position
-              - rotation
-              - add strokes
-              - edit width of strokes
-              - spacing of the text
-              - curving the text
+              - size check
+              - text color check
+              - rotation check
+              - edit width of strokes check
+              - spacing of the text 
               -->
-              123
+              <p class="fs-5 fw-bold text-dark mb-0">Edit Text</p>
+              <div class="mb-0">
+                <label for="Text Color" class="form-label text-secondary fw-bold">Text Color</label>
+                <input
+                  type="color"
+                  class="form-control form-control-color"
+                  v-model="fillHexCode"
+                  @input="fillColorOnChange"
+                />
+              </div>
+              <div class="mb-0">
+                <label
+                  for="Text Stroke Color"
+                  class="form-label text-secondary fw-bold"
+                >Text Stroke Color</label>
+                <input
+                  type="color"
+                  class="form-control form-control-color"
+                  v-model="strokeHexCode"
+                  @input="strokeColorOnChange"
+                />
+              </div>
+              <div class="row mb-2">
+                <label
+                  for="angle"
+                  class="col-sm-3 col-form-label text-secondary fw-bold"
+                >Angle = {{ angle }}</label>
+                <div class="col-sm-8 pt-1">
+                  <input
+                    v-model="angle"
+                    type="range"
+                    class="form-range"
+                    min="0"
+                    max="360"
+                    @input="rotationAngleOnChange"
+                    id="angle-slider"
+                  />
+                </div>
+              </div>
+              <div class="row mb-2">
+                <label
+                  for="scale"
+                  class="col-sm-3 col-form-label text-secondary fw-bold"
+                >Scale = {{ scale }}</label>
+                <div class="col-sm-8 pt-1">
+                  <input
+                    v-model="scale"
+                    type="range"
+                    class="form-range"
+                    min="0.1"
+                    max="3"
+                    step="0.1"
+                    id="angle-slider"
+                    @input="scaleSizeOnChange"
+                  />
+                </div>
+              </div>
+              <div class="row mb-2">
+                <label
+                  for="scale"
+                  class="col-sm-4 col-form-label text-secondary fw-bold pe-0"
+                >Stroke width</label>
+                <div class="col-sm-8 ps-0">
+                  <input
+                    type="number"
+                    min="0"
+                    id="storke-width"
+                    v-model="strokeWidth"
+                    @input="strokeWidthOnChange"
+                  />
+                </div>
+              </div>
+              <div class="row mb-2">
+                <label
+                  for="scale"
+                  class="col-sm-4 col-form-label text-secondary fw-bold pe-0"
+                >Text Character Spacing</label>
+                <div class="col-sm-8 ps-0">
+                  <input type="number" min="0" id="text-spacing" v-model="charSpacing" @input="charSpacingOnChange" />
+                </div>
+              </div>
             </div>
           </div>
           <div class="tab-pane fade" id="shape" role="tabpanel" aria-labelledby="shape-tab">
@@ -458,7 +504,6 @@
               </div>
             </div>
           </div>
-          <div class="tab-pane fade" id="design" role="tabpanel" aria-labelledby="design-tab">design</div>
           <div class="tab-pane fade" id="save" role="tabpanel" aria-labelledby="save-tab">
             <p class="mt-1 mb-3">Enter a name for your design and then click the save button.</p>
             <div class="input-group mb-3">
@@ -677,6 +722,7 @@ export default {
       strokeWidth: 3,
       angle: 0,
       scale: 1,
+      charSpacing: 0,
       customTee: {
         ptTypeColorID: "",
         cusID: "",
@@ -950,13 +996,27 @@ export default {
     onSelectedObj() {
       //used to check which obj is selected and take action
       let selectedActiveObj = maincanvas.getActiveObject();
-
+      console.log(selectedActiveObj.type);
       switch (selectedActiveObj.type) {
         case "activeSelection":
           break;
         case "image":
           break;
         case "path":
+          break;
+        case "i-text":
+          this.showEditText = true;
+          this.fillHexCode = String(maincanvas.getActiveObject().get("fill"));
+          this.strokeHexCode = String(
+            maincanvas.getActiveObject().get("stroke")
+          );
+          this.scale = maincanvas.getActiveObject().get("scaleX");
+          this.charSpacing = maincanvas.getActiveObject().get("charSpacing");
+          this.strokeWidth = String(
+            maincanvas.getActiveObject().get("strokeWidth")
+          );
+          this.angle = maincanvas.getActiveObject().get("angle");
+          this.$refs.text.click();
           break;
         case "circle":
         case "ellipse":
@@ -982,6 +1042,7 @@ export default {
     onDeselectedObj() {
       console.log("deselected");
       this.showEditShape = false;
+      this.showEditText = false;
       this.$refs.text.click();
     },
     saveCanvas() {
@@ -1316,6 +1377,14 @@ export default {
       maincanvas
         .getActiveObject()
         .set("strokeWidth", parseInt(e.target.value, 10))
+        .setCoords();
+      maincanvas.requestRenderAll();
+    },
+    charSpacingOnChange(e) {
+      console.log("Char Spacing");
+      maincanvas
+        .getActiveObject()
+        .set("charSpacing", parseInt(e.target.value, 10))
         .setCoords();
       maincanvas.requestRenderAll();
     },

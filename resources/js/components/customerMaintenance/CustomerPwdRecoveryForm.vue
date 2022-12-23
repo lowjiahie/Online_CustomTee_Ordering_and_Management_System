@@ -21,7 +21,7 @@
         <span class="text-danger" v-if="errors.password">{{ errors.password[0] }}</span>
       </div>
       <div class="form-group">
-        <label class="fw-bold">Confirm Password</label>
+        <label class="fw-bold">Confirm New Password</label>
         <input
           type="password"
           v-model="form.confirmPassword"

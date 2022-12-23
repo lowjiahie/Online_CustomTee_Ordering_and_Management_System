@@ -32,13 +32,13 @@
                 class="btn btn-dark"
               >Cancelled</button>
             </div>
-            <div class="col-2 p-2">
+            <!-- <div class="col-2 p-2">
               <button
                 type="button"
                 @click="getOrderWithStatus('failed')"
                 class="btn btn-dark"
               >Failed</button>
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="col-md-4 col-sm-12 col-12">
@@ -97,7 +97,7 @@
       >
         <div class="row">
           <div class="col-md-2">
-            <p class="h5 text-center setGap-no" style="padding-top:80px;">{{index+1}}</p>
+            <p class="h5 text-center setGap-no" style="padding-top:80px;">#</p>
           </div>
           <div v-if="item" class="col-md-3 bg-dark rounded">
             <!-- Pending -->
@@ -182,7 +182,7 @@
               </svg>
               <p class="text-white">Cancelled</p>
             </div>
-            <!-- Failed -->
+            <!-- Failed
             <div v-if="item.status == 'failed'" class="text-center p-3 pt-3 mt-5">
               <svg
                 t="1670987842458"
@@ -201,7 +201,7 @@
                 />
               </svg>
               <p class="text-white">Failed</p>
-            </div>
+            </div> -->
             <!-- completed -->
             <div v-if="item.status == 'completed'" class="text-center p-3 pt-3 mt-5">
               <svg

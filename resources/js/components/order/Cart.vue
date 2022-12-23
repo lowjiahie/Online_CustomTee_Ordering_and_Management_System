@@ -12,7 +12,7 @@
                 <div class="row g-0">
                   <div class="col-md-3">
                     <img
-                      :src="require('@assets/customTee/'+item.customtee.back_design_img)"
+                      :src="require('@assets/customTee/'+item.customtee.front_design_img)"
                       class="img-fluid rounded-start"
                     />
                   </div>
@@ -280,6 +280,7 @@ export default {
         shippingFee: 5.99,
         total: 0,
       },
+      calTtlTimeOut:"",
     };
   },
   mixins: [Vue2Filters.mixin],
@@ -305,7 +306,7 @@ export default {
       return item.subtotal;
     },
     calculateTotalAll() {
-      setInterval(() => {
+      this.calTtlTimeOut = setInterval(() => {
         this.orderSummary.totalAll = 0;
         this.orderSummary.total = 0;
         for (var i = 0; i < this.cusTeeCart.length; i++) {
@@ -323,6 +324,7 @@ export default {
     },
     redirectToOrderConfirmation() {
       this.setOrderSummary(this.orderSummary);
+      clearTimeout(this.calTtlTimeOut);
       this.$router.push("/customer/orderConfirmation");
       location.reload();
     },

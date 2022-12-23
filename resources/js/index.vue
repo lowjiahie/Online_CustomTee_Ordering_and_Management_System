@@ -2,7 +2,7 @@
   <div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" v-if="!$route.meta.hideNavbar">
       <div class="container-fluid">
-        <router-link class="navbar-brand mr-auto" :to="{name:'home'}">
+        <router-link class="navbar-brand mr-auto" :to="{name:'viewPlainTee'}">
           <svg
             id="Layer_2"
             data-name="Layer 2"

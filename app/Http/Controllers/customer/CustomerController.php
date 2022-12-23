@@ -70,7 +70,8 @@ class CustomerController extends Controller
     {
         $cusID = $request->cus_id;
 
-        $response = Customer::find($cusID)->first();
+
+        $response = Customer::find($cusID);
 
         return response($response, 201);
     }
@@ -83,7 +84,7 @@ class CustomerController extends Controller
             'phone_num' => ['required', 'regex:/^(\+?6?01)[02-46-9]-*[0-9]{7}$|^(\+?6?01)[1]-*[0-9]{8}$/'],
         ]);
 
-        $cus = Customer::find($request->cus_id)->first();
+        $cus = Customer::find($request->cus_id);
 
         $cus->name = $request->name;
         $cus->address = $request->address;
@@ -97,7 +98,7 @@ class CustomerController extends Controller
     {
         $cusID = $request->cus_id;
 
-        $response = PaypalAccount::where('cus_id', $cusID)->get();
+        $response = PaypalAccount::where('cus_id', $cusID)->first();
 
         return response($response, 201);
     }
@@ -108,13 +109,13 @@ class CustomerController extends Controller
         $request->validate([
             'first_name' => 'required|max:30',
             'last_name' => 'required|max:30',
-            'paypal_email' => 'required|email|unique:paypal_accounts',
+            'paypal_email' => 'required|email',
         ]);
 
-        $paypalAcc = PaypalAccount::where('cus_id', $request->cus_id)->get();
+        $paypalAcc = PaypalAccount::where('cus_id', $request->cus_id)->first();
 
         $response = "";
-        if (count($paypalAcc) > 0) {
+        if ($paypalAcc) {
             $paypalAcc->first_name = $request->first_name;
             $paypalAcc->last_name = $request->last_name;
             $paypalAcc->paypal_email = $request->paypal_email;
@@ -139,7 +140,7 @@ class CustomerController extends Controller
             'password_confirmation' => 'required',
         ]);
 
-        $cus = Customer::find($request->cusID)->first();
+        $cus = Customer::find($request->cusID);
 
         if (!Hash::check($request->old_password, $cus->password)) {
             throw ValidationException::withMessages([
