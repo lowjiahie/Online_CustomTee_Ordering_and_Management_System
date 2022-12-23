@@ -36,7 +36,8 @@
                     $sort == 'ASC' ? ($sort = 'DESC') : ($sort = 'ASC');
 
                     //Query
-                    $sql = "SELECT * FROM published_design_reports ORDER BY $sortingDecision $sort";
+                    $sql = "SELECT * FROM published_designs AS PD, published_design_reports AS PDR, customers AS C
+                    WHERE PD.p_design_id=PDR.p_design_id AND PDR.cus_id = C.cus_id ORDER BY $sortingDecision $sort";
 
                     // Count all the records inside database
                     $recordCount = 0;
@@ -57,16 +58,16 @@
                     echo "
                         <div class='row' style='background-color: rgb(200, 197, 197); margin: 10px 10px 10px 10px; padding: 20px 10px 20px 10px;'>
                             <div class='col'>
-                                <a href='/admin/designReportList?sortingDecision=p_design_report_id&sort=$sort' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>Published Design Report ID</a>
+                                <a href='/admin/designReportList?sortingDecision=PDR.p_design_report_id&sort=$sort' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>Published Design Report ID</a>
                             </div>
                             <div class='col'>
-                                <a href='/admin/designReportList?sortingDecision=title&sort=$sort' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>Title</a>
+                                <a href='/admin/designReportList?sortingDecision=PDR.title&sort=$sort' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>Title</a>
                             </div>
                             <div class='col'>
-                                <a href='/admin/designReportList?sortingDecision=cus_id&sort=$sort' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>Reported By</a>
+                                <a href='/admin/designReportList?sortingDecision=C.name&sort=$sort' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>Reported By</a>
                             </div>
                             <div class='col'>
-                                <a href='/admin/designReportList?sortingDecision=p_design_id&sort=$sort' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>Published Design ID</a>
+                                <a href='/admin/designReportList?sortingDecision=PDR.p_design_id&sort=$sort' style='color:rgb(0, 0, 0); text-decoration:none; background-color:none;'>Published Design ID</a>
                             </div>
                             <div class='col'>
 
@@ -90,7 +91,7 @@
                                             $row["title"]."
                                         </div>
                                         <div class='col' style='color:rgb(0, 0, 0);'>".
-                                            $row["cus_id"]."
+                                            $row["name"]."
                                         </div>
                                         <div class='col' style='color:rgb(0, 0, 0);'>".
                                             $row["p_design_id"]."
@@ -111,7 +112,7 @@
                                             $row["title"]."
                                         </div>
                                         <div class='col' style='color:rgb(0, 0, 0);'>".
-                                            $row["cus_id"]."
+                                            $row["name"]."
                                         </div>
                                         <div class='col' style='color:rgb(0, 0, 0);'>".
                                             $row["p_design_id"]."
@@ -138,7 +139,7 @@
                                     {{ $designReport->title }}
                                 </div>
                                 <div class='col' style='color:rgb(0, 0, 0);'>
-                                    {{ $designReport->cus_id }}
+                                    {{ $designReport->name }}
                                 </div>
                                 <div class='col' style='color:rgb(0, 0, 0);'>
                                     {{ $designReport->p_design_id }}
@@ -160,7 +161,7 @@
                                     {{ $designReport->title }}
                                 </div>
                                 <div class='col' style='color:rgb(0, 0, 0);'>
-                                    {{ $designReport->cus_id }}
+                                    {{ $designReport->name }}
                                 </div>
                                 <div class='col' style='color:rgb(0, 0, 0);'>
                                     {{ $designReport->p_design_id }}
