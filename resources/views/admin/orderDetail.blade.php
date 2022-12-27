@@ -118,7 +118,7 @@
                         <div class='col' style='color:rgb(0, 0, 0);'>
                             <input type="hidden" name="delivery_detail_id" value="{{ $deliveryDetail->delivery_detail_id }}" />
                             <input type="text" name="delivery_tracking_num" value="{{ $deliveryDetail->delivery_tracking_num }}" />
-                            <input type="submit" name="orderFunction" value="Update" onclick="return confirm('Are you sure you want to update this delivery status?')"
+                            <input type="submit" name="orderFunction" value="Update" onclick="return confirm('Are you sure you want to update this delivery tracking number?')"
                                     style="float: right; border-style:none; border-radius:5px; color:white; background-color:black; padding:8px 50px;
                             font-family:'system-ui'; text-transform:uppercase; letter-spacing:.8px; display:block;
                             margin-right:10%; box-shadow:2px 2px 5px rgb(0, 0, 0, 0.2); cursor:pointer;" />
