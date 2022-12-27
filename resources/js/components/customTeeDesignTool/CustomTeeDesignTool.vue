@@ -996,7 +996,6 @@ export default {
     onSelectedObj() {
       //used to check which obj is selected and take action
       let selectedActiveObj = maincanvas.getActiveObject();
-      console.log(selectedActiveObj.type);
       switch (selectedActiveObj.type) {
         case "activeSelection":
           break;
@@ -1024,7 +1023,6 @@ export default {
         case "polygon":
         case "rect":
         case "triangle":
-          console.log("is shape");
           this.showEditShape = true;
           this.fillHexCode = String(maincanvas.getActiveObject().get("fill"));
           this.strokeHexCode = String(
@@ -1249,7 +1247,6 @@ export default {
     },
     checkExtension(file) {
       var str = file.split(".");
-      console.log(str);
       return str[str.length - 1];
     },
     isImage(file) {
@@ -1277,7 +1274,6 @@ export default {
       this.imgErrorMsgs = [];
 
       if (this.selectedFileImg) {
-        console.log("has img");
         this.hasImage = true;
         this.imgFileExt = this.checkExtension(
           this.selectedFileImg.name
@@ -1296,7 +1292,6 @@ export default {
       this.disablingBtn();
     },
     confirmUploadImg() {
-      console.log("I am in");
       if (!this.selectedFileImg) {
         return;
       }
@@ -1304,7 +1299,6 @@ export default {
       var imgFileExts = ["jpg", "jpeg", "png"];
 
       if (imgFileExts.includes(this.imgFileExt)) {
-        console.log(this.imgFileExt);
         fabric.Image.fromURL(url, function (img) {
           img.scaleToWidth(100);
           img.scaleToHeight(100);
@@ -1313,7 +1307,6 @@ export default {
       }
 
       if (this.imgFileExt == "svg") {
-        console.log(this.imgFileExt);
         fabric.loadSVGFromURL(url, function (objects, options) {
           var obj = fabric.util.groupSVGElements(objects, options);
           obj.scaleToWidth(100);
@@ -1342,7 +1335,6 @@ export default {
       }
     },
     scaleSizeOnChange(e) {
-      console.log("123");
       maincanvas
         .getActiveObject()
         .scale(parseFloat(e.target.value))
