@@ -54,7 +54,6 @@ export default {
           this.loading = false;
           if (error.response.status === 422) {
             this.errors = error.response.data.errors;
-            console.log(this.errors);
           }
         });
     },

@@ -214,7 +214,7 @@
                   </p>
                   <p class="card-text mb-1" v-if="publishedDesign.status == 'banned'">
                     <b class="text-dark">Reason Banned:</b>
-                    {{ publishedDesign.reason_banned_denied }}
+                    <span class="text-danger">{{ publishedDesign.reason_banned_denied }}</span>
                   </p>
                 </div>
               </div>
@@ -233,7 +233,7 @@
           role="tabpanel"
           aria-labelledby="v-pills-saved-purchased-design"
         >
-          <h4 class="fw-bold">My Saved/Purchased Designs</h4>
+          <h4 class="fw-bold">My Saved Designs</h4>
           <div
             class="card mb-3"
             style="max-width: 900px;"

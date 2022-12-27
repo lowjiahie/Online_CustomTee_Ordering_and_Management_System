@@ -6251,7 +6251,6 @@ var maincanvas = null;
     onSelectedObj: function onSelectedObj() {
       //used to check which obj is selected and take action
       var selectedActiveObj = maincanvas.getActiveObject();
-      console.log(selectedActiveObj.type);
 
       switch (selectedActiveObj.type) {
         case "activeSelection":
@@ -6280,7 +6279,6 @@ var maincanvas = null;
         case "polygon":
         case "rect":
         case "triangle":
-          console.log("is shape");
           this.showEditShape = true;
           this.fillHexCode = String(maincanvas.getActiveObject().get("fill"));
           this.strokeHexCode = String(maincanvas.getActiveObject().get("stroke"));
@@ -6463,7 +6461,6 @@ var maincanvas = null;
     },
     checkExtension: function checkExtension(file) {
       var str = file.split(".");
-      console.log(str);
       return str[str.length - 1];
     },
     isImage: function isImage(file) {
@@ -6491,7 +6488,6 @@ var maincanvas = null;
       this.imgErrorMsgs = [];
 
       if (this.selectedFileImg) {
-        console.log("has img");
         this.hasImage = true;
         this.imgFileExt = this.checkExtension(this.selectedFileImg.name).toLowerCase();
 
@@ -6509,8 +6505,6 @@ var maincanvas = null;
       this.disablingBtn();
     },
     confirmUploadImg: function confirmUploadImg() {
-      console.log("I am in");
-
       if (!this.selectedFileImg) {
         return;
       }
@@ -6519,7 +6513,6 @@ var maincanvas = null;
       var imgFileExts = ["jpg", "jpeg", "png"];
 
       if (imgFileExts.includes(this.imgFileExt)) {
-        console.log(this.imgFileExt);
         fabric__WEBPACK_IMPORTED_MODULE_0__.fabric.Image.fromURL(url, function (img) {
           img.scaleToWidth(100);
           img.scaleToHeight(100);
@@ -6528,7 +6521,6 @@ var maincanvas = null;
       }
 
       if (this.imgFileExt == "svg") {
-        console.log(this.imgFileExt);
         fabric__WEBPACK_IMPORTED_MODULE_0__.fabric.loadSVGFromURL(url, function (objects, options) {
           var obj = fabric__WEBPACK_IMPORTED_MODULE_0__.fabric.util.groupSVGElements(objects, options);
           obj.scaleToWidth(100);
@@ -6560,7 +6552,6 @@ var maincanvas = null;
       }
     },
     scaleSizeOnChange: function scaleSizeOnChange(e) {
-      console.log("123");
       maincanvas.getActiveObject().scale(parseFloat(e.target.value)).setCoords();
       maincanvas.requestRenderAll();
     },
@@ -6912,7 +6903,6 @@ __webpack_require__.r(__webpack_exports__);
 
         if (error.response.status === 422) {
           _this.errors = error.response.data.errors;
-          console.log(_this.errors);
         }
       });
     }
@@ -7882,6 +7872,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         shippingFee: 5.99,
         total: 0
       },
+      customTeeName: [],
       shippingDetails: {
         address: "",
         service: "",
@@ -7905,6 +7896,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       for (var i = 0; i < _this.orderDetails.length; i++) {
         _this.orderSummary.totalAll += parseFloat(_this.orderDetails[i]["sub_total"]);
+        var tempName = _this.orderDetails[i]['front_design_img'];
+        tempName = tempName.split('-');
+
+        _this.customTeeName.push(tempName[1]);
       }
 
       _this.orderSummary.total = _this.orderDetails[0]["totalPrice"];
@@ -10655,7 +10650,9 @@ var render = function render() {
       staticClass: "card-text mb-1"
     }, [_c("b", {
       staticClass: "text-dark"
-    }, [_vm._v("Reason Banned:")]), _vm._v("\n                  " + _vm._s(publishedDesign.reason_banned_denied) + "\n                ")]) : _vm._e()])])])]);
+    }, [_vm._v("Reason Banned:")]), _vm._v(" "), _c("span", {
+      staticClass: "text-danger"
+    }, [_vm._v(_vm._s(publishedDesign.reason_banned_denied))])]) : _vm._e()])])])]);
   }), _vm._v(" "), _vm.publishedDesigns.length == 0 ? _c("div", {
     staticClass: "ms-2"
   }, [_c("span", [_vm._v("\n            Does not have publish design record with\n            "), _c("b", {
@@ -10669,7 +10666,7 @@ var render = function render() {
     }
   }, [_c("h4", {
     staticClass: "fw-bold"
-  }, [_vm._v("My Saved/Purchased Designs")]), _vm._v(" "), _vm._l(_vm.savedOrPurchasedDesigns, function (savedOrPurchasedDesign) {
+  }, [_vm._v("My Saved Designs")]), _vm._v(" "), _vm._l(_vm.savedOrPurchasedDesigns, function (savedOrPurchasedDesign) {
     return _c("div", {
       key: savedOrPurchasedDesign.p_design_id,
       staticClass: "card mb-3",
@@ -12312,7 +12309,7 @@ var render = function render() {
       staticClass: "col-md-12"
     }, [_c("p", {
       staticClass: "h4"
-    }, [_vm._v("(Size->" + _vm._s(item.size_name) + " | " + _vm._s(item.printing_name) + ")")])])]), _vm._v(" "), _c("div", {
+    }, [_vm._v(_vm._s(_vm.customTeeName[index]) + " (Size->" + _vm._s(item.size_name) + " | " + _vm._s(item.printing_name) + ")")])])]), _vm._v(" "), _c("div", {
       staticClass: "row"
     }, [_c("div", {
       staticClass: "col-md-6 col-sm-6 col-6"

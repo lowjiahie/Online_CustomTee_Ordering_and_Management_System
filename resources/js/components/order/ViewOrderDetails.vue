@@ -125,7 +125,7 @@
                 <div class="col-md-7 mt-3">
                   <div class="row">
                     <div class="col-md-12">
-                      <p class="h4">(Size->{{item.size_name}} | {{ item.printing_name}})</p>
+                      <p class="h4">{{ customTeeName[index] }} (Size->{{item.size_name}} | {{ item.printing_name}})</p>
                     </div>
                   </div>
                   <div class="row">
@@ -242,6 +242,7 @@ export default {
         shippingFee: 5.99,
         total: 0,
       },
+      customTeeName:[],
       shippingDetails: {
         address: "",
         service: "",
@@ -266,6 +267,9 @@ export default {
           this.orderSummary.totalAll += parseFloat(
             this.orderDetails[i]["sub_total"]
           );
+          let tempName = this.orderDetails[i]['front_design_img']
+          tempName = tempName.split('-');
+          this.customTeeName.push(tempName[1]);
         }
         this.orderSummary.total = this.orderDetails[0]["totalPrice"];
         this.shippingDetails.address = this.orderDetails[0]["shipping_address"];
@@ -278,6 +282,7 @@ export default {
         this.orderInfo.status = this.orderDetails[0]["order_status"];
         this.orderInfo.paymentRefNum = this.orderDetails[0]["payment_rf_num"];
         this.orderInfo.orderID = this.orderDetails[0]["order_id"];
+        
       });
   },
   methods: {},
