@@ -281,7 +281,6 @@ export default {
         style: {
           shape: "rect",
           color: "gold",
-          shape: "rect",
           label: "pay",
           height: 40,
         },
