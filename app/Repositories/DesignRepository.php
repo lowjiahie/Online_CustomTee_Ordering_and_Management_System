@@ -11,7 +11,8 @@ class DesignRepository implements DesignRepositoryInterface {
     }
 
     public function getAllReport(){
-        return PublishedDesignReport::all();
+        return DB::select("SELECT * FROM published_designs AS PD, published_design_reports AS PDR, customers AS C
+        WHERE PD.p_design_id=PDR.p_design_id AND PDR.cus_id = C.cus_id");
     }
 
     public function searchByName($name){

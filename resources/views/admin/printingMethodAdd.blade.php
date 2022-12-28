@@ -13,7 +13,7 @@
                             Printing Method Name:
                         </div>
                         <div class='col' style='color:rgb(0, 0, 0);'>
-                            <input type="text" name="name"  />
+                            <input type="text" name="name" value="{{ $name }}" />
                         </div>
                     </div>
                     <div class='row'
@@ -22,7 +22,7 @@
                             Price(RM):
                         </div>
                         <div class='col' style='color:rgb(0, 0, 0);'>
-                            <input type="number" name="price"  step="any"/>
+                            <input type="number" name="price"  step="any" value="{{ $price }}" />
                         </div>
                     </div>
                     <div class='row'
@@ -31,7 +31,7 @@
                             Minimum Order:
                         </div>
                         <div class='col' style='color:rgb(0, 0, 0);'>
-                            <input type="number" name="minimum_order" />
+                            <input type="number" name="minimum_order" value="{{ $minimum_order }}" />
                         </div>
                     </div>
                     <div class='row'
@@ -41,8 +41,16 @@
                         </div>
                         <div class='col' style='color:rgb(0, 0, 0);'>
                             <select name="status">
+                                @if($status == "Active")
+                                <option value="Active" selected="selected">Active</option>
+                                <option value="Inactive">Inactive</option>
+                                @elseif($status == "Inactive")
+                                <option value="Active">Active</option>
+                                <option value="Inactive" selected="selected">Inactive</option>
+                                @else
                                 <option value="Active">Active</option>
                                 <option value="Inactive">Inactive</option>
+                                @endif
                             </select>
                         </div>
                     </div>

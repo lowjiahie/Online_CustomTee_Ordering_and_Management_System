@@ -49,7 +49,9 @@ interface PlainTeeRepositoryInterface {
 
     public function updateSize($id, $stocks);
 
-    public function updateTypeColor($id, $plain_tee_img, $color_id, $type_id);
+    public function updateTypeColor($id, $color_id, $type_id);
+
+    public function updateTypeColorImg($id, $plain_tee_img, $color_id, $type_id);
 
     public function deleteColor($id);
 

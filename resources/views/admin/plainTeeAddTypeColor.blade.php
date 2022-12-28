@@ -26,7 +26,11 @@
                             <div class='col' style='color:rgb(0, 0, 0);'>
                                 <select name="color_id">
                                     @foreach ($allColor as $color)
+                                    @if($color_id == $color->color_id)
+                                    <option value="{{ $color->color_id }}" selected="selected">{{ $color->color_name }}</option>
+                                    @else
                                     <option value="{{ $color->color_id }}">{{ $color->color_name }}</option>
+                                    @endif
                                     @endforeach
                                 </select>
                             </div>
@@ -40,7 +44,11 @@
                             <div class='col' style='color:rgb(0, 0, 0);'>
                                 <select name="type_id">
                                 @foreach ($allType as $type)
+                                @if($type_id == $type->type_id)
+                                <option value="{{ $type->type_id }}" selected="selected">{{ $type->name }} {{ $type->detail }}</option>
+                                @else
                                 <option value="{{ $type->type_id }}">{{ $type->name }} {{ $type->detail }}</option>
+                                @endif
                                 @endforeach
                                 </select>
                             </div>

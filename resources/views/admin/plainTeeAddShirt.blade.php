@@ -14,7 +14,7 @@
                                 Stocks:
                             </div>
                             <div class='col' style='color:rgb(0, 0, 0);'>
-                                <input type="number" name="stocks" />
+                                <input type="number" name="stocks" value="{{ $stocks }}"/>
                             </div>
                         </div>
 
@@ -24,6 +24,47 @@
                                 Size Name:
                             </div>
                             <div class='col' style='color:rgb(0, 0, 0);'>
+                                @if($size_name == "XS")
+                                <select name="size_name">
+                                    <option value="XS" selected="selected">XS</option>
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                    <option value="XL">XL</option>
+                                </select>
+                                @elseif($size_name == "S")
+                                <select name="size_name">
+                                    <option value="XS">XS</option>
+                                    <option value="S" selected="selected">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                    <option value="XL">XL</option>
+                                </select>
+                                @elseif($size_name == "M")
+                                <select name="size_name">
+                                    <option value="XS">XS</option>
+                                    <option value="S">S</option>
+                                    <option value="M" selected="selected">M</option>
+                                    <option value="L">L</option>
+                                    <option value="XL">XL</option>
+                                </select>
+                                @elseif($size_name == "L")
+                                <select name="size_name">
+                                    <option value="XS">XS</option>
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L" selected="selected">L</option>
+                                    <option value="XL">XL</option>
+                                </select>
+                                @elseif($size_name == "XL")
+                                <select name="size_name">
+                                    <option value="XS">XS</option>
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                    <option value="XL" selected="selected">XL</option>
+                                </select>
+                                @else
                                 <select name="size_name">
                                     <option value="XS">XS</option>
                                     <option value="S">S</option>
@@ -31,6 +72,7 @@
                                     <option value="L">L</option>
                                     <option value="XL">XL</option>
                                 </select>
+                                @endif
                             </div>
                         </div>
 
@@ -42,7 +84,11 @@
                             <div class='col' style='color:rgb(0, 0, 0);'>
                                 <select name="pt_type_color_id">
                                 @foreach ($allTypeColor as $typeColor)
+                                @if ($pt_type_color_id == $typeColor->pt_type_color_id)
+                                <option value="{{ $typeColor->pt_type_color_id }}" selected="selected">{{ $typeColor->color_name }} {{ $typeColor->name }} {{ $typeColor->detail }}</option>
+                                @else
                                 <option value="{{ $typeColor->pt_type_color_id }}">{{ $typeColor->color_name }} {{ $typeColor->name }} {{ $typeColor->detail }}</option>
+                                @endif
                                 @endforeach
                                 </select>
                             </div>

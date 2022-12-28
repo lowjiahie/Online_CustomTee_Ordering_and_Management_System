@@ -179,7 +179,7 @@ class PlainTeeTypeColorController extends Controller
         // Display add color form
         $staffID = $request->session()->get('StaffID');
         $staffInfo = $this->staffRepository->getById($staffID);
-        return view('admin.plainTeeAddType', ['staffInfo'=>$staffInfo]);
+        return view('admin.plainTeeAddType', ['name'=>'','material'=>'','description'=>'','detail'=>'','price'=>''], ['staffInfo'=>$staffInfo]);
     }
 
     public function addTypeSubmit(Request $request){
@@ -208,7 +208,8 @@ class PlainTeeTypeColorController extends Controller
                     echo "<script>alert('This type name material and detail existed!')</script>";
                     $staffID = $request->session()->get('StaffID');
                     $staffInfo = $this->staffRepository->getById($staffID);
-                    return view('admin.plainTeeAddType', ['staffInfo'=>$staffInfo]);
+                    return view('admin.plainTeeAddType', ['name'=>$name,'material'=>$material,'description'=>$description,
+                    'detail'=>$detail,'price'=>$price], ['staffInfo'=>$staffInfo]);
                 }
             }
 
@@ -227,7 +228,8 @@ class PlainTeeTypeColorController extends Controller
                 echo "<script>alert('Price must be greater than 0!')</script>";
                 $staffID = $request->session()->get('StaffID');
                 $staffInfo = $this->staffRepository->getById($staffID);
-                return view('admin.plainTeeAddType', ['staffInfo'=>$staffInfo]);
+                return view('admin.plainTeeAddType', ['name'=>$name,'material'=>$material,'description'=>$description,
+                'detail'=>$detail,'price'=>$price], ['staffInfo'=>$staffInfo]);
             }
         }else{
             // Redirect user to type list
@@ -340,7 +342,8 @@ class PlainTeeTypeColorController extends Controller
         $allColor = $this->plainTeeRepository->getAllColor();
         $staffID = $request->session()->get('StaffID');
         $staffInfo = $this->staffRepository->getById($staffID);
-        return view('admin.plainTeeAddTypeColor', ['allColor'=>$allColor, 'allType'=>$allType], ['staffInfo'=>$staffInfo]);
+        return view('admin.plainTeeAddTypeColor', ['allColor'=>$allColor, 'allType'=>$allType, 'plain_tee_img'=>'',
+        'color_id'=>'', 'type_id'=>''], ['staffInfo'=>$staffInfo]);
     }
 
     public function addTypeColorSubmit(Request $request){
@@ -365,7 +368,8 @@ class PlainTeeTypeColorController extends Controller
                     $allColor = $this->plainTeeRepository->getAllColor();
                     $staffID = $request->session()->get('StaffID');
                     $staffInfo = $this->staffRepository->getById($staffID);
-                    return view('admin.plainTeeAddTypeColor', ['allColor'=>$allColor, 'allType'=>$allType], ['staffInfo'=>$staffInfo]);
+                    return view('admin.plainTeeAddTypeColor', ['allColor'=>$allColor, 'allType'=>$allType,
+                    'plain_tee_img'=>'', 'color_id'=>$color_id, 'type_id'=>$type_id], ['staffInfo'=>$staffInfo]);
                 }
             }
 
@@ -376,16 +380,26 @@ class PlainTeeTypeColorController extends Controller
             //Stored to public file/plainTee
             $path->move(public_path('plainTee/'), $plain_tee_img);
 
-            // Add data to database
-            $data = ["plain_tee_img"=>$plain_tee_img, "color_id"=>$color_id, "type_id"=>$type_id];
-            $this->plainTeeRepository->createTypeColor($data);
+            if($path == null){
+                echo "<script>alert('Type color image must choose one photo!')</script>";
+                $allType = $this->plainTeeRepository->getAllType();
+                $allColor = $this->plainTeeRepository->getAllColor();
+                $staffID = $request->session()->get('StaffID');
+                $staffInfo = $this->staffRepository->getById($staffID);
+                return view('admin.plainTeeAddTypeColor', ['allColor'=>$allColor, 'allType'=>$allType,
+                'plain_tee_img'=>'', 'color_id'=>$color_id, 'type_id'=>$type_id], ['staffInfo'=>$staffInfo]);
+            }else{
+                // Add data to database
+                $data = ["plain_tee_img"=>$plain_tee_img, "color_id"=>$color_id, "type_id"=>$type_id];
+                $this->plainTeeRepository->createTypeColor($data);
 
-            // Redirect to printing method list
-            echo "<script>alert('Plain tee add successfully!')</script>";
-            $typeColorList = $this->plainTeeRepository->listForTypeColor();
-            $staffID = $request->session()->get('StaffID');
-            $staffInfo = $this->staffRepository->getById($staffID);
-            return view('admin.plainTeeTypeColorList', ['typeColorList'=>$typeColorList], ['staffInfo'=>$staffInfo]);
+                // Redirect to printing method list
+                echo "<script>alert('Plain tee add successfully!')</script>";
+                $typeColorList = $this->plainTeeRepository->listForTypeColor();
+                $staffID = $request->session()->get('StaffID');
+                $staffInfo = $this->staffRepository->getById($staffID);
+                return view('admin.plainTeeTypeColorList', ['typeColorList'=>$typeColorList], ['staffInfo'=>$staffInfo]);
+            }
         }else{
             // Redirect user to type color list
             $typeColorList = $this->plainTeeRepository->listForTypeColor();
@@ -519,7 +533,8 @@ class PlainTeeTypeColorController extends Controller
         $allTypeColor = $this->plainTeeRepository->listForTypeColor();
         $staffID = $request->session()->get('StaffID');
         $staffInfo = $this->staffRepository->getById($staffID);
-        return view('admin.plainTeeAddShirt', ['allTypeColor'=>$allTypeColor], ['staffInfo'=>$staffInfo]);
+        return view('admin.plainTeeAddShirt', ['allTypeColor'=>$allTypeColor, 'stocks'=>'',
+        'size_name'=>'', 'pt_type_color_id'=>''], ['staffInfo'=>$staffInfo]);
     }
 
     public function addShirtSubmit(Request $request){
@@ -545,7 +560,8 @@ class PlainTeeTypeColorController extends Controller
                     $allTypeColor = $this->plainTeeRepository->listForTypeColor();
                     $staffID = $request->session()->get('StaffID');
                     $staffInfo = $this->staffRepository->getById($staffID);
-                    return view('admin.plainTeeAddShirt', ['allTypeColor'=>$allTypeColor], ['staffInfo'=>$staffInfo]);
+                    return view('admin.plainTeeAddShirt', ['allTypeColor'=>$allTypeColor, 'stocks'=>$stocks,
+                    'size_name'=>$size_name, 'pt_type_color_id'=>$pt_type_color_id], ['staffInfo'=>$staffInfo]);
                 }
             }
 
@@ -565,7 +581,8 @@ class PlainTeeTypeColorController extends Controller
                 $allTypeColor = $this->plainTeeRepository->listForTypeColor();
                 $staffID = $request->session()->get('StaffID');
                 $staffInfo = $this->staffRepository->getById($staffID);
-                return view('admin.plainTeeAddShirt', ['allTypeColor'=>$allTypeColor], ['staffInfo'=>$staffInfo]);
+                return view('admin.plainTeeAddShirt', ['allTypeColor'=>$allTypeColor, 'stocks'=>$stocks,
+                'size_name'=>$size_name, 'pt_type_color_id'=>$pt_type_color_id], ['staffInfo'=>$staffInfo]);
             }
 
         }else{

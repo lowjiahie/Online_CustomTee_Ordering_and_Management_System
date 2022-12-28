@@ -6,7 +6,7 @@
             <form action="{{ route('admin.designDetailUpdate') }}" method="POST">
                 @csrf
                 <div class="shadow p-3 mb-5 bg-white rounded" style="width:80%; height:80%; margin: 0 auto;">
-                    <h1>Published Design update</h1>
+                    <h1>Published Design Update</h1>
                     <div class='row'
                         style='background-color: white; color:rgb(0, 0, 0); margin: 10px 10px 10px 10px; padding: 20px 10px 20px 10px;'>
                         <div class='col' style='color:rgb(0, 0, 0); margin: 0 auto;'>
