@@ -315,6 +315,7 @@ export default {
       axios
         .post("/api/searchOrderByID", {
           orderID: this.orderID,
+          cusID: this.authCus.cus_id,
         })
         .then((response) => {
           this.order = response.data;

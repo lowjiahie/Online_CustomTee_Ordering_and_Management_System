@@ -92,7 +92,8 @@ class OrderController extends Controller
     public function searchOrderByID(Request $request)
     {
         $orderID = $request->orderID;
-        $order = Order::all()->where("order_id", $orderID);
+        $cusID=$request->cusID;
+        $order = Order::all()->where("order_id", $orderID)->where("cus_id",$cusID);
 
         return response($order, 201);
     }

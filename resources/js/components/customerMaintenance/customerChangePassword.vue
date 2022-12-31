@@ -43,7 +43,7 @@
         type="submit"
         @click.prevent="changePassword"
         class="btn btn-dark btn-lg btn-block mt-3"
-      >Update Profile</button>
+      >Update New Password</button>
     </form>
   </div>
 </template>
